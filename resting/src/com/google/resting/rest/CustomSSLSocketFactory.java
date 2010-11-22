@@ -101,11 +101,34 @@ public class CustomSSLSocketFactory implements SocketFactory, LayeredSocketFacto
 	// for the correct operation of some connection managers
 	// -------------------------------------------------------------------
 
+	@Override
 	public boolean equals(Object obj) {
-		return ((obj != null) && obj.getClass().equals(CustomSSLSocketFactory.class));
+		
+		//check for null
+		if (obj == null)
+			return false;
+		
+		//check for reference to this
+		if (obj == this)
+			return true;
+		
+		//check for type 
+		if (obj instanceof CustomSSLSocketFactory ){
+			
+			//Casting will not throw ClassCastException since type is already checked for
+			//do all the field level checks here:
+			//TBD::
+			if(this.sslcontext==((CustomSSLSocketFactory) obj).sslcontext)
+				return true;
+		}//instanceof
+		
+		return false;
+		
 	}
 
+	@Override
 	public int hashCode() {
+		//TBD:: hashcode logic to be updated
 		return CustomSSLSocketFactory.class.hashCode();
 	}
 

@@ -1,0 +1,133 @@
+package com.google.resting.component.impl;
+
+import java.util.Map;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.google.resting.component.AbstractRequestParams;
+
+/**
+ * Implementation of the collection of JSON request params in the REST request.
+ * 
+ * @author sujata.de
+ * @since resting 0.1
+ * 
+ */
+
+public class JSONRequestParams extends AbstractRequestParams {
+
+	public JSONRequestParams() {
+		super();
+	}// JSONRequestParams
+
+	// specific for zappos. To be moved into provider specific impl.
+	// add("key", key);
+	// add("timestamp",TimeStampUtil.getTimeStamp());
+
+	/**
+	 * To add input params in the format
+	 * &valueArrayKey={valueArray[0],valueArray[1]...}
+	 * 
+	 * @param valueArrayKey
+	 * @param valueArray
+	 */
+	public void add(String valueArrayKey, String[] valueArray) {
+		JSONArray jsonArray = new JSONArray();
+		for (String value : valueArray) {
+			jsonArray.put(value);
+		}
+		queryParams
+				.add(new NameValueEntity(valueArrayKey, jsonArray.toString()));
+	}// add
+
+	/**
+	 * To add input params in the format
+	 * &key=[valueArrayKey={valueArray[0],valueArray[1]...}]
+	 * 
+	 * @param key
+	 * @param valueArrayKey
+	 * @param valueArray
+	 */
+	public void add(String key, String valueArrayKey, String[] valueArray) {
+
+		JSONObject jsonObject = null;
+		JSONArray jsonArray = new JSONArray();
+		if (valueArray.length == 1) {
+			jsonObject = new JSONObject();
+			try {
+				jsonObject.put(valueArrayKey, valueArray[0]);
+			} catch (JSONException e) {
+				// ErrorHandler.throwServiceException(e);
+			}
+		} else {
+
+			for (String value : valueArray) {
+				jsonArray.put(value);
+			}
+			try {
+				jsonObject = new JSONObject();
+				jsonObject.put(valueArrayKey, jsonArray);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}// if
+
+		queryParams.add(new NameValueEntity(key, jsonObject.toString()));
+	}// add
+
+	/**
+	 * To add multidimensional arrays of input params in the format:
+	 * &key={values(1).key:[values(1).value[0],values(1).value[1],
+	 * values(2).key:[values(2).value[0],values(2).value[1]} Ex.
+	 * &filters={"colorFacet":["Blue", "Black"],"size":["13", "12"]}
+	 * 
+	 * @param key
+	 * @param values
+	 */
+	public void add(String key, Map<String, String[]> values) {
+		String[] valueElements;
+		JSONArray jsonArray;
+		JSONObject jsonObject = null;
+		int size = values.size();
+		StringBuffer result = new StringBuffer("");
+		int i = 1;
+
+		for (Map.Entry<String, String[]> value : values.entrySet()) {
+			valueElements = value.getValue();
+			jsonArray = new JSONArray();
+			for (String valueElement : valueElements) {
+				jsonArray.put(valueElement);
+			}// for
+			try {
+				jsonObject = new JSONObject().put(value.getKey(), jsonArray
+						.toString());
+			} catch (JSONException e) {
+				// ErrorHandler.throwServiceException(e);
+			}
+			String str = jsonObject.toString();
+			str = str.substring(1, str.length() - 1).replaceAll("\"\\[", "[")
+					.replaceAll("\\]\"", "]").replaceAll("\\\\", "");
+
+			if (i < size)
+				result.append(str).append(",");
+			else
+				result.append(str).append("}");
+
+			i++;
+			System.out.println("String buildup: " + result);
+
+		}// for
+
+		System.out.println("The final string is " + result);
+		queryParams.add(new NameValueEntity(key, result.toString()));
+	}// add
+
+	@Override
+	public void add(String key, String value) {
+		queryParams.add(new NameValueEntity(key, value));
+
+	}
+
+}// JSONRequestParams

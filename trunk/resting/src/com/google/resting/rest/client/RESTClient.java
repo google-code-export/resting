@@ -1,0 +1,138 @@
+package com.google.resting.rest.client;
+
+import org.apache.http.HttpHost;
+import org.apache.http.HttpRequest;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.conn.ConnectTimeoutException;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+import com.google.resting.component.OperationType;
+import com.google.resting.component.impl.ServiceResponse;
+import com.google.resting.rest.CustomSSLSocketFactory;
+import com.google.resting.rest.util.oauth.RequestConstants;
+
+
+/**
+ * Centralized utility for all REST operations. 
+ * 
+ * @author sujata.de
+ */
+
+public class RESTClient {
+	
+	/**
+	 * Executes REST GET request for HTTP
+	 * 
+	 * @param targetDomain
+	 * @param path
+	 * @param port TODO
+	 * @param port
+	 * @return
+	 */
+
+	public static ServiceResponse invoke(String targetDomain, String path, OperationType operationType, int port) {
+		HttpResponse response = null;
+		ServiceResponse serviceResponse = null;
+		String functionName="invoke";
+
+		HttpHost targetHost = new HttpHost(targetDomain, port, RequestConstants.HTTP);
+		
+		HttpRequest request = buildHttpRequest(operationType,path);
+		
+		HttpClient httpClient = new DefaultHttpClient();
+
+		System.out.println( "Target domain: " + targetDomain);
+		System.out.println( "Port: " + port);
+		System.out.println( "Request path: " + path);
+		// Make sure the server knows what kind of a response we will accept
+		request.addHeader("Accept", "text/xml");
+
+		try {
+			// execute is a blocking call, it's best to call this code in a
+			// thread separate from the ui's
+			final long startTime = System.currentTimeMillis();
+			response = httpClient.execute(targetHost, request);
+			final long endTime = System.currentTimeMillis();
+
+			serviceResponse = new ServiceResponse(response);
+
+			System.out.println( "The REST response is:\n " + serviceResponse);
+			System.out.println( "Time taken in REST operation :"+ (endTime - startTime) + " ms.");
+
+		}// try
+		catch(ConnectTimeoutException e){
+			System.out.println( "["+functionName+"] Connection timed out. The host may be unreachable.");
+			e.printStackTrace();
+
+		}catch (Exception ex) {
+			ex.printStackTrace();
+
+
+		} finally {
+
+			httpClient.getConnectionManager().shutdown();
+
+		}//try
+		return serviceResponse;
+	}// invoke
+	
+	
+	private static HttpRequest buildHttpRequest(OperationType operationType,String path){
+		HttpRequest httpRequest;
+		if (RequestConstants.POST_REQUEST.equals(operationType)){
+			httpRequest = new HttpPost(path);
+		}else if (RequestConstants.PUT_REQUEST.equals(operationType)){
+			httpRequest = new HttpPut(path);
+		}else if (RequestConstants.DELETE_REQUEST.equals(operationType)){
+			httpRequest = new HttpDelete(path);
+		}else{
+			httpRequest = new HttpGet(path);
+		}
+		return httpRequest;
+	}
+	
+	/**
+	 * Executes HTTPS SSL request
+	 * 
+	 * @param targetDomain
+	 * @param path
+	 * @param port TODO
+	 * @return ServiceResponse object containing http status code and response string
+	 */
+	public static ServiceResponse secureInvoke(String targetDomain, String path, OperationType operationType, int port){
+		ServiceResponse serviceResponse=null;
+		
+		System.out.println( "Target domain: " + targetDomain);
+		System.out.println( "Port: " + port);
+		System.out.println( "Request path: " + path);
+
+		try {
+			long ioStartTime=System.currentTimeMillis();
+			HttpHost targetHost = new HttpHost(targetDomain, port, RequestConstants.HTTPS);
+			HttpRequest request = buildHttpRequest(operationType,path);
+					
+	        DefaultHttpClient httpclient = new DefaultHttpClient();
+	        httpclient.getConnectionManager().getSchemeRegistry().register(new Scheme(RequestConstants.HTTPS, new CustomSSLSocketFactory(), port));
+
+	        HttpResponse response = httpclient.execute(targetHost,request);
+	        serviceResponse=new ServiceResponse(response);
+		    long ioEndTime=System.currentTimeMillis();
+		    
+		    System.out.println( "The REST response is:\n "+ serviceResponse);
+		    System.out.println( "Time taken in executing REST: "+(ioEndTime-ioStartTime));
+		    
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		
+		return serviceResponse;
+
+	}	//secureInvoke
+
+}//RESTClient

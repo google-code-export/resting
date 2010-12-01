@@ -3,10 +3,12 @@ package com.google.resting.test;
 import java.util.List;
 
 import com.google.resting.Resting;
+import com.google.resting.component.OperationType;
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.impl.Alias;
 import com.google.resting.component.impl.BasicRequestParams;
 import com.google.resting.component.impl.ServiceResponse;
+import com.google.resting.helper.RestingHelper;
 import com.google.resting.transform.impl.XMLTransformer;
 /**
  * Temporary test class.
@@ -29,8 +31,15 @@ public class Test {
 		List<ResultSet> results=transformer.getEntityList(serviceResponse, ResultSet.class,alias);
 		System.out.println("\n-----------\n[Resting]The resultant object is \n ------\n"+results.toString());
 */		
-		List<ResultSet> resultset=Resting.getByXML("http://local.yahooapis.com/MapsService/V1/geocode?appid=YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--&state=CA", ResultSet.class, alias);
-		System.out.println(resultset.toString());
+		//List<ResultSet> resultset=Resting.getByXML("http://local.yahooapis.com/MapsService/V1/geocode?appid=YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--&state=CA", ResultSet.class, alias);
+		//System.out.println(resultset.toString());
+		RequestParams params = new BasicRequestParams();
+		params.add("facets", "[\"brandNameFacet\"]");
+		params.add("key", "<your key>");
+		
+		//ServiceResponse serviceResponse=RestingHelper.execute("http://api.zappos.com/Search",params,OperationType.GET);
+		List<Facets> facets=Resting.getByJSON("http://api.zappos.com/Search",params, Facets.class, "facets");
+		System.out.println(facets.get(0).getValues().size());
 	}
 
 }//Test 

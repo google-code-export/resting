@@ -34,7 +34,7 @@ public final class ServiceAccessor implements Accessor{
 	private OperationType operationType=null; 
 	private String contextPathElement=null;
 	private List<NameValueEntity> inputParams=null;
-	private int port=0;
+	private int port=80;
 
 	public ServiceAccessor(ServiceContext serviceContext){
 		this.targetDomain=serviceContext.getTargetDomain();

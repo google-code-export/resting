@@ -1,14 +1,15 @@
 #summary This is a two minute tutorial to resting. This is to demonstrate how easy it is to use resting.
+#labels Phase-Implementation,Featured
 
 = Two Minute Tutorial =
 
 This is a very quick tutorial to demonstrate how easy it is to use resting. 
 
-Suppose  your rest URL is http://local.yahooapis.com/MapsService/V1/geocode?appid=YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--&state=CA . 
+Suppose  your REST URL is http://local.yahooapis.com/MapsService/V1/geocode?appid=YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--&state=CA . 
 
 The resting code can be used in these three ways: 
  
-*Option 1 (Easy and fast): Pass the entire URI and read the entire HTTP response as a String*
+====Option 1 (Easy and fast): Pass the entire URI and read the entire HTTP response as a String====
  
 {{{
 ServiceResponse response=Resting.get("http://local.yahooapis.com/MapsService/V1/geocode?appid=YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--&state=CA");
@@ -17,13 +18,14 @@ System.out.println(response.toString()); //Read the entire response body.
 }}}
  
  
-*Option 2 (Recommended for JSON/complex encoding issue): Create a RequestParams object*
+====Option 2 (Recommended for JSON/complex encoding issue): Create a RequestParams object====
 
 Request params are the collection of data in(key=value) format. 
 
 Pass it along with the base URI (http://.././ path). You can even implement your own RequestParams. 
  
-_RequestParams params = new BasicRequestParams(); 
+{{{
+RequestParams params = new BasicRequestParams(); 
 
 params.add("appid", "YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--");
 
@@ -31,24 +33,24 @@ params.add("state", "CA");
 
 ServiceResponse response=Resting.get("http://local.yahooapis.com/MapsService/V1/geocode",params); 
 
-System.out.println(response.toString()); //Read the entire response body._
+System.out.println(response.toString()); //Read the entire response body.
+}}}
  
- 
-*Option 3: Create your custom JAVA objects from REST response.* 
+====Option 3: Create your custom JAVA objects from REST response.====
 
 This can be done in two ways. 
  
-  *A. For JSON response: 
+  =====A. For JSON response:===== 
  
   Suppose your JSON response is of the format given below. 
   
-  
+ {{{ 
   {
-  "type" : "stationary"
+  "type":"stationary"
   ,"product":
   [
   {
-  "productId":"12345","productName":"pen"
+   "productId":"12345","productName":"pen"  
   }
   ,
   {
@@ -56,27 +58,25 @@ This can be done in two ways.
   }
   ]
   }
-  
+ }}}
   You wish to retrieve the list of "product" objects. Here, "product" is the JSON alias: 
   
-  RequestParams jsonParams = new JSONRequestParams(); //Create request params 
+{{{
+RequestParams jsonParams = new JSONRequestParams(); //Create request params 
 
-  jsonParams.add("key", "your_key");
+jsonParams.add("key", "fdb3c385a8d22d174cafeadc6d4c1405b08d5609");
 
-  List<Product> products=Resting.getByJSON("http://api.zappos.com/Product/12345",80,jsonParams, Product.class, "product");//Get the list of Product objects by passing "product" as alias
+//Get the list of Product objects by passing "product" as alias
+List<Product> products=Resting.getByJSON("http://api.zappos.com/Product/7564933",80,jsonParams, Product.class, "product");
+}}}
   
-  *B. For XML response:
+  =====B. For XML response:======
  
  
-  Alias alias=new Alias().add("Result", Result.class).add("ResultSet", ResultSet.class); //Create an alias object which will help transforming each embedded object from XML to Java.
-  List<ResultSet> resultset=Resting.getByXML("http://local.yahooapis.com/MapsService/V1/geocode", 80,params,ResultSet.class, alias);
+{{{
+//Create an alias object which will help transforming each embedded object from XML to Java.
+Alias alias=new Alias().add("Result", Result.class).add("ResultSet", ResultSet.class); 
 
+List<ResultSet> resultset=Resting.getByXML("http://local.yahooapis.com/MapsService/V1/geocode", 80,params,ResultSet.class, alias);
 
-
-
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+}}}

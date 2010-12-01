@@ -22,18 +22,20 @@ import com.google.resting.rest.util.oauth.RequestConstants;
  * Centralized utility for all REST operations. 
  * 
  * @author sujata.de
+ * @since resting 0.1
  */
 
 public class RESTClient {
 	
 	/**
-	 * Executes REST GET request for HTTP
+	 * Executes REST request for HTTP
 	 * 
-	 * @param targetDomain
-	 * @param path
-	 * @param port TODO
-	 * @param port
-	 * @return
+	 * @param Domain of the REST endpoint
+	 * @param path Path of the URI
+	 * @param port port number of the REST endpoint
+	 * @param operationType Type of HTTP method(GET/POST/PUT/DELETE)
+	 * 
+	 * @return ServiceResponse object containing http status code and entire response as a String
 	 */
 
 	public static ServiceResponse invoke(String targetDomain, String path, OperationType operationType, int port) {
@@ -83,27 +85,37 @@ public class RESTClient {
 	}// invoke
 	
 	
-	private static HttpRequest buildHttpRequest(OperationType operationType,String path){
+	private static HttpRequest buildHttpRequest(OperationType operationType, String path) {
+		
 		HttpRequest httpRequest;
-		if (RequestConstants.POST_REQUEST.equals(operationType)){
-			httpRequest = new HttpPost(path);
-		}else if (RequestConstants.PUT_REQUEST.equals(operationType)){
-			httpRequest = new HttpPut(path);
-		}else if (RequestConstants.DELETE_REQUEST.equals(operationType)){
-			httpRequest = new HttpDelete(path);
-		}else{
+		
+		if (operationType == OperationType.GET) {
 			httpRequest = new HttpGet(path);
-		}
-		return httpRequest;
-	}
+			return httpRequest;
+			
+		} else if (operationType == OperationType.POST) {
+			httpRequest = new HttpPost(path);
+			return httpRequest;
+
+		} else if (operationType == OperationType.DELETE) {
+			httpRequest = new HttpDelete(path);
+			return httpRequest;
+
+		} else {
+			httpRequest = new HttpPut(path);
+			return httpRequest;
+		}//if
+	}//buildHttpRequest
 	
 	/**
-	 * Executes HTTPS SSL request
+	 * Executes secure SSL request using HTTPS
 	 * 
-	 * @param targetDomain
-	 * @param path
-	 * @param port TODO
-	 * @return ServiceResponse object containing http status code and response string
+	 * @param Domain of the REST endpoint
+	 * @param path Path of the URI
+	 * @param port port number of the REST endpoint
+	 * @param operationType Type of HTTP method(GET/POST/PUT/DELETE)
+	 * 
+	 * @return ServiceResponse object containing http status code and entire response as a String
 	 */
 	public static ServiceResponse secureInvoke(String targetDomain, String path, OperationType operationType, int port){
 		ServiceResponse serviceResponse=null;

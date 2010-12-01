@@ -23,10 +23,10 @@ public class GenericServiceContext extends ServiceContext {
 	private String path=null;
 	private String contextPathElement=null;
 
-	public GenericServiceContext(URLContext urlContext, RequestParams queryParams, OperationType operationType){
-		super(urlContext,queryParams, operationType);
+	public GenericServiceContext(URLContext urlContext, RequestParams requestParams, OperationType operationType){
+		super(urlContext,requestParams, operationType);
 		this.contextPathElement=urlContext.getContextPath();
-		this.inputParams=queryParams.getKeyValueRequestParams();
+		if(requestParams !=null)	this.inputParams=requestParams.getRequestParams();
 		this.path=this.contextPathElement+getParamPathElement();
 		System.out.println( "The path is "+path);
 	}//GenericServiceContext
@@ -45,6 +45,7 @@ public class GenericServiceContext extends ServiceContext {
 	}//getPath
 
 	private String getParamPathElement(){
+		if(inputParams == null) return "";
 		StringBuffer combinedParams = new StringBuffer("");
 		
 			//sort the list here - specific to zappos, hence will be moved into provider specific implementation

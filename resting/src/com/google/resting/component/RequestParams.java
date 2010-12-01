@@ -15,7 +15,7 @@ import com.google.resting.component.impl.NameValueEntity;
 public abstract class RequestParams {
 	
 	//
-	protected List<NameValueEntity> queryParams;
+	protected List<NameValueEntity> queryParams=null;
 
 	protected RequestParams(){
 		queryParams= new ArrayList<NameValueEntity>();
@@ -30,7 +30,7 @@ public abstract class RequestParams {
 	public abstract void add(String name, String value);
 	
 
-	public List<NameValueEntity> getKeyValueRequestParams() {
+	public List<NameValueEntity> getRequestParams() {
 		return queryParams;
 	}
 	

@@ -21,7 +21,7 @@ public abstract class ServiceContext {
 	private boolean isSecureInvocation=false;
 	private OperationType requestType=null;
 	
-	protected ServiceContext(URLContext urlContext, AbstractRequestParams queryParams, OperationType operationType){
+	protected ServiceContext(URLContext urlContext, RequestParams queryParams, OperationType operationType){
 		this.targetDomain=urlContext.getTargetDomain();
 		this.port=urlContext.getPort();
 		this.isSecureInvocation=urlContext.isSecureInvocation();

@@ -12,12 +12,12 @@ import com.google.resting.component.impl.NameValueEntity;
  * @since resting 0.1
  * 
  */
-public abstract class AbstractRequestParams {
+public abstract class RequestParams {
 	
 	//
 	protected List<NameValueEntity> queryParams;
 
-	protected AbstractRequestParams(){
+	protected RequestParams(){
 		queryParams= new ArrayList<NameValueEntity>();
 	}
 

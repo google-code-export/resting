@@ -15,8 +15,4 @@ public class RequestConstants {
 	public static final String PAIR_SEPARATOR = "%3D";
 	public static final String PARAM_SEPARATOR = "%26";
 	public static final String CARRIAGE_RETURN = "\r\n";
-	public static final String GET_REQUEST = "GET";
-	public static final String POST_REQUEST = "POST";
-	public static final String PUT_REQUEST = "PUT";
-	public static final String DELETE_REQUEST = "DELETE";
 }//RequestConstants

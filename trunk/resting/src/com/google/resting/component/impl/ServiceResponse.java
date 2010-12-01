@@ -21,11 +21,6 @@ public class ServiceResponse {
 	private int statusCode = 500;
 	private String responseString=null;
 	private Header[] responseHeaders=null;
-	
-	//Added for local testing. To be removed
-	public ServiceResponse(String responseString){
-		this.responseString= responseString;
-	}
 
 	public ServiceResponse(HttpResponse response) {
 		assert response!=null:"HttpResponse should not be null";
@@ -67,10 +62,12 @@ public class ServiceResponse {
 	
 	public String toString(){
 		CharArrayBuffer buffer= new CharArrayBuffer(responseString.length()+3+70);
-		buffer.append("REST Response\n---------------\n HTTP Status: ");
+		buffer.append("ServiceResponse\n---------------\n HTTP Status: ");
 		buffer.append(statusCode);
 		buffer.append("\n Complete response body: ");
 		buffer.append(responseString);
+	//	buffer.append("\n Header: ");
+	//	buffer.append(responseHeaders[0].toString());
 		return buffer.toString();
 	}//toString
 

@@ -16,18 +16,21 @@ import com.google.resting.transform.impl.XMLTransformer;
  */
 public class Test {
 	public static void main(String[] args) {
-		RequestParams params = new BasicRequestParams();
+/*		RequestParams params = new BasicRequestParams();
 		params.add("appid", "YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--");
 		params.add("state", "CA");
-		ServiceResponse serviceResponse=Resting.get("http://local.yahooapis.com/MapsService/V1/geocode", params);
+		ServiceResponse serviceResponse=Resting.get("http://local.yahooapis.com/MapsService/V1/geocode?appid=YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--&state=CA");
 		System.out.println("[Resting]The raw HTTP response from Yahoo Map REST API is\n--------- \n"+serviceResponse.getResponseString());
-				
+*/				
 
 		XMLTransformer<ResultSet> transformer=new XMLTransformer<ResultSet>();
 		Alias alias=new Alias().add("Result", Result.class).add("ResultSet", ResultSet.class);
-
+/*
 		List<ResultSet> results=transformer.getEntityList(serviceResponse, ResultSet.class,alias);
 		System.out.println("\n-----------\n[Resting]The resultant object is \n ------\n"+results.toString());
+*/		
+		List<ResultSet> resultset=Resting.getByXML("http://local.yahooapis.com/MapsService/V1/geocode?appid=YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--&state=CA", ResultSet.class, alias);
+		System.out.println(resultset.toString());
 	}
 
 }//Test 

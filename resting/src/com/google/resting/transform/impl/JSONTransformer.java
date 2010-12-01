@@ -38,10 +38,25 @@ public class JSONTransformer<T> implements Transformer<T, ServiceResponse> {
 	@Override
 	public List<T> getEntityList(ServiceResponse serviceResponse, Class<T> targetType, Alias alias){
 		List<T> dests=null;
+		JSONArray responseArray=null;
+		String singleAlias=alias.getSingleAlias();
 		
 		try {
 			JSONObject responseObject=new JSONObject(serviceResponse.getResponseString());
-			JSONArray responseArray=responseObject.getJSONArray(alias.getSingleAlias());
+			if(responseObject.has(singleAlias)){
+				Object aliasedObject=responseObject.get(singleAlias);
+				if (aliasedObject instanceof JSONArray)
+					responseArray=responseObject.getJSONArray(singleAlias);
+				
+				else {
+					dests=new ArrayList<T>(1);
+					dests.add(createEntity(((JSONObject)aliasedObject).toString(),targetType));
+					return dests;
+
+				}
+			}
+			else 
+				return null;
 			int arrayLength=responseArray.length();
 			dests=new ArrayList<T>(arrayLength);
 			for(int i=0;i<arrayLength;i++){

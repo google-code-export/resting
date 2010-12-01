@@ -1,6 +1,5 @@
 package com.google.resting.test;
 
-import java.util.List;
 
 public class ResultSet {
 	private Result Result;

@@ -1,7 +1,6 @@
 package com.google.resting.transform;
 
 import java.util.List;
-import java.util.Map;
 
 import com.google.resting.component.impl.Alias;
 

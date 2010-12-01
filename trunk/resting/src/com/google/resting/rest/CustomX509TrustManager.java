@@ -21,20 +21,20 @@ public class CustomX509TrustManager implements X509TrustManager {
 	 */
 	public void checkClientTrusted(X509Certificate[] certificates, String authType) throws CertificateException {
 		
-	}
+	}//checkClientTrusted
 
 	/**
 	 * @see javax.net.ssl.X509TrustManager#checkServerTrusted(X509Certificate[],String authType)
 	 */
 	public void checkServerTrusted(X509Certificate[] certificates, String authType) throws CertificateException {
 
-	}
+	}//checkServerTrusted
 
 	/**
 	 * @see javax.net.ssl.X509TrustManager#getAcceptedIssuers()
 	 */
 	public X509Certificate[] getAcceptedIssuers() {
 		return null;
-	}
+	}//getAcceptedIssuers
 
-}
+}//CustomX509TrustManager

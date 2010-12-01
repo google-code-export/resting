@@ -25,6 +25,7 @@ import org.apache.http.params.HttpParams;
  *
  */
 
+@SuppressWarnings("deprecation")
 public class CustomSSLSocketFactory implements SocketFactory, LayeredSocketFactory {
 
 	private SSLContext sslcontext = null;
@@ -37,14 +38,14 @@ public class CustomSSLSocketFactory implements SocketFactory, LayeredSocketFacto
 		} catch (Exception e) {
 			throw new IOException(e.getMessage());
 		}
-	}
+	}//createEasySSLContext
 
 	private SSLContext getSSLContext() throws IOException {
 		if (this.sslcontext == null) {
 			this.sslcontext = createEasySSLContext();
 		}
 		return this.sslcontext;
-	}
+	}//getSSLContext
 
 	/**
 	 * @see org.apache.http.conn.scheme.SocketFactory#connectSocket(java.net.Socket, java.lang.String, int,
@@ -70,21 +71,21 @@ public class CustomSSLSocketFactory implements SocketFactory, LayeredSocketFacto
 		sslsock.setSoTimeout(soTimeout);
 		return sslsock;
 
-	}
+	}//connectSocket
 
 	/**
 	 * @see org.apache.http.conn.scheme.SocketFactory#createSocket()
 	 */
 	public Socket createSocket() throws IOException {
 		return getSSLContext().getSocketFactory().createSocket();
-	}
+	}//createSocket
 
 	/**
 	 * @see org.apache.http.conn.scheme.SocketFactory#isSecure(java.net.Socket)
 	 */
 	public boolean isSecure(Socket socket) throws IllegalArgumentException {
 		return true;
-	}
+	}//isSecure
 
 	/**
 	 * @see org.apache.http.conn.scheme.LayeredSocketFactory#createSocket(java.net.Socket, java.lang.String, int,
@@ -93,7 +94,7 @@ public class CustomSSLSocketFactory implements SocketFactory, LayeredSocketFacto
 	public Socket createSocket(Socket socket, String host, int port, boolean autoClose) throws IOException,
 			UnknownHostException {
 		return getSSLContext().getSocketFactory().createSocket(socket, host, port, autoClose);
-	}
+	}//createSocket
 
 	// -------------------------------------------------------------------
 	// javadoc in org.apache.http.conn.scheme.SocketFactory says :
@@ -124,12 +125,12 @@ public class CustomSSLSocketFactory implements SocketFactory, LayeredSocketFacto
 		
 		return false;
 		
-	}
+	}//equals
 
 	@Override
 	public int hashCode() {
 		//TBD:: hashcode logic to be updated
 		return CustomSSLSocketFactory.class.hashCode();
-	}
+	}//hashCode
 
-}
+}//CustomSSLSocketFactory

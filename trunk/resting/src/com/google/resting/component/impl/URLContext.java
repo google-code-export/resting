@@ -22,11 +22,12 @@ public class URLContext{
 	public URLContext(String restUrl){
 		constructContextPath(restUrl);
 		this.port=80;
-	}	
+	}//URLContext
+	
 	public URLContext(String restUrl, int port){
 		constructContextPath(restUrl);
 		this.port=port;
-	}
+	}//URLContext
 	
 	private void constructContextPath(String restUrl){
 		this.targetDomain=StringUtils.substringBetween(restUrl, URL_SEPARATOR, SEPARATOR);
@@ -36,33 +37,60 @@ public class URLContext{
 		removeEnd();
 		System.out.println("url is "+targetDomain);
 		System.out.println("context path is "+contextPath);		
-	}
+	}//constructContextPath
 	
 	private void removeEnd(){
 		this.contextPath=StringUtils.stripEnd(contextPath, ALL_SEPARATORS);
-	}
+	}//removeEnd
 
-
+	/**
+	 * Add context path element to URLContext.
+	 * 
+	 * @param contextPathElement
+	 * @return this
+	 */
 	public URLContext addContextPathElement(String contextPathElement){
 		this.contextPath=this.contextPath+SEPARATOR+contextPathElement;
 		return this;
-	}
+	}//addContextPathElement
+	
+	/**
+	 * Get the context path
+	 * 
+	 * @return Context path
+	 */
 
 	public String getContextPath(){
 		assert this.contextPath!=null:"REST context path should not be null";
 		return this.contextPath;
-	}
+	}//getContextPath
 	
+	/**
+	 * Get domain of the REST end point
+	 * 
+	 * @return target domain
+	 */
 	public String getTargetDomain() {
 		return targetDomain;
-	}
+	}//getTargetDomain
+	
+	/**
+	 * Get the port of the REST endpoint
+	 * @return
+	 */
 
 	public int getPort() {
 		return port;
-	}
+	}//getPort
+	
+	/**
+	 * Returns if this is https invocation.
+	 * 
+	 * @return true/false
+	 */
 	
 	public boolean isSecureInvocation(){
 		return isSecureInvocation;
-	}
+	}//isSecureInvocation
 
-}
+}//URLContext

@@ -11,6 +11,7 @@ import java.util.Map;
  */
 public class Alias {
 	private Map<String,Class> aliasMap=null;
+	//In many transformation, only a single alias is necessary. For ex. JSON.
 	private String singleAlias=null;
 	
 	public Alias(){
@@ -20,7 +21,7 @@ public class Alias {
 	public Alias(String singleAlias){
 		this.singleAlias=singleAlias;
 		//The aliasMap is not needed to be initialized since
-		//a single alias is enough for transformers for JSON, for ex.
+		//a single alias is enough for transformers for JSON.
 	}//AliasMap
 	
 	public Alias add(String alias, Class aliasClass){

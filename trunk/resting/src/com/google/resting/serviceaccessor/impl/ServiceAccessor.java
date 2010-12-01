@@ -18,13 +18,13 @@ import com.google.resting.rest.client.RESTClient;
 import com.google.resting.serviceaccessor.Accessor;
 
 /**
- * Service accessor layer. Service accessor 
+ * Implementation of the service accessor layer. 
  * 
  * @author sujata.de
  * @since resting 0.1
  *
  */
-public class ServiceAccessor implements Accessor{
+public final class ServiceAccessor implements Accessor{
 	private static final String AMPERSAND_SEPARATED_STRING = "&%s=%s";
 	private static final String SIGNATURE = "signature";
 	protected String path=null;
@@ -68,7 +68,7 @@ public class ServiceAccessor implements Accessor{
 	public boolean validate(){
 		assert serviceResponse!=null:"Service response should not be null";
 		
-		//TODO Validation logic yet to be implemented. The implementation is incomplete here.
+		//TODO Validation logic yet to be added. The implementation is incomplete here.
 		if(serviceResponse.getStatusCode() == HttpStatus.SC_OK) 
 			return true;
 
@@ -78,7 +78,7 @@ public class ServiceAccessor implements Accessor{
 	public ServiceResponse getServiceResponse(){
 		assert serviceResponse!=null:"Service response should not be null";
 		return serviceResponse;
-	}
+	}//getServiceResponse
 	
 	public void signRequest(String keyString){
 		try {
@@ -86,14 +86,14 @@ public class ServiceAccessor implements Accessor{
 			this.path=path+String.format(AMPERSAND_SEPARATED_STRING,SIGNATURE,getSignature(keyString,targetDomain,operationType, isSecureInvocation, contextPathElement, inputParams));
 			
 		} catch (InvalidKeyException e) {
-			//ErrorHandler.throwServiceException(e);
+			e.printStackTrace();
 		} catch (NoSuchAlgorithmException e) {
-			//ErrorHandler.throwServiceException(e);
+			e.printStackTrace();
 		} catch (IllegalStateException e) {
-			//ErrorHandler.throwServiceException(e);
+			e.printStackTrace();
 		} catch (UnsupportedEncodingException e) {
-			//ErrorHandler.throwServiceException(e);
+			e.printStackTrace();
 		}
-	}
+	}//signRequest
 
 }//ServiceAccessor

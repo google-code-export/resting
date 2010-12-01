@@ -6,9 +6,9 @@ package com.google.resting.component;
  *
  */
 public enum OperationType {
-	GET,
-	PUT,
-	POST,
-	DELETE;
+	GET, //HTTP GET request
+	PUT, //HTTP PUT request
+	POST, //HTTP POST request
+	DELETE; //HTTP DELETE request
 
-}
+}//OperationType

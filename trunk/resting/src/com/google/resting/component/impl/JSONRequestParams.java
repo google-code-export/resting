@@ -6,17 +6,17 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.resting.component.AbstractRequestParams;
+import com.google.resting.component.RequestParams;
 
 /**
- * Implementation of the collection of JSON request params in the REST request.
+ * Implementation of the collection of JSON request parameters in the REST request.
  * 
  * @author sujata.de
  * @since resting 0.1
  * 
  */
 
-public class JSONRequestParams extends AbstractRequestParams {
+public class JSONRequestParams extends RequestParams {
 
 	public JSONRequestParams() {
 		super();
@@ -128,6 +128,6 @@ public class JSONRequestParams extends AbstractRequestParams {
 	public void add(String key, String value) {
 		queryParams.add(new NameValueEntity(key, value));
 
-	}
+	}//add
 
 }// JSONRequestParams

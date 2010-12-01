@@ -7,6 +7,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.util.CharArrayBuffer;
 /**
  * Wrapper object for REST response
  * 
@@ -20,6 +21,11 @@ public class ServiceResponse {
 	private int statusCode = 500;
 	private String responseString=null;
 	private Header[] responseHeaders=null;
+	
+	//Added for local testing. To be removed
+	public ServiceResponse(String responseString){
+		this.responseString= responseString;
+	}
 
 	public ServiceResponse(HttpResponse response) {
 		assert response!=null:"HttpResponse should not be null";
@@ -60,8 +66,12 @@ public class ServiceResponse {
 
 	
 	public String toString(){
-		return "REST Response\n---------------\n HTTP Status: "+statusCode
-				+"\n Complete response body: "+responseString;
+		CharArrayBuffer buffer= new CharArrayBuffer(responseString.length()+3+70);
+		buffer.append("REST Response\n---------------\n HTTP Status: ");
+		buffer.append(statusCode);
+		buffer.append("\n Complete response body: ");
+		buffer.append(responseString);
+		return buffer.toString();
 	}//toString
 
 }//ServiceResponse

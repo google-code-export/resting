@@ -34,24 +34,24 @@ System.out.println(response); //Read the entire response body.
 }}}
 ====Option 3: Create your custom JAVA objects from HTTP response.====
 This can be done in two ways. 
-  =====A. For JSON response:===== 
-  Suppose your JSON response is of the format given below. 
- {{{ 
-  {
-  "type":"stationary"
-  ,"product":
-  [
+=====A. For JSON response:===== 
+Suppose your JSON response is of the format given below. 
+{{{ 
+{
+ "type":"stationary"
+ ,"product":
+ [
   {
    "productId":"12345","productName":"pen"  
   }
-  ,
+ ,
   {
-  "productId":"56789","productName":"pencil"
+   "productId":"56789","productName":"pencil"
   }
-  ]
-  }
- }}}
-  You wish to retrieve the list of "product" objects. Here, "product" is the JSON alias: 
+ ]
+}
+}}}
+You wish to retrieve the list of "product" objects. Here, "product" is the JSON alias: 
   
 {{{
 RequestParams jsonParams = new JSONRequestParams(); //Create request params 
@@ -61,7 +61,7 @@ jsonParams.add("key", "fdb3c385a8d22d174cafeadc6d4c1405b08d5609");
 //Get the list of Product objects by passing "product" as alias
 List<Product> products=Resting.getByJSON("http://api.zappos.com/Product/7564933",80,jsonParams, Product.class, "product");
 }}} 
-  =====B. For XML response:======
+=====B. For XML response:======
 {{{
 //Create an alias object which will help transforming each embedded object from XML to Java.
 Alias alias=new Alias().add("Result", Result.class).add("ResultSet", ResultSet.class); 

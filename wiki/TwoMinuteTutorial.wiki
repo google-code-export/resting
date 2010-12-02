@@ -33,7 +33,7 @@ System.out.println(response); //Read the entire response body.
 }}}
 ====Option 3: Create your custom JAVA objects from HTTP response.====
 This can be done in two ways. 
-=====A. For JSON response:===== 
+=====A. Transform JSON response:===== 
 Suppose your JSON response is of the format given below. 
 {{{ 
 {
@@ -59,12 +59,35 @@ jsonParams.add("key", "fdb3c385a8d22d174cafeadc6d4c1405b08d5609");
 
 //Get the list of Product objects by passing "product" as alias
 List<Product> products=Resting.getByJSON("http://api.zappos.com/Product/7564933",80,jsonParams, Product.class, "product");
+}}}
+where Product is a client side value object:
+{{{
+public class Product {
+ private int productId;
+ private String productName;       
+}
 }}} 
-=====B. For XML response:======
+=====B. Transform XML response:======
+Suppose your XML response is of the format:
+{{{
+<?xml version="1.0" ?> 
+- <ResultSet xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:yahoo:maps" xsi:schemaLocation="urn:yahoo:maps http://local.yahooapis.com/MapsService/V1/GeocodeResponse.xsd">
+- <Result precision="state">
+  <Latitude>37.271881</Latitude> 
+  <Longitude>-119.270233</Longitude> 
+  <Address /> 
+  <City /> 
+  <State>CA</State> 
+  <Zip /> 
+  <Country>US</Country> 
+  </Result>
+  </ResultSet>
+}}}
+The resting code will be similar to the following:
 {{{
 //Create an alias object which will help transforming each embedded object from XML to Java.
 Alias alias=new Alias().add("Result", Result.class).add("ResultSet", ResultSet.class); 
 
 List<ResultSet> resultset=Resting.getByXML("http://local.yahooapis.com/MapsService/V1/geocode", 80,params,ResultSet.class, alias);
-
 }}}
+where Result and ResultSet are client side value objects, preferably auto generated from the XSD, http://local.yahooapis.com/MapsService/V1/GeocodeResponse.xsd.

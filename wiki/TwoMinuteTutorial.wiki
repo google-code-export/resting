@@ -16,12 +16,9 @@ ServiceResponse response=Resting.get("http://local.yahooapis.com/MapsService/V1/
 
 System.out.println(response); //Read the entire response body.
 }}}
- 
- 
 ====Option 2 (Recommended for JSON/complex encoding issue): Create a {{{RequestParams}}} object====
 
-Request params are the collection of data in(key=value) format. 
-
+{{{RequestParams}}} is the collection of data in(key=value) format. 
 Pass it along with the base URI (http://.././ path).
  
 {{{
@@ -35,15 +32,10 @@ ServiceResponse response=Resting.get("http://local.yahooapis.com/MapsService/V1/
 
 System.out.println(response); //Read the entire response body.
 }}}
- 
 ====Option 3: Create your custom JAVA objects from HTTP response.====
-
 This can be done in two ways. 
- 
   =====A. For JSON response:===== 
- 
   Suppose your JSON response is of the format given below. 
-  
  {{{ 
   {
   "type":"stationary"
@@ -68,11 +60,8 @@ jsonParams.add("key", "fdb3c385a8d22d174cafeadc6d4c1405b08d5609");
 
 //Get the list of Product objects by passing "product" as alias
 List<Product> products=Resting.getByJSON("http://api.zappos.com/Product/7564933",80,jsonParams, Product.class, "product");
-}}}
-  
+}}} 
   =====B. For XML response:======
- 
- 
 {{{
 //Create an alias object which will help transforming each embedded object from XML to Java.
 Alias alias=new Alias().add("Result", Result.class).add("ResultSet", ResultSet.class); 

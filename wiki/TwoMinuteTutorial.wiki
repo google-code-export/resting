@@ -72,15 +72,15 @@ Suppose your XML response is of the format:
 {{{
 <?xml version="1.0" ?> 
 - <ResultSet xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:yahoo:maps" xsi:schemaLocation="urn:yahoo:maps http://local.yahooapis.com/MapsService/V1/GeocodeResponse.xsd">
-- <Result precision="state">
-  <Latitude>37.271881</Latitude> 
-  <Longitude>-119.270233</Longitude> 
-  <Address /> 
-  <City /> 
-  <State>CA</State> 
-  <Zip /> 
-  <Country>US</Country> 
-  </Result>
+ - <Result precision="state">
+    <Latitude>37.271881</Latitude> 
+    <Longitude>-119.270233</Longitude> 
+    <Address /> 
+    <City /> 
+    <State>CA</State> 
+    <Zip /> 
+    <Country>US</Country> 
+   </Result>
   </ResultSet>
 }}}
 The resting code will be similar to the following:
@@ -90,4 +90,4 @@ Alias alias=new Alias().add("Result", Result.class).add("ResultSet", ResultSet.c
 
 List<ResultSet> resultset=Resting.getByXML("http://local.yahooapis.com/MapsService/V1/geocode", 80,params,ResultSet.class, alias);
 }}}
-where {{{Result}}} and {{{ResultSet}}} are client side value objects, preferably auto generated from the [http://local.yahooapis.com/MapsService/V1/GeocodeResponse.xsd] XSD.
+where {{{Result}}} and {{{ResultSet}}} are client side value objects, preferably auto generated from the <a href="http://local.yahooapis.com/MapsService/V1/GeocodeResponse.xsd">XSD</a>.

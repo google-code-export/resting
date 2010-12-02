@@ -90,4 +90,22 @@ Alias alias=new Alias().add("Result", Result.class).add("ResultSet", ResultSet.c
 
 List<ResultSet> resultset=Resting.getByXML("http://local.yahooapis.com/MapsService/V1/geocode", 80,params,ResultSet.class, alias);
 }}}
-where {{{Result}}} and {{{ResultSet}}} are client side value objects, preferably auto generated from the <a href="http://local.yahooapis.com/MapsService/V1/GeocodeResponse.xsd">XSD</a>.
+where {{{Result}}} and {{{ResultSet}}} are client side value objects, preferably auto generated from the <a href="http://local.yahooapis.com/MapsService/V1/GeocodeResponse.xsd">XSD</a>. If you wish to handcode instead, the classes can be like this:
+{{{
+public class ResultSet {
+ private Result Result;
+}
+}}}
+and
+{{{
+public class Result {
+ private String precision;
+ private String Latitude;
+ private String Longitude;
+ private String Address;
+ private String City;
+ private String State;
+ private String Zip;
+ private String Country;
+}
+}}}

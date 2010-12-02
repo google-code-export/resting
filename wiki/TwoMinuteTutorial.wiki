@@ -37,7 +37,7 @@ This can be done in two ways.
 Suppose your JSON response is of the format given below. 
 {{{ 
 {
- "type":"stationary"
+ "statusCode":"200"
  ,"product":
  [
   {

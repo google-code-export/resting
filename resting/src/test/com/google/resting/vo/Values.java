@@ -14,23 +14,26 @@
  * limitations under the License.
  */
 
-package com.google.resting.vo;
+package test.com.google.resting.vo;
 
-
-public class ResultSet {
-	private Result Result;
-
-	public void setResult(Result Result) {
-		this.Result = Result;
+public class Values {
+	private String name;
+	private String count;
+	public String getName() {
+		return name;
 	}
-
-	public Result getResult() {
-		return Result;
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getCount() {
+		return count;
+	}
+	public void setCount(String count) {
+		this.count = count;
 	}
 	
 	public String toString(){
-		return Result.toString();
+		return name+"="+count+"\n";
 	}
-
-
+	
 }

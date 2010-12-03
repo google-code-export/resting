@@ -52,7 +52,7 @@ public final class ServiceAccessor implements Accessor{
 		String targetDomain=serviceContext.getTargetDomain();
 		int port=serviceContext.getPort();
 		String path=serviceContext.getPath();
-		OperationType operationType=serviceContext.getRequestType();
+		OperationType operationType=serviceContext.getOperationType();
 		ServiceResponse serviceResponse=null;
 		if(isSecureInvocation)
 			serviceResponse= RESTClient.secureInvoke(targetDomain, path, operationType, port );
@@ -88,7 +88,7 @@ public final class ServiceAccessor implements Accessor{
 		String targetDomain=serviceContext.getTargetDomain();
 		int port=serviceContext.getPort();
 		String path=serviceContext.getPath();
-		OperationType operationType=serviceContext.getRequestType();
+		OperationType operationType=serviceContext.getOperationType();
 		String contextPathElement=serviceContext.getContextPathElement();
 		List<NameValueEntity> inputParams=serviceContext.getInputParams();
 		try {

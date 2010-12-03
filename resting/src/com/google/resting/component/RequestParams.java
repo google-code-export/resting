@@ -22,7 +22,9 @@ import java.util.List;
 import com.google.resting.component.impl.NameValueEntity;
 
 /**
- * Abstract class for handling collection query parameters for REST invocation
+ * Abstract class for handling collection query parameters for REST invocation. This class should be extended 
+ * for application/technology specific collections. The directly known subclasses available are {@link BasicRequestParams}
+ * and {@link JSONRequestParams}.  
  * 
  * @author sujata.de
  * @since resting 0.1

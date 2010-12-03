@@ -15,6 +15,8 @@
  */
 
 package com.google.resting.serviceaccessor;
+
+
 /**
  * Base interface for the service accessor layer.
  * 
@@ -23,6 +25,5 @@ package com.google.resting.serviceaccessor;
  */
 public interface Accessor{
 	
-	public void access();
 
 }

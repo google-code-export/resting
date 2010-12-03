@@ -13,18 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.google.resting;
+package test.com.google.resting;
 
 import java.util.List;
 
+import test.com.google.resting.vo.Product;
+import test.com.google.resting.vo.Result;
+import test.com.google.resting.vo.ResultSet;
+
+import com.google.resting.Resting;
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.impl.Alias;
 import com.google.resting.component.impl.BasicRequestParams;
 import com.google.resting.component.impl.JSONRequestParams;
 import com.google.resting.component.impl.ServiceResponse;
-import com.google.resting.vo.Product;
-import com.google.resting.vo.Result;
-import com.google.resting.vo.ResultSet;
 
 import junit.framework.TestCase;
 /**

@@ -54,31 +54,32 @@ public class JSONTransformer<T> implements Transformer<T, ServiceResponse> {
 	@Override
 	public List<T> getEntityList(ServiceResponse serviceResponse, Class<T> targetType, Alias alias){
 		List<T> dests=null;
-		JSONArray responseArray=null;
 		String singleAlias=alias.getSingleAlias();
-		
+		JSONObject responseObject=null;
 		try {
-			JSONObject responseObject=new JSONObject(serviceResponse.getResponseString());
+			responseObject=new JSONObject(serviceResponse.getResponseString());
+			
 			if(responseObject.has(singleAlias)){
-				Object aliasedObject=responseObject.get(singleAlias);
-				if (aliasedObject instanceof JSONArray)
-					responseArray=responseObject.getJSONArray(singleAlias);
 				
+				Object aliasedObject=responseObject.get(singleAlias);
+				
+				if (aliasedObject instanceof JSONArray){
+					JSONArray responseArray=responseObject.getJSONArray(singleAlias);
+					int arrayLength=responseArray.length();
+					dests=new ArrayList<T>(arrayLength);
+					for(int i=0;i<arrayLength;i++){
+						JSONObject jsonObject=responseArray.getJSONObject(i);
+						dests.add(createEntity(jsonObject.toString(), targetType));
+					}				
+				}
 				else {
 					dests=new ArrayList<T>(1);
 					dests.add(createEntity(((JSONObject)aliasedObject).toString(),targetType));
 					return dests;
-
 				}
 			}
 			else 
 				return null;
-			int arrayLength=responseArray.length();
-			dests=new ArrayList<T>(arrayLength);
-			for(int i=0;i<arrayLength;i++){
-				JSONObject jsonObject=responseArray.getJSONObject(i);
-				dests.add(createEntity(jsonObject.toString(), targetType));
-			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

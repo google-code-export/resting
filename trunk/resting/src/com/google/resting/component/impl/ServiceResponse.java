@@ -81,7 +81,7 @@ public class ServiceResponse {
 
 	
 	public String toString(){
-		int length=responseString.length()+3+94;
+		int length=responseString.length()+3+96;
 		 for(Header header:responseHeaders){
 			 length+=header.getName().length()+header.getValue().length()+3;
 		 }
@@ -95,7 +95,7 @@ public class ServiceResponse {
 			 buffer.append(header.getValue());
 			 buffer.append("\n");
 		 }		
-		buffer.append("Response body: ");
+		buffer.append("Response body: \n");
 		buffer.append(responseString);
 		buffer.append("----------------\n");
 

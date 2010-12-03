@@ -43,37 +43,26 @@ import com.google.resting.serviceaccessor.Accessor;
 public final class ServiceAccessor implements Accessor{
 	private static final String AMPERSAND_SEPARATED_STRING = "&%s=%s";
 	private static final String SIGNATURE = "signature";
-	protected String path=null;
-	protected String targetDomain=null;
-	private ServiceResponse serviceResponse=null;
-	private boolean isSecureInvocation=false;
-	private OperationType operationType=null; 
-	private String contextPathElement=null;
-	private List<NameValueEntity> inputParams=null;
-	private int port=80;
-
-	public ServiceAccessor(ServiceContext serviceContext){
-		this.targetDomain=serviceContext.getTargetDomain();
-		this.port=serviceContext.getPort();
-		this.path=serviceContext.getPath();
-		this.isSecureInvocation=serviceContext.isSecureInvocation();
-		this.operationType=serviceContext.getRequestType();
-		this.contextPathElement=serviceContext.getContextPathElement();
-		this.inputParams=serviceContext.getInputParams();
-	}//ServiceAccessor
 
 	/**
 	 * Executes REST request
 	 */
-	public void access(){
+	public static ServiceResponse access(ServiceContext serviceContext){
+		boolean isSecureInvocation=serviceContext.isSecureInvocation();
+		String targetDomain=serviceContext.getTargetDomain();
+		int port=serviceContext.getPort();
+		String path=serviceContext.getPath();
+		OperationType operationType=serviceContext.getRequestType();
+		ServiceResponse serviceResponse=null;
 		if(isSecureInvocation)
-			this.serviceResponse= RESTClient.secureInvoke(targetDomain, path, operationType, port );
+			serviceResponse= RESTClient.secureInvoke(targetDomain, path, operationType, port );
 		else
-			this.serviceResponse= RESTClient.invoke(targetDomain, path, operationType, port );
+			serviceResponse= RESTClient.invoke(targetDomain, path, operationType, port );
 
-		//if(validate())
+		if(validate(serviceResponse))
 		//Handle validation properly
-			//System.out.println("Validation passed");
+			System.out.println("[Resting::ServiceAccessor] Service response validation passed");
+		return serviceResponse;
 
 	}//access
 
@@ -83,7 +72,7 @@ public final class ServiceAccessor implements Accessor{
 	 * 
 	 * @return boolean - true/false
 	 */
-	public boolean validate(){
+	private static boolean validate(ServiceResponse serviceResponse){
 		assert serviceResponse!=null:"Service response should not be null";
 		
 		//TODO Validation logic yet to be added. The implementation is incomplete here.
@@ -93,16 +82,17 @@ public final class ServiceAccessor implements Accessor{
 		return false;
 	}//validate
 
-	public ServiceResponse getServiceResponse(){
-		assert serviceResponse!=null:"Service response should not be null";
-		return serviceResponse;
-	}//getServiceResponse
 	
-	public void signRequest(String keyString){
+	public static void signRequest(String keyString, ServiceContext serviceContext){
+		boolean isSecureInvocation=serviceContext.isSecureInvocation();
+		String targetDomain=serviceContext.getTargetDomain();
+		int port=serviceContext.getPort();
+		String path=serviceContext.getPath();
+		OperationType operationType=serviceContext.getRequestType();
+		String contextPathElement=serviceContext.getContextPathElement();
+		List<NameValueEntity> inputParams=serviceContext.getInputParams();
 		try {
-			
-			this.path=path+String.format(AMPERSAND_SEPARATED_STRING,SIGNATURE,getSignature(keyString,targetDomain,operationType, isSecureInvocation, contextPathElement, inputParams));
-			
+			path=path+String.format(AMPERSAND_SEPARATED_STRING,SIGNATURE,getSignature(keyString,targetDomain,operationType, isSecureInvocation, contextPathElement, inputParams));
 		} catch (InvalidKeyException e) {
 			e.printStackTrace();
 		} catch (NoSuchAlgorithmException e) {

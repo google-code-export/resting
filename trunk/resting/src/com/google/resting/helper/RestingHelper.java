@@ -43,10 +43,7 @@ public final class RestingHelper {
 	public final static ServiceResponse execute(String url, int port, RequestParams requestParams, OperationType operationType){
 		URLContext urlContext=new URLContext(url,port);
 		ServiceContext serviceContext= new GenericServiceContext(urlContext,requestParams,operationType);
-		ServiceAccessor serviceAccessor=new ServiceAccessor(serviceContext);
-		serviceAccessor.access();
-		ServiceResponse serviceResponse=serviceAccessor.getServiceResponse();
-		return serviceResponse;
+		return ServiceAccessor.access(serviceContext);
 	}//execute	
 	
 	public final static ServiceResponse execute(String url,int port, OperationType operationType){

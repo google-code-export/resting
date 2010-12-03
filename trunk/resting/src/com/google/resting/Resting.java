@@ -35,17 +35,17 @@ import com.google.resting.transform.TransformationType;
  *
  *<p> Option 1 (Easy and fast): Pass the entire URI and read the entire HTTP response as a String
  *<pre>
- * ServiceResponse response=Resting.get("http://local.yahooapis.com/MapsService/V1/geocode?appid=YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--&state=CA");
- * System.out.println(response.toString()); //Read the entire response body.
+ * ServiceResponse response=Resting.get("http://local.yahooapis.com/MapsService/V1/geocode?appid=YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--&state=CA",80);
+ * System.out.println(response); //Print the entire response body.
  *</pre>
  *</p>
-  *<p> Option 2 (Recommended for JSON/complex encoding issue): Create a RequestParams object(&key=value params). Pass it along with the base URI (http://.././ path). You can even implement your own RequestParams. 
+  *<p> Option 2 (Recommended for JSON/complex encoding issue): Create a {@link RequestParams} object(&key=value params). Pass it along with the base URI (http://.././ path). You can even implement your own  {@link RequestParams}. 
  *<pre>
  * RequestParams params = new BasicRequestParams(); 
  * params.add("appid", "YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--");
  * params.add("state", "CA");
- * ServiceResponse response=Resting.get("http://local.yahooapis.com/MapsService/V1/geocode",params); 
- * System.out.println(response.toString()); //Read the entire response body.
+ * ServiceResponse response=Resting.get("http://local.yahooapis.com/MapsService/V1/geocode",80,params); 
+ * System.out.println(response); //Print the entire response body.
  *</pre>
  *</p>
  *<p> Option 3: Create your custom JAVA objects from REST response. This can be done in two ways. 
@@ -194,15 +194,15 @@ public final class Resting {
 	 * Executes HTTP/HTTPS DELETE request and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
 	 * as the response headers and the HTTP status code.
 	 * 
-	 * @param uri URI of the REST endpoint
+	 * @param baseURI Base URI of the REST endpoint
 	 * @param port Port of the REST endpoint
 	 * @param requestParams {@link RequestParams} object containing collection of parameters in key/ value pair for REST request
 	 * 
 	 * @return ServiceResponse object containing the entire REST response as a String, the HTTP status code and the response headers.
 	 */
 	
-	public final static ServiceResponse delete(String uri, int port, RequestParams requestParams){
-		return RestingHelper.execute(uri, port, requestParams, OperationType.DELETE);
+	public final static ServiceResponse delete(String baseURI, int port, RequestParams requestParams){
+		return RestingHelper.execute(baseURI, port, requestParams, OperationType.DELETE);
 	}//delete
 	
 	/**
@@ -218,16 +218,16 @@ public final class Resting {
 	 * @return List of entities of target type T
 	 */
 	
-	public final static <T> List<T> getByJSON(String uri, int port, RequestParams requestParams, Class<T> targetType, String alias){
+	public final static <T> List<T> getByJSON(String baseURI, int port, RequestParams requestParams, Class<T> targetType, String alias){
 		Alias jsonAlias=new Alias(alias);
-		return RestingHelper.executeAndTransform(uri, port,requestParams, OperationType.GET, TransformationType.JSON, targetType, jsonAlias);
+		return RestingHelper.executeAndTransform(baseURI, port,requestParams, OperationType.GET, TransformationType.JSON, targetType, jsonAlias);
 	}//getByJSON
 	
 	/**
 	 * Executes HTTP/HTTPS GET request and transforms the XML response into list of target entity.
 	 * 
 	 * @param <T> Target entity type
-	 * @param uri Base URI of the REST endpoint
+	 * @param baseURI Base URI of the REST endpoint
 	 * @param port Port of the REST endpoint
 	 * @param requestParams {@link RequestParams} object containing collection of parameters in key/ value pair for REST request
 	 * @param targetType Class of the target type T
@@ -236,8 +236,8 @@ public final class Resting {
 	 * @return List of entities of target type T
 	 */
 
-	public final static <T> List<T> getByXML(String uri, int port, RequestParams requestParams, Class<T> targetType, Alias alias){
-		return RestingHelper.executeAndTransform(uri, port,requestParams, OperationType.GET, TransformationType.XML, targetType, alias);
+	public final static <T> List<T> getByXML(String baseURI, int port, RequestParams requestParams, Class<T> targetType, Alias alias){
+		return RestingHelper.executeAndTransform(baseURI, port,requestParams, OperationType.GET, TransformationType.XML, targetType, alias);
 	}//getByXML
 	
 

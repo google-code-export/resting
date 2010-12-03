@@ -24,9 +24,12 @@ import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.CharArrayBuffer;
+
+import com.google.resting.Resting;
 /**
- * Wrapper object for REST response. This entity contains the HTTP status code, the entire response body and 
- * the HTTP headers of the REST response. 
+ * Wrapper object for REST response. This entity encapsulates the HTTP status code, the HTTP response body as a String and 
+ * the HTTP headers of the REST response. {@link Resting} APIs like {@link Resting.get()}, {@link Resting.put()}, 
+ * {@link Resting.post()} and {@link Resting.delete()} return an instance of this object. 
  * 
  * @author sujata.de
  * @since resting 0.1
@@ -78,22 +81,24 @@ public class ServiceResponse {
 
 	
 	public String toString(){
-		int length=responseString.length()+3+75;
+		int length=responseString.length()+3+94;
 		 for(Header header:responseHeaders){
 			 length+=header.getName().length()+header.getValue().length()+3;
 		 }
 		CharArrayBuffer buffer= new CharArrayBuffer(length);
-		buffer.append("\nServiceResponse\n---------------\n HTTP Status: ");
+		buffer.append("\nServiceResponse\n---------------\nHTTP Status: ");
 		buffer.append(statusCode);
-		buffer.append("\n Response body: ");
-		buffer.append(responseString);
-		buffer.append("\n Header: ");
+		buffer.append("\nHeaders: \n");
 		 for(Header header:responseHeaders){
 			 buffer.append(header.getName());
 			 buffer.append(" : ");
 			 buffer.append(header.getValue());
 			 buffer.append("\n");
-		 }
+		 }		
+		buffer.append("Response body: ");
+		buffer.append(responseString);
+		buffer.append("----------------\n");
+
 		return buffer.toString();
 	}//toString
 

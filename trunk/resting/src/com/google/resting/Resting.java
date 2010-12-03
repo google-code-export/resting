@@ -99,7 +99,7 @@ public final class Resting {
 	 * @param url Entire URI of the REST endpoint
 	 * @param port Port of the REST endpoint
 	 * 
-	 * @return ServiceResponse object containing the entire REST response as a String, the HTTP status code and the response headers.
+	 * @return {@link ServiceResponse} object containing the entire REST response as a String, the HTTP status code and the response headers.
 	 */
 	
 	public final static ServiceResponse get(String uri, int port){
@@ -113,7 +113,7 @@ public final class Resting {
 	 * @param port Port of the REST endpoint
 	 * @param requestParams {@link RequestParams} object containing collection of parameters in key/ value pair for REST request
 	 * 
-	 * @return ServiceResponse object containing the entire REST response as a String, the HTTP status code and the response headers.
+	 * @return {@link ServiceResponse} object containing the entire REST response as a String, the HTTP status code and the response headers.
 	 */
 	
 	public final static ServiceResponse get(String baseURI, int port,RequestParams requestParams){
@@ -127,7 +127,7 @@ public final class Resting {
 	 * @param url URI of the REST endpoint
 	 * @param port Port of the REST endpoint
 	 * 
-	 * @return ServiceResponse object containing the entire REST response as a String, the HTTP status code and the response headers.
+	 * @return {@link ServiceResponse} object containing the entire REST response as a String, the HTTP status code and the response headers.
 	 */
 	
 	public final static ServiceResponse post(String uri, int port){
@@ -142,7 +142,7 @@ public final class Resting {
 	 * @param port Port of the REST endpoint
 	 * @param requestParams {@link RequestParams} object containing collection of parameters in key/ value pair for REST request
 	 * 
-	 * @return ServiceResponse object containing the entire REST response as a String, the HTTP status code and the response headers.
+	 * @return {@link ServiceResponse} object containing the entire REST response as a String, the HTTP status code and the response headers.
 	 */
 	
 	public final static ServiceResponse post(String baseURI, int port, RequestParams requestParams){
@@ -156,7 +156,7 @@ public final class Resting {
 	 * @param url URI of the REST endpoint
 	 * @param port Port of the REST endpoint
 	 * 
-	 * @return ServiceResponse object containing the entire REST response as a String, the HTTP status code and the response headers.
+	 * @return {@link ServiceResponse} object containing the entire REST response as a String, the HTTP status code and the response headers.
 	 */
 	public final static ServiceResponse put(String uri, int port){
 		return RestingHelper.execute(uri,port, OperationType.PUT);
@@ -170,7 +170,7 @@ public final class Resting {
 	 * @param port Port of the REST endpoint
 	 * @param requestParams {@link RequestParams} object containing collection of parameters in key/ value pair for REST request
 	 * 
-	 * @return ServiceResponse object containing the entire REST response as a String, the HTTP status code and the response headers.
+	 * @return {@link ServiceResponse} object containing the entire REST response as a String, the HTTP status code and the response headers.
 	 */
 	public final static ServiceResponse put(String baseURI, int port, RequestParams requestParams){
 		return RestingHelper.execute(baseURI,port, requestParams, OperationType.PUT);
@@ -183,7 +183,7 @@ public final class Resting {
 	 * @param uri URI of the REST endpoint
 	 * @param port Port of the REST endpoint
 	 * 
-	 * @return ServiceResponse object containing the entire REST response as a String, the HTTP status code and the response headers.
+	 * @return {@link ServiceResponse} object containing the entire REST response as a String, the HTTP status code and the response headers.
 	 */
 	
 	public final static ServiceResponse delete(String uri, int port){
@@ -198,7 +198,7 @@ public final class Resting {
 	 * @param port Port of the REST endpoint
 	 * @param requestParams {@link RequestParams} object containing collection of parameters in key/ value pair for REST request
 	 * 
-	 * @return ServiceResponse object containing the entire REST response as a String, the HTTP status code and the response headers.
+	 * @return {@link ServiceResponse} object containing the entire REST response as a String, the HTTP status code and the response headers.
 	 */
 	
 	public final static ServiceResponse delete(String baseURI, int port, RequestParams requestParams){

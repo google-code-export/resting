@@ -34,12 +34,12 @@ import com.google.resting.transform.impl.XMLTransformer;
  */
 public class Test {
 	public static void main(String[] args) {
-/*		RequestParams params = new BasicRequestParams();
+		RequestParams params = new BasicRequestParams();
 		params.add("appid", "YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--");
 		params.add("state", "CA");
-		ServiceResponse serviceResponse=Resting.get("http://local.yahooapis.com/MapsService/V1/geocode?appid=YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--&state=CA");
+		ServiceResponse serviceResponse=Resting.get("http://local.yahooapis.com/MapsService/V1/geocode?appid=YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--&state=CA",80);
 		System.out.println("[Resting]The raw HTTP response from Yahoo Map REST API is\n--------- \n"+serviceResponse.getResponseString());
-*/				
+				
 
 		XMLTransformer<ResultSet> transformer=new XMLTransformer<ResultSet>();
 		Alias alias=new Alias().add("Result", Result.class).add("ResultSet", ResultSet.class);
@@ -56,9 +56,9 @@ public class Test {
 		//ServiceResponse serviceResponse=RestingHelper.execute("http://api.zappos.com/Search",params,OperationType.GET);
 		//List<Facets> facets=Resting.getByJSON("http://api.zappos.com/Search",params, Facets.class, "facets");
 		//System.out.println(facets.get(0).getValues().size());
-		RequestParams params = new BasicRequestParams();
-		params.add("key", "ff25d179c8b2b8c4f40c78a37b458fd0415ccb6d");
-		List<Product> products=Resting.getByJSON("http://api.zappos.com/Product/7564933,7590514",80,params, Product.class, "product");
+		RequestParams jsonparams = new BasicRequestParams();
+		jsonparams.add("key", "ff25d179c8b2b8c4f40c78a37b458fd0415ccb6d");
+		List<Product> products=Resting.getByJSON("http://api.zappos.com/Product/7564933,7590514",80,jsonparams, Product.class, "product");
 		System.out.println(products.get(0).getProductId());
 
 	}

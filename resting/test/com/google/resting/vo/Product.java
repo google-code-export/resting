@@ -14,23 +14,17 @@
  * limitations under the License.
  */
 
-package com.google.resting.test;
+package com.google.resting.vo;
 
+public class Product {
+	private String productId;
 
-public class ResultSet {
-	private Result Result;
-
-	public void setResult(Result Result) {
-		this.Result = Result;
+	public void setProductId(String productId) {
+		this.productId = productId;
 	}
 
-	public Result getResult() {
-		return Result;
+	public String getProductId() {
+		return productId;
 	}
-	
-	public String toString(){
-		return Result.toString();
-	}
-
 
 }

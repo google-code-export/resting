@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.resting.test;
+package com.google.resting.vo;
 
 import java.util.List;
 

@@ -35,13 +35,13 @@ public abstract class ServiceContext {
 	private String targetDomain=null;
 	private int port=0;
 	private boolean isSecureInvocation=false;
-	private OperationType requestType=null;
+	private OperationType operationType=null;
 	
 	protected ServiceContext(URLContext urlContext, RequestParams queryParams, OperationType operationType){
 		this.targetDomain=urlContext.getTargetDomain();
 		this.port=urlContext.getPort();
 		this.isSecureInvocation=urlContext.isSecureInvocation();
-		this.requestType=operationType;
+		this.operationType=operationType;
 	}
 	public abstract String getPath();
 	
@@ -49,9 +49,9 @@ public abstract class ServiceContext {
 	
 	public abstract List<NameValueEntity> getInputParams();
 	
-	public OperationType getRequestType(){
-		assert requestType!=null:"Request type should not be null";
-		return requestType;
+	public OperationType getOperationType(){
+		assert operationType!=null:"HTTP operation type should not be null";
+		return operationType;
 	}
 	
 	public boolean isSecureInvocation(){

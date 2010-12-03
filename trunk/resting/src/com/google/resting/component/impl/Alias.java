@@ -41,11 +41,14 @@ public class Alias {
 	}//AliasMap
 	
 	public Alias add(String alias, Class aliasClass){
+		if(aliasMap==null)
+			aliasMap= new HashMap<String, Class>();
 		aliasMap.put(alias, aliasClass);
 		return this;
 	}//add
 	
 	public Map<String,Class> getAliasMap(){
+		assert aliasMap!=null:"The key-value map of aliases is null.";
 		return aliasMap;
 	}//getAliasMaps
 	

@@ -17,14 +17,14 @@
 package test.com.google.resting.vo;
 
 public class Product {
-	private String productId;
-
-	public void setProductId(String productId) {
-		this.productId = productId;
-	}
-
-	public String getProductId() {
+	private int productId;
+	
+	public int getProductId(){
 		return productId;
+	}
+	
+	public String toString(){
+		return "Product id="+productId;
 	}
 
 }

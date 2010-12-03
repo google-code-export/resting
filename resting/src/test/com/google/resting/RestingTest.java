@@ -80,7 +80,7 @@ public class RestingTest extends TestCase {
 		RequestParams jsonParams = new JSONRequestParams();   
 		jsonParams.add("key", "fdb3c385a8d22d174cafeadc6d4c1405b08d5609");  
 		List<Product> products=Resting.getByJSON("http://api.zappos.com/Product/7564933",80,jsonParams, Product.class, "product");
-		System.out.println(" [RestingTest::getByJSON] The product detail is "+products.get(0).toString());
+		System.out.println("[RestingTest::getByJSON] The product detail is "+products.get(0).toString());
 		assertEquals(7564933,products.get(0).getProductId());
 	}
 

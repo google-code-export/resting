@@ -25,7 +25,8 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.CharArrayBuffer;
 /**
- * Wrapper object for REST response
+ * Wrapper object for REST response. This entity contains the HTTP status code, the entire response body and 
+ * the HTTP headers of the REST response. 
  * 
  * @author sujata.de
  * @since resting 0.1
@@ -52,7 +53,7 @@ public class ServiceResponse {
 			inputStream=entity.getContent();
 			this.responseString=IOUtils.toString(inputStream);
 			long ioEndTime=System.currentTimeMillis();
-			System.out.println("Time taken in converting IOStream: "+(ioEndTime-ioStartTime));
+		//	System.out.println("Time taken in converting IOStream: "+(ioEndTime-ioStartTime));
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -77,13 +78,22 @@ public class ServiceResponse {
 
 	
 	public String toString(){
-		CharArrayBuffer buffer= new CharArrayBuffer(responseString.length()+3+200);
-		buffer.append("ServiceResponse\n---------------\n HTTP Status: ");
+		int length=responseString.length()+3+75;
+		 for(Header header:responseHeaders){
+			 length+=header.getName().length()+header.getValue().length()+3;
+		 }
+		CharArrayBuffer buffer= new CharArrayBuffer(length);
+		buffer.append("\nServiceResponse\n---------------\n HTTP Status: ");
 		buffer.append(statusCode);
-		buffer.append("\n Complete response body: ");
+		buffer.append("\n Response body: ");
 		buffer.append(responseString);
-	//	buffer.append("\n Header: ");
-	//	buffer.append(responseHeaders[0].toString());
+		buffer.append("\n Header: ");
+		 for(Header header:responseHeaders){
+			 buffer.append(header.getName());
+			 buffer.append(" : ");
+			 buffer.append(header.getValue());
+			 buffer.append("\n");
+		 }
 		return buffer.toString();
 	}//toString
 

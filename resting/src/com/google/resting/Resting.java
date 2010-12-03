@@ -96,64 +96,122 @@ public final class Resting {
 	 * Executes HTTP/HTTPS GET request and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
 	 * as the response headers and the HTTP status code
 	 * 
-	 * @param url URI of the REST endpoint
+	 * @param url Entire URI of the REST endpoint
 	 * @param port Port of the REST endpoint
-	 * @param requestParams Collection of parameters for REST request
 	 * 
 	 * @return ServiceResponse object containing the entire REST response as a String, the HTTP status code and the response headers.
 	 */
 	
 	public final static ServiceResponse get(String uri, int port){
 		return RestingHelper.execute(uri, port,OperationType.GET);
-	}
+	}//get
+	/**
+	 * Executes HTTP/HTTPS GET request and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
+	 * as the response headers and the HTTP status code
+	 * 
+	 * @param baseURI Base URI of the REST endpoint
+	 * @param port Port of the REST endpoint
+	 * @param requestParams {@link RequestParams} object containing collection of parameters in key/ value pair for REST request
+	 * 
+	 * @return ServiceResponse object containing the entire REST response as a String, the HTTP status code and the response headers.
+	 */
+	
+	public final static ServiceResponse get(String baseURI, int port,RequestParams requestParams){
+		return RestingHelper.execute(baseURI, port,requestParams,OperationType.GET);
+	}//get
+	
 	/**
 	 * Executes HTTP/HTTPS POST request and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
 	 * as the response headers and the HTTP status code
 	 * 
 	 * @param url URI of the REST endpoint
 	 * @param port Port of the REST endpoint
-	 * @param requestParams Collection of parameters for REST request
 	 * 
 	 * @return ServiceResponse object containing the entire REST response as a String, the HTTP status code and the response headers.
 	 */
 	
 	public final static ServiceResponse post(String uri, int port){
 		return RestingHelper.execute(uri, port,OperationType.POST);
-	}
+	}//post
+	
+	/**
+	 * Executes HTTP/HTTPS POST request and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
+	 * as the response headers and the HTTP status code
+	 * 
+	 * @param baseURI Base URI of the REST endpoint
+	 * @param port Port of the REST endpoint
+	 * @param requestParams {@link RequestParams} object containing collection of parameters in key/ value pair for REST request
+	 * 
+	 * @return ServiceResponse object containing the entire REST response as a String, the HTTP status code and the response headers.
+	 */
+	
+	public final static ServiceResponse post(String baseURI, int port, RequestParams requestParams){
+		return RestingHelper.execute(baseURI, port, requestParams,OperationType.POST);
+	}//post
+	
 	/**
 	 * Executes HTTP/HTTPS PUT request and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
 	 * as the response headers and the HTTP status code
 	 * 
 	 * @param url URI of the REST endpoint
 	 * @param port Port of the REST endpoint
-	 * @param requestParams Collection of parameters for REST request
 	 * 
 	 * @return ServiceResponse object containing the entire REST response as a String, the HTTP status code and the response headers.
 	 */
 	public final static ServiceResponse put(String uri, int port){
 		return RestingHelper.execute(uri,port, OperationType.PUT);
-	}
+	}//put
+	
+	/**
+	 * Executes HTTP/HTTPS PUT request and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
+	 * as the response headers and the HTTP status code
+	 * 
+	 * @param baseURI Base URI of the REST endpoint
+	 * @param port Port of the REST endpoint
+	 * @param requestParams {@link RequestParams} object containing collection of parameters in key/ value pair for REST request
+	 * 
+	 * @return ServiceResponse object containing the entire REST response as a String, the HTTP status code and the response headers.
+	 */
+	public final static ServiceResponse put(String baseURI, int port, RequestParams requestParams){
+		return RestingHelper.execute(baseURI,port, requestParams, OperationType.PUT);
+	}//put
+	
 	/**
 	 * Executes HTTP/HTTPS DELETE request and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
 	 * as the response headers and the HTTP status code.
 	 * 
 	 * @param uri URI of the REST endpoint
 	 * @param port Port of the REST endpoint
-	 * @param requestParams Collection of parameters for REST request
 	 * 
 	 * @return ServiceResponse object containing the entire REST response as a String, the HTTP status code and the response headers.
 	 */
 	
 	public final static ServiceResponse delete(String uri, int port){
 		return RestingHelper.execute(uri, port,OperationType.DELETE);
-	}
+	}//delete
+	
+	/**
+	 * Executes HTTP/HTTPS DELETE request and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
+	 * as the response headers and the HTTP status code.
+	 * 
+	 * @param uri URI of the REST endpoint
+	 * @param port Port of the REST endpoint
+	 * @param requestParams {@link RequestParams} object containing collection of parameters in key/ value pair for REST request
+	 * 
+	 * @return ServiceResponse object containing the entire REST response as a String, the HTTP status code and the response headers.
+	 */
+	
+	public final static ServiceResponse delete(String uri, int port, RequestParams requestParams){
+		return RestingHelper.execute(uri, port, requestParams, OperationType.DELETE);
+	}//delete
+	
 	/**
 	 * Executes HTTP/HTTPS GET request and transforms the JSON response into list of target entity.
 	 * 
 	 * @param <T> Target entity type
 	 * @param url Base URI of the REST endpoint
 	 * @param port Port of the REST endpoint
-	 * @param requestParams Collection of request parameters in key/value pair
+	 * @param requestParams {@link RequestParams} object containing collection of parameters in key/ value pair for REST request
 	 * @param targetType Class of the target type T
 	 * @param alias JSON alias for reading the entity from JSON response.
 	 * 
@@ -171,7 +229,7 @@ public final class Resting {
 	 * @param <T> Target entity type
 	 * @param uri Base URI of the REST endpoint
 	 * @param port Port of the REST endpoint
-	 * @param requestParams Collection of request parameters in key/value pair
+	 * @param requestParams {@link RequestParams} object containing collection of parameters in key/ value pair for REST request
 	 * @param targetType Class of the target type T
 	 * @param alias Alias for reading the entity from XML response.
 	 * 

@@ -51,8 +51,8 @@ public class URLContext{
 		if(restUrl.startsWith(RequestConstants.HTTPS))
 			this.isSecureInvocation=true;
 		removeEnd();
-		System.out.println("url is "+targetDomain);
-		System.out.println("context path is "+contextPath);		
+	//	System.out.println("url is "+targetDomain);
+	//	System.out.println("context path is "+contextPath);		
 	}//constructContextPath
 	
 	private void removeEnd(){

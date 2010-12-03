@@ -65,9 +65,9 @@ public class RESTClient {
 		
 		HttpClient httpClient = new DefaultHttpClient();
 
-		System.out.println( "Target domain: " + targetDomain);
-		System.out.println( "Port: " + port);
-		System.out.println( "Request path: " + path);
+	//	System.out.println( "Target domain: " + targetDomain);
+	//	System.out.println( "Port: " + port);
+	//	System.out.println( "Request path: " + path);
 		// Make sure the server knows what kind of a response we will accept
 		request.addHeader("Accept", "text/xml");
 
@@ -80,8 +80,8 @@ public class RESTClient {
 
 			serviceResponse = new ServiceResponse(response);
 
-			System.out.println( "The REST response is:\n " + serviceResponse);
-			System.out.println( "Time taken in REST operation :"+ (endTime - startTime) + " ms.");
+		//	System.out.println( "The REST response is:\n " + serviceResponse);
+		//	System.out.println( "Time taken in REST operation :"+ (endTime - startTime) + " ms.");
 
 		}// try
 		catch(ConnectTimeoutException e){
@@ -136,9 +136,9 @@ public class RESTClient {
 	public static ServiceResponse secureInvoke(String targetDomain, String path, OperationType operationType, int port){
 		ServiceResponse serviceResponse=null;
 		
-		System.out.println( "Target domain: " + targetDomain);
-		System.out.println( "Port: " + port);
-		System.out.println( "Request path: " + path);
+	//	System.out.println( "Target domain: " + targetDomain);
+	//	System.out.println( "Port: " + port);
+	//	System.out.println( "Request path: " + path);
 
 		try {
 			long ioStartTime=System.currentTimeMillis();
@@ -152,8 +152,8 @@ public class RESTClient {
 	        serviceResponse=new ServiceResponse(response);
 		    long ioEndTime=System.currentTimeMillis();
 		    
-		    System.out.println( "The REST response is:\n "+ serviceResponse);
-		    System.out.println( "Time taken in executing REST: "+(ioEndTime-ioStartTime));
+		   // System.out.println( "The REST response is:\n "+ serviceResponse);
+		   // System.out.println( "Time taken in executing REST: "+(ioEndTime-ioStartTime));
 		    
 		} catch (Exception e) {
 			e.printStackTrace();

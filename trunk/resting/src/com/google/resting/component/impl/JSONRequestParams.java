@@ -38,10 +38,6 @@ public class JSONRequestParams extends RequestParams {
 		super();
 	}// JSONRequestParams
 
-	// specific for zappos. To be moved into provider specific impl.
-	// add("key", key);
-	// add("timestamp",TimeStampUtil.getTimeStamp());
-
 	/**
 	 * To add input params in the format
 	 * &valueArrayKey={valueArray[0],valueArray[1]...}
@@ -136,7 +132,7 @@ public class JSONRequestParams extends RequestParams {
 
 		}// for
 
-		System.out.println("The final string is " + result);
+	//	System.out.println("The final string is " + result);
 		queryParams.add(new NameValueEntity(key, result.toString()));
 	}// add
 

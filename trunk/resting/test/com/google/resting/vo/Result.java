@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.resting.test;
+package com.google.resting.vo;
 
 public class Result {
 	private String precision;

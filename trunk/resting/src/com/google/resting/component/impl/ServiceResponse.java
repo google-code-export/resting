@@ -77,7 +77,7 @@ public class ServiceResponse {
 
 	
 	public String toString(){
-		CharArrayBuffer buffer= new CharArrayBuffer(responseString.length()+3+70);
+		CharArrayBuffer buffer= new CharArrayBuffer(responseString.length()+3+200);
 		buffer.append("ServiceResponse\n---------------\n HTTP Status: ");
 		buffer.append(statusCode);
 		buffer.append("\n Complete response body: ");

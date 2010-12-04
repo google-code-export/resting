@@ -9,7 +9,7 @@ Suppose  your REST URL is http://local.yahooapis.com/MapsService/V1/geocode?appi
 
 The resting code can be used in these three ways: 
  
-====Option 1 (Simplest): Pass the entire URI and read the entire HTTP response as a String====
+====Option 1 (Simplest): Pass the entire URI and read the HTTP response as a String====
 {{{
 ServiceResponse response=Resting.get("http://local.yahooapis.com/MapsService/V1/geocode?appid=YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--&state=CA",80);
 
@@ -41,11 +41,11 @@ Suppose your JSON response is of the format given below.
  ,"product":
  [
   {
-   "productId":"12345","productName":"pen"  
+   "productId":"1234567","productName":"pen"  
   }
  ,
   {
-   "productId":"56789","productName":"pencil"
+   "productId":"7564933","productName":"pencil"
   }
  ]
 }

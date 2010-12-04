@@ -15,7 +15,7 @@ ServiceResponse response=Resting.get("http://local.yahooapis.com/MapsService/V1/
 
 System.out.println(response); //Print the response.
 }}}
-====Option 2 (Recommended for JSON/complex encoding issue): Create a {{{RequestParams}}} object====
+====Option 2 (Recommended for JSON/complex encoding issue): Pass a {{{RequestParams}}} object along withe base URI====
 
 {{{RequestParams}}} is the collection of data in(key=value) format. 
 Pass it along with the base URI (http://.././ path).

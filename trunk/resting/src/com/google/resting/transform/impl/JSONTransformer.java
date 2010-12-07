@@ -29,7 +29,8 @@ import org.json.JSONObject;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
-import com.google.resting.component.impl.Alias;
+import com.google.resting.component.Alias;
+import com.google.resting.component.impl.JSONAlias;
 import com.google.resting.component.impl.ServiceResponse;
 import com.google.resting.transform.Transformer;
 /**
@@ -55,10 +56,14 @@ public class JSONTransformer<T> implements Transformer<T, ServiceResponse> {
 		return dest;
 	}//createEntity
 	
-	@Override
 	public List<T> getEntityList(ServiceResponse serviceResponse, Class<T> targetType, Alias alias){
 		List<T> dests=null;
-		String singleAlias=alias.getSingleAlias();
+		String singleAlias=null;
+		if (alias instanceof JSONAlias)
+			//Eliminating the possibility of ClassCastException by checking the type beforehand
+			singleAlias=((JSONAlias)alias).getSingleAlias();
+		else
+			return null;
 		JSONObject responseObject=null;
 		try {
 			responseObject=new JSONObject(serviceResponse.getResponseString());
@@ -67,6 +72,7 @@ public class JSONTransformer<T> implements Transformer<T, ServiceResponse> {
 				
 				Object aliasedObject=responseObject.get(singleAlias);
 				
+				//If the entity is JSONArray
 				if (aliasedObject instanceof JSONArray){
 					JSONArray responseArray=responseObject.getJSONArray(singleAlias);
 					int arrayLength=responseArray.length();
@@ -74,7 +80,8 @@ public class JSONTransformer<T> implements Transformer<T, ServiceResponse> {
 					for(int i=0;i<arrayLength;i++){
 						JSONObject jsonObject=responseArray.getJSONObject(i);
 						dests.add(createEntity(jsonObject.toString(), targetType));
-					}				
+					}	
+					return dests;
 				}
 				else {
 					dests=new ArrayList<T>(1);
@@ -92,12 +99,11 @@ public class JSONTransformer<T> implements Transformer<T, ServiceResponse> {
 	}//getEntityList
 
 	@SuppressWarnings("unchecked")
-	public Map<String, List> getEntityLists(ServiceResponse serviceResponse,
-			Alias alias) {
+	public Map<String, List> getEntityLists(ServiceResponse serviceResponse, JSONAlias alias) {
 		Map<String, List> destMap = new HashMap<String, List>();
 		List dests = null;
 		JSONObject responseObject = null;
-		Set<Entry<String, Class>> aliasSet = alias.getAliasMap().entrySet();
+		Set<Entry<String, Class>> aliasSet = alias.getAliasTypeMap().entrySet();
 		try {
 			responseObject = new JSONObject(serviceResponse.getResponseString());
 			for (Map.Entry<String, Class> entry : aliasSet) {

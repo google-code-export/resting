@@ -17,7 +17,11 @@
 package com.google.resting.transform.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -86,5 +90,48 @@ public class JSONTransformer<T> implements Transformer<T, ServiceResponse> {
 		
 		return dests;
 	}//getEntityList
+
+	@SuppressWarnings("unchecked")
+	public Map<String, List> getEntityLists(ServiceResponse serviceResponse,
+			Alias alias) {
+		Map<String, List> destMap = new HashMap<String, List>();
+		List dests = null;
+		JSONObject responseObject = null;
+		Set<Entry<String, Class>> aliasSet = alias.getAliasMap().entrySet();
+		try {
+			responseObject = new JSONObject(serviceResponse.getResponseString());
+			for (Map.Entry<String, Class> entry : aliasSet) {
+				String singleAlias = entry.getKey();
+				Class targetType = entry.getValue();
+				if (responseObject.has(singleAlias)) {
+
+					Object aliasedObject = responseObject.get(singleAlias);
+
+					if (aliasedObject instanceof JSONArray) {
+						JSONArray responseArray = responseObject
+								.getJSONArray(singleAlias);
+						int arrayLength = responseArray.length();
+						dests = new ArrayList<T>(arrayLength);
+						for (int i = 0; i < arrayLength; i++) {
+							JSONObject jsonObject = responseArray
+									.getJSONObject(i);
+							dests.add(createEntity(jsonObject.toString(), targetType));
+						}
+						destMap.put(singleAlias, dests);
+					} else {
+						dests = new ArrayList(1);
+						dests.add(createEntity(((JSONObject) aliasedObject).toString(), targetType));
+						destMap.put(singleAlias, dests);
+					}// if
+				}// if
+
+			}// for
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		return destMap;
+	}// getEntityLists
+	
 
 }//JSONTransformer

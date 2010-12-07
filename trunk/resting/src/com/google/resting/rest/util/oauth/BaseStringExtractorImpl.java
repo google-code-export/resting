@@ -19,8 +19,7 @@ package com.google.resting.rest.util.oauth;
 
 import java.util.List;
 
-
-import com.google.resting.component.impl.NameValueEntity;
+import org.apache.http.NameValuePair;
 
 
 
@@ -33,14 +32,14 @@ public class BaseStringExtractorImpl {
 
 	private static final String AMPERSAND_SEPARATED_STRING = "%s&%s&%s";
 
-	public static String extract(String sourceVerb, String sourceUrl,List<NameValueEntity> inputParams) {
+	public static String extract(String sourceVerb, String sourceUrl,List<NameValuePair> inputParams) {
 		String verb = URLUtil.percentEncode(sourceVerb);
 		String url = URLUtil.percentEncode(getSanitizedUrl(sourceUrl));
 		String params = getSortedAndEncodedParams(inputParams);
 		return String.format(AMPERSAND_SEPARATED_STRING, verb, url, params);
 	}
 
-	private static String getSortedAndEncodedParams(List<NameValueEntity> sourceParams) {
+	private static String getSortedAndEncodedParams(List<NameValuePair> sourceParams) {
 		return URLUtil.getFormURLEncodeParamList(sourceParams);
 	}
 

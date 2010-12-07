@@ -18,6 +18,7 @@ package com.google.resting.component.impl;
 
 import java.util.Map;
 
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,7 +52,7 @@ public class JSONRequestParams extends RequestParams {
 			jsonArray.put(value);
 		}
 		queryParams
-				.add(new NameValueEntity(valueArrayKey, jsonArray.toString()));
+				.add(new BasicNameValuePair(valueArrayKey, jsonArray.toString()));
 	}// add
 
 	/**
@@ -86,7 +87,7 @@ public class JSONRequestParams extends RequestParams {
 			}
 		}// if
 
-		queryParams.add(new NameValueEntity(key, jsonObject.toString()));
+		queryParams.add(new BasicNameValuePair(key, jsonObject.toString()));
 	}// add
 
 	/**
@@ -133,12 +134,12 @@ public class JSONRequestParams extends RequestParams {
 		}// for
 
 	//	System.out.println("The final string is " + result);
-		queryParams.add(new NameValueEntity(key, result.toString()));
+		queryParams.add(new BasicNameValuePair(key, result.toString()));
 	}// add
 
 	@Override
 	public void add(String key, String value) {
-		queryParams.add(new NameValueEntity(key, value));
+		queryParams.add(new BasicNameValuePair(key, value));
 
 	}//add
 

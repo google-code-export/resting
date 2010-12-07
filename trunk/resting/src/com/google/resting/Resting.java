@@ -18,7 +18,7 @@ package com.google.resting;
 
 import java.util.List;
 
-import com.google.resting.component.OperationType;
+import com.google.resting.component.Verb;
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.impl.Alias;
 import com.google.resting.component.impl.ServiceResponse;
@@ -103,7 +103,7 @@ public final class Resting {
 	 */
 	
 	public final static ServiceResponse get(String uri, int port){
-		return RestingHelper.execute(uri, port,OperationType.GET);
+		return RestingHelper.execute(uri, port,Verb.GET);
 	}//get
 	/**
 	 * Executes HTTP/HTTPS GET request and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
@@ -117,21 +117,21 @@ public final class Resting {
 	 */
 	
 	public final static ServiceResponse get(String baseURI, int port,RequestParams requestParams){
-		return RestingHelper.execute(baseURI, port,requestParams,OperationType.GET);
+		return RestingHelper.execute(baseURI, port,requestParams,Verb.GET);
 	}//get
 	
 	/**
-	 * Executes HTTP/HTTPS POST request and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
+	 * Executes HTTP/HTTPS POST request for a POST request with no content in the message body and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
 	 * as the response headers and the HTTP status code
 	 * 
-	 * @param url URI of the REST endpoint
+	 * @param baseURI Base URI of the REST endpoint
 	 * @param port Port of the REST endpoint
 	 * 
 	 * @return {@link ServiceResponse} object containing the entire REST response as a String, the HTTP status code and the response headers.
 	 */
 	
-	public final static ServiceResponse post(String uri, int port){
-		return RestingHelper.execute(uri, port,OperationType.POST);
+	public final static ServiceResponse post(String baseURI, int port){
+		return post(baseURI, port, null);
 	}//post
 	
 	/**
@@ -140,13 +140,13 @@ public final class Resting {
 	 * 
 	 * @param baseURI Base URI of the REST endpoint
 	 * @param port Port of the REST endpoint
-	 * @param requestParams {@link RequestParams} object containing collection of parameters in key/ value pair for REST request
+	 * @param requestParams {@link RequestParams} object containing collection of parameters in key/ value pair to be sent in the message body
 	 * 
 	 * @return {@link ServiceResponse} object containing the entire REST response as a String, the HTTP status code and the response headers.
 	 */
 	
 	public final static ServiceResponse post(String baseURI, int port, RequestParams requestParams){
-		return RestingHelper.execute(baseURI, port, requestParams,OperationType.POST);
+		return RestingHelper.execute(baseURI, port, requestParams,Verb.POST);
 	}//post
 	
 	/**
@@ -159,7 +159,7 @@ public final class Resting {
 	 * @return {@link ServiceResponse} object containing the entire REST response as a String, the HTTP status code and the response headers.
 	 */
 	public final static ServiceResponse put(String uri, int port){
-		return RestingHelper.execute(uri,port, OperationType.PUT);
+		return RestingHelper.execute(uri,port, Verb.PUT);
 	}//put
 	
 	/**
@@ -173,7 +173,7 @@ public final class Resting {
 	 * @return {@link ServiceResponse} object containing the entire REST response as a String, the HTTP status code and the response headers.
 	 */
 	public final static ServiceResponse put(String baseURI, int port, RequestParams requestParams){
-		return RestingHelper.execute(baseURI,port, requestParams, OperationType.PUT);
+		return RestingHelper.execute(baseURI,port, requestParams, Verb.PUT);
 	}//put
 	
 	/**
@@ -187,7 +187,7 @@ public final class Resting {
 	 */
 	
 	public final static ServiceResponse delete(String uri, int port){
-		return RestingHelper.execute(uri, port,OperationType.DELETE);
+		return RestingHelper.execute(uri, port,Verb.DELETE);
 	}//delete
 	
 	/**
@@ -202,7 +202,7 @@ public final class Resting {
 	 */
 	
 	public final static ServiceResponse delete(String baseURI, int port, RequestParams requestParams){
-		return RestingHelper.execute(baseURI, port, requestParams, OperationType.DELETE);
+		return RestingHelper.execute(baseURI, port, requestParams, Verb.DELETE);
 	}//delete
 	
 	/**
@@ -220,7 +220,7 @@ public final class Resting {
 	
 	public final static <T> List<T> getByJSON(String baseURI, int port, RequestParams requestParams, Class<T> targetType, String alias){
 		Alias jsonAlias=new Alias(alias);
-		return RestingHelper.executeAndTransform(baseURI, port,requestParams, OperationType.GET, TransformationType.JSON, targetType, jsonAlias);
+		return RestingHelper.executeAndTransform(baseURI, port,requestParams, Verb.GET, TransformationType.JSON, targetType, jsonAlias);
 	}//getByJSON
 	
 	/**
@@ -237,7 +237,7 @@ public final class Resting {
 	 */
 
 	public final static <T> List<T> getByXML(String baseURI, int port, RequestParams requestParams, Class<T> targetType, Alias alias){
-		return RestingHelper.executeAndTransform(baseURI, port,requestParams, OperationType.GET, TransformationType.XML, targetType, alias);
+		return RestingHelper.executeAndTransform(baseURI, port,requestParams, Verb.GET, TransformationType.XML, targetType, alias);
 	}//getByXML
 	
 

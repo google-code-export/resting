@@ -16,7 +16,9 @@
 
 package com.google.resting.component.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 /**
  * To encapsulate all the aliases used for marshalling HTTP response streams into objects.
@@ -29,16 +31,27 @@ public class Alias {
 	private Map<String,Class> aliasMap=null;
 	//In many transformation, only a single alias is necessary. For ex. JSON.
 	private String singleAlias=null;
+	private List<Class> aliasList=null;
 	
 	public Alias(){
 		aliasMap= new HashMap<String, Class>();
-	}//AliasMap
+	}//Alias - aliasMap
 	
 	public Alias(String singleAlias){
 		this.singleAlias=singleAlias;
-		//The aliasMap is not needed to be initialized since
+		//The aliasMap or the alias list is not needed to be initialized since
 		//a single alias is enough for transformers for JSON.
-	}//AliasMap
+	}//Alias - singleAlias
+	
+	public Alias(List<Class> aliasList){
+		this.aliasMap= new HashMap<String, Class>();
+		this.aliasList=aliasList;
+	}//Alias - aliasList	
+	
+	public Alias(Map<String,Class> aliasMap, List<Class> aliasList){
+		this.aliasMap= aliasMap;
+		this.aliasList=aliasList;
+	}//Alias - aliasList	
 	
 	public Alias add(String alias, Class aliasClass){
 		if(aliasMap==null)
@@ -47,13 +60,26 @@ public class Alias {
 		return this;
 	}//add
 	
+	public Alias add(Class aliasClass){
+		if(aliasList == null)
+			aliasList=new ArrayList<Class>();
+		aliasList.add(aliasClass);
+		return this;
+	}
+	
 	public Map<String,Class> getAliasMap(){
 		assert aliasMap!=null:"The key-value map of aliases is null.";
 		return aliasMap;
 	}//getAliasMaps
 	
 	public String getSingleAlias(){
+		assert singleAlias!=null:"The alias is null";
 		return singleAlias;
 	}//getSingleAlias
+
+	public List<Class> getAliasList() {
+		assert aliasList!=null:"The alias list is null";
+		return aliasList;
+	}//getAliasList
 
 }//AliasMap

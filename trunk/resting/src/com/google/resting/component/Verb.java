@@ -21,7 +21,7 @@ package com.google.resting.component;
  * @author sujata.de
  *
  */
-public enum OperationType {
+public enum Verb {
 	GET, //HTTP GET request
 	PUT, //HTTP PUT request
 	POST, //HTTP POST request

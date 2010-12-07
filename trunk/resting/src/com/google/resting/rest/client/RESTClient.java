@@ -16,10 +16,15 @@
 
 package com.google.resting.rest.client;
 
+import java.io.UnsupportedEncodingException;
+import java.util.List;
+
 import org.apache.http.HttpHost;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -28,7 +33,7 @@ import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import com.google.resting.component.OperationType;
+import com.google.resting.component.Verb;
 import com.google.resting.component.impl.ServiceResponse;
 import com.google.resting.rest.CustomSSLSocketFactory;
 import com.google.resting.rest.util.oauth.RequestConstants;
@@ -49,19 +54,19 @@ public class RESTClient {
 	 * @param Domain of the REST endpoint
 	 * @param path Path of the URI
 	 * @param port port number of the REST endpoint
-	 * @param operationType Type of HTTP method(GET/POST/PUT/DELETE)
+	 * @param verb Type of HTTP method(GET/POST/PUT/DELETE)
 	 * 
 	 * @return ServiceResponse object containing http status code and entire response as a String
 	 */
 
-	public static ServiceResponse invoke(String targetDomain, String path, OperationType operationType, int port) {
+	public static ServiceResponse invoke(String targetDomain, String path, Verb verb, int port, List<NameValuePair> inputParams) {
 		HttpResponse response = null;
 		ServiceResponse serviceResponse = null;
 		String functionName="invoke";
 
 		HttpHost targetHost = new HttpHost(targetDomain, port, RequestConstants.HTTP);
 		
-		HttpRequest request = buildHttpRequest(operationType,path);
+		HttpRequest request = buildHttpRequest(verb,path, inputParams);
 		
 		HttpClient httpClient = new DefaultHttpClient();
 
@@ -100,26 +105,34 @@ public class RESTClient {
 		return serviceResponse;
 	}// invoke
 	
-	
-	private static HttpRequest buildHttpRequest(OperationType operationType, String path) {
+	private static HttpRequest buildHttpRequest(Verb verb, String path,  List<NameValuePair> inputParams) {
 		
-		HttpRequest httpRequest;
-		
-		if (operationType == OperationType.GET) {
-			httpRequest = new HttpGet(path);
-			return httpRequest;
+		if (verb == Verb.GET) {
+			HttpGet httpGet = new HttpGet(path);
+			return httpGet;
 			
-		} else if (operationType == OperationType.POST) {
-			httpRequest = new HttpPost(path);
-			return httpRequest;
+		} else if (verb == Verb.POST) {
+			HttpPost httpPost = new HttpPost(path);
+			//check for null input params
+			if(inputParams!=null){
+				//Currently, only URLencoded form element is being supported
+				try {
+					UrlEncodedFormEntity entity = new UrlEncodedFormEntity(inputParams, RequestConstants.UTF8);
+					httpPost.setEntity(entity);
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
+			}
 
-		} else if (operationType == OperationType.DELETE) {
-			httpRequest = new HttpDelete(path);
-			return httpRequest;
+			return httpPost;
+
+		} else if (verb == Verb.DELETE) {
+			HttpDelete httpDelete = new HttpDelete(path);
+			return httpDelete;
 
 		} else {
-			httpRequest = new HttpPut(path);
-			return httpRequest;
+			HttpPut httpPut = new HttpPut(path);
+			return httpPut;
 		}//if
 	}//buildHttpRequest
 	
@@ -129,11 +142,11 @@ public class RESTClient {
 	 * @param Domain of the REST endpoint
 	 * @param path Path of the URI
 	 * @param port port number of the REST endpoint
-	 * @param operationType Type of HTTP method(GET/POST/PUT/DELETE)
+	 * @param verb Type of HTTP method(GET/POST/PUT/DELETE)
 	 * 
 	 * @return ServiceResponse object containing http status code and entire response as a String
 	 */
-	public static ServiceResponse secureInvoke(String targetDomain, String path, OperationType operationType, int port){
+	public static ServiceResponse secureInvoke(String targetDomain, String path, Verb verb, int port, List<NameValuePair> inputParams){
 		ServiceResponse serviceResponse=null;
 		
 	//	System.out.println( "Target domain: " + targetDomain);
@@ -143,7 +156,7 @@ public class RESTClient {
 		try {
 			long ioStartTime=System.currentTimeMillis();
 			HttpHost targetHost = new HttpHost(targetDomain, port, RequestConstants.HTTPS);
-			HttpRequest request = buildHttpRequest(operationType,path);
+			HttpRequest request = buildHttpRequest(verb,path,inputParams);
 					
 	        DefaultHttpClient httpclient = new DefaultHttpClient();
 	        httpclient.getConnectionManager().getSchemeRegistry().register(new Scheme(RequestConstants.HTTPS, new CustomSSLSocketFactory(), port));

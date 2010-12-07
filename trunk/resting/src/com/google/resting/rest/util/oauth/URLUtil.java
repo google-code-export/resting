@@ -21,7 +21,7 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.List;
 
-import com.google.resting.component.impl.NameValueEntity;
+import org.apache.http.NameValuePair;
 
 
 
@@ -40,14 +40,14 @@ public class URLUtil {
 	 *           
 	 * @return Form-url-encoded string
 	 */
-	protected static String getFormURLEncodeParamList(List<NameValueEntity> inputParams) {
+	protected static String getFormURLEncodeParamList(List<NameValuePair> inputParams) {
 		int length=inputParams.size();
 		return (length <= 0) ? RequestConstants.EMPTY_STRING : formUrlEncode(inputParams, length);
 	}
 
-	private static String formUrlEncode(List<NameValueEntity> inputParams, int length) {
+	private static String formUrlEncode(List<NameValuePair> inputParams, int length) {
 		StringBuffer encodedString = new StringBuffer(length * 20);
-		for (NameValueEntity inputParam : inputParams) {
+		for (NameValuePair inputParam : inputParams) {
 			if (encodedString.length() > 0) {
 				encodedString.append(RequestConstants.PARAM_SEPARATOR);
 			}

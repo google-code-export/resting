@@ -16,6 +16,8 @@
 
 package com.google.resting.component.impl;
 
+import org.apache.http.message.BasicNameValuePair;
+
 import com.google.resting.component.RequestParams;
 /**
  * Basic implementation of RequestParams
@@ -34,7 +36,7 @@ public class BasicRequestParams extends RequestParams {
 	 */
 	@Override
 	public void add(String key, String value) {
-		queryParams.add(new NameValueEntity(key, value));
+		queryParams.add(new BasicNameValuePair(key, value));
 	}//add
 
 }//BasicRequestParams

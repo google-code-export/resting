@@ -18,11 +18,13 @@ package com.google.resting.helper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import com.google.resting.component.Alias;
 import com.google.resting.component.Verb;
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.ServiceContext;
-import com.google.resting.component.impl.Alias;
+import com.google.resting.component.impl.JSONAlias;
 import com.google.resting.component.impl.GenericServiceContext;
 import com.google.resting.component.impl.ServiceResponse;
 import com.google.resting.component.impl.URLContext;
@@ -65,6 +67,20 @@ public final class RestingHelper {
 		}//XML
 		
 		return results;
+	}//executeAndTransform
+	
+	public final static Map<String, List> executeAndTransform(String url, int port, RequestParams requestParams, Verb verb, TransformationType transformationType, JSONAlias alias){
+		ServiceResponse serviceResponse=execute(url, port,requestParams, verb);
+		Map<String, List> results=null;
+		
+		if(transformationType==TransformationType.JSON){
+			JSONTransformer transformer=new JSONTransformer();
+			results=transformer.getEntityLists(serviceResponse,  alias);
+		}//JSON
+		
+		//Not needed for XML
+		
+		
+		return results;
 	}//execute
-
 }

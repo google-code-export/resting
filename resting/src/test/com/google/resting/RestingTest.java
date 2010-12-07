@@ -17,18 +17,18 @@ package test.com.google.resting;
 
 import java.util.List;
 
+import junit.framework.TestCase;
 import test.com.google.resting.vo.Product;
 import test.com.google.resting.vo.Result;
 import test.com.google.resting.vo.ResultSet;
 
 import com.google.resting.Resting;
+import com.google.resting.component.Alias;
 import com.google.resting.component.RequestParams;
-import com.google.resting.component.impl.Alias;
 import com.google.resting.component.impl.BasicRequestParams;
 import com.google.resting.component.impl.JSONRequestParams;
 import com.google.resting.component.impl.ServiceResponse;
-
-import junit.framework.TestCase;
+import com.google.resting.component.impl.XMLAlias;
 /**
  * Test case for main Resting API
  * 
@@ -88,10 +88,18 @@ public class RestingTest extends TestCase {
 		RequestParams params = new BasicRequestParams();   
 		params.add("appid", "YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--");  
 		params.add("state", "CA");  
-		Alias alias=new Alias().add("Result", Result.class).add("ResultSet", ResultSet.class);   
-		List<ResultSet> resultset=Resting.getByXML("http://local.yahooapis.com/MapsService/V1/geocode", 80,params,ResultSet.class, alias);	
-		System.out.println("[RestingTest::getByXML] The response detail is "+resultset.get(0).getResult().toString());
+		XMLAlias alias=new XMLAlias().add("Result", Result.class).add("ResultSet", ResultSet.class);   
+		ResultSet resultset=Resting.getByXML("http://local.yahooapis.com/MapsService/V1/geocode", 80,params,ResultSet.class, alias);	
+		System.out.println("[RestingTest::getByXML] The response detail is "+resultset.getResult().toString());
 		assertNotNull(resultset);
 	}
-
+	public void testGetByXML2() {
+		RequestParams params = new BasicRequestParams();   
+		params.add("appid", "YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--");  
+		params.add("state", "CA");  
+		Alias alias=new XMLAlias().add("Result", Result.class).add("ResultSet", ResultSet.class);   
+	     ResultSet results=Resting.getByXML("http://local.yahooapis.com/MapsService/V1/geocode", 80,params,ResultSet.class, alias);	
+		System.out.println("[RestingTest::getByXML2] The response detail is "+results.getResult().toString());
+		assertNotNull(results);
+	}
 }

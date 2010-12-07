@@ -21,7 +21,7 @@ import java.util.List;
 import com.google.resting.Resting;
 import com.google.resting.component.Verb;
 import com.google.resting.component.RequestParams;
-import com.google.resting.component.impl.Alias;
+import com.google.resting.component.impl.JSONAlias;
 import com.google.resting.component.impl.BasicRequestParams;
 import com.google.resting.component.impl.ServiceResponse;
 import com.google.resting.helper.RestingHelper;
@@ -42,7 +42,7 @@ public class Test {
 				
 
 		XMLTransformer<ResultSet> transformer=new XMLTransformer<ResultSet>();
-		Alias alias=new Alias().add("Result", Result.class).add("ResultSet", ResultSet.class);
+		JSONAlias alias=new JSONAlias().add("Result", Result.class).add("ResultSet", ResultSet.class);
 /*
 		List<ResultSet> results=transformer.getEntityList(serviceResponse, ResultSet.class,alias);
 		System.out.println("\n-----------\n[Resting]The resultant object is \n ------\n"+results.toString());

@@ -19,7 +19,7 @@ package test.com.google.resting.vo;
 import java.util.List;
 
 import com.google.resting.Resting;
-import com.google.resting.component.OperationType;
+import com.google.resting.component.Verb;
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.impl.Alias;
 import com.google.resting.component.impl.BasicRequestParams;

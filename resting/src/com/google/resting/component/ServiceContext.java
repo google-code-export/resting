@@ -18,7 +18,8 @@ package com.google.resting.component;
 
 import java.util.List;
 
-import com.google.resting.component.impl.NameValueEntity;
+import org.apache.http.NameValuePair;
+
 import com.google.resting.component.impl.URLContext;
 /**
  * Abstract class for encapsulating the entire context of the REST endpoint service invocation. This includes base URI, 
@@ -35,23 +36,23 @@ public abstract class ServiceContext {
 	private String targetDomain=null;
 	private int port=0;
 	private boolean isSecureInvocation=false;
-	private OperationType operationType=null;
+	private Verb verb=null;
 	
-	protected ServiceContext(URLContext urlContext, RequestParams queryParams, OperationType operationType){
+	protected ServiceContext(URLContext urlContext, RequestParams queryParams, Verb verb){
 		this.targetDomain=urlContext.getTargetDomain();
 		this.port=urlContext.getPort();
 		this.isSecureInvocation=urlContext.isSecureInvocation();
-		this.operationType=operationType;
+		this.verb=verb;
 	}
 	public abstract String getPath();
 	
 	public abstract String getContextPathElement();
 	
-	public abstract List<NameValueEntity> getInputParams();
+	public abstract List<NameValuePair> getInputParams();
 	
-	public OperationType getOperationType(){
-		assert operationType!=null:"HTTP operation type should not be null";
-		return operationType;
+	public Verb getVerb(){
+		assert verb!=null:"HTTP operation type should not be null";
+		return verb;
 	}
 	
 	public boolean isSecureInvocation(){

@@ -19,7 +19,7 @@ package com.google.resting.helper;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.resting.component.OperationType;
+import com.google.resting.component.Verb;
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.ServiceContext;
 import com.google.resting.component.impl.Alias;
@@ -40,18 +40,18 @@ import com.google.resting.transform.impl.XMLTransformer;
 
 public final class RestingHelper {
 	
-	public final static ServiceResponse execute(String url, int port, RequestParams requestParams, OperationType operationType){
+	public final static ServiceResponse execute(String url, int port, RequestParams requestParams, Verb verb){
 		URLContext urlContext=new URLContext(url,port);
-		ServiceContext serviceContext= new GenericServiceContext(urlContext,requestParams,operationType);
+		ServiceContext serviceContext= new GenericServiceContext(urlContext,requestParams,verb);
 		return ServiceAccessor.access(serviceContext);
 	}//execute	
 	
-	public final static ServiceResponse execute(String url,int port, OperationType operationType){
+	public final static ServiceResponse execute(String url,int port, Verb operationType){
 		return execute(url,port,null, operationType);
 	}//execute
 	
-	public final static<T> List<T> executeAndTransform(String url, int port, RequestParams requestParams, OperationType operationType, TransformationType transformationType, Class<T> targetType, Alias alias){
-		ServiceResponse serviceResponse=execute(url, port,requestParams, operationType);
+	public final static<T> List<T> executeAndTransform(String url, int port, RequestParams requestParams, Verb verb, TransformationType transformationType, Class<T> targetType, Alias alias){
+		ServiceResponse serviceResponse=execute(url, port,requestParams, verb);
 		List<T> results=new ArrayList<T>();
 		if(transformationType==TransformationType.JSON){
 			JSONTransformer<T> transformer=new JSONTransformer<T>();

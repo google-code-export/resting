@@ -25,9 +25,9 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.http.NameValuePair;
 
-import com.google.resting.component.OperationType;
-import com.google.resting.component.impl.NameValueEntity;
+import com.google.resting.component.Verb;
 /**
  * Utility for signing request as per Oauth 1.0a.
  * 
@@ -40,7 +40,7 @@ public class SignatureUtil {
 	private static final String SEPARATOR="://";
 
 	
-	private static String getBaseString(String targetDomain, String requestType, boolean isSecureInvocation, String contextPathElement, List<NameValueEntity> inputParams){
+	private static String getBaseString(String targetDomain, String requestType, boolean isSecureInvocation, String contextPathElement, List<NameValuePair> inputParams){
 		String sourceVerb=requestType;
 		String sourceUrl=SEPARATOR+targetDomain+contextPathElement;
 		if(isSecureInvocation){
@@ -57,7 +57,7 @@ public class SignatureUtil {
 	 * 
 	 * @param keyString Consumer key for request signing.
 	 * @param targetDomain Domain of the REST endpoint (Ex. login.yahoo.com)
-	 * @param operationType Type of REST operation (GET/POST/PUT/DELETE)
+	 * @param verb Type of REST operation (GET/POST/PUT/DELETE)
 	 * @param isSecureInvocation HTTP/HTTPS
 	 * @param contextPathElement Path element in the base REST uri (Ex. /weather/india)
 	 * @param inputParams Collection of request params for REST request (Ex. city=calcutta )
@@ -67,9 +67,9 @@ public class SignatureUtil {
 	 * @throws IllegalStateException 
 	 * @throws UnsupportedEncodingException The exception is thrown if the URL encoding is incorrect.
 	 */
-	public static String getSignature(String keyString, String targetDomain, OperationType operationType, boolean isSecureInvocation, String contextPathElement, List<NameValueEntity> inputParams) throws NoSuchAlgorithmException,InvalidKeyException, IllegalStateException, UnsupportedEncodingException{
+	public static String getSignature(String keyString, String targetDomain, Verb verb, boolean isSecureInvocation, String contextPathElement, List<NameValuePair> inputParams) throws NoSuchAlgorithmException,InvalidKeyException, IllegalStateException, UnsupportedEncodingException{
 		
-		String baseString=getBaseString(targetDomain,operationType.toString(), isSecureInvocation, contextPathElement, inputParams)
+		String baseString=getBaseString(targetDomain,verb.toString(), isSecureInvocation, contextPathElement, inputParams)
 							.replace("+", "%20")
 							.replace("*", "%2A")
 							.replace("%7E", "~");

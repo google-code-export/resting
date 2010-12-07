@@ -47,13 +47,15 @@ public class XMLTransformer<T> implements Transformer<T, ServiceResponse> {
 	
 	@Override
 	public List<T> getEntityList(ServiceResponse serviceResponse, Class<T> targetType, Alias alias){
+		String responseString=serviceResponse.getResponseString();
 		Set<Entry<String, Class>> aliasSet=alias.getAliasMap().entrySet();
 		for(Map.Entry<String, Class> aliasEntry: aliasSet){
 			xstream.alias(aliasEntry.getKey(), aliasEntry.getValue());
 		}
 		List<T> dests=new ArrayList<T>();
-		dests.add(createEntity(serviceResponse.getResponseString(), targetType));
+		dests.add(createEntity(responseString, targetType));
 		//TODO XSD is not yet handled. Need to bring in XMLBeans.
 		return dests;
 	}//getEntityList
+
 }//XMLTransformer

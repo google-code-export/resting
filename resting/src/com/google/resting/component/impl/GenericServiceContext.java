@@ -21,7 +21,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 
-import com.google.resting.component.OperationType;
+import org.apache.http.NameValuePair;
+
+import com.google.resting.component.Verb;
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.ServiceContext;
 import com.google.resting.component.impl.URLContext;
@@ -35,12 +37,12 @@ import com.google.resting.rest.util.oauth.RequestConstants;
 
 public class GenericServiceContext extends ServiceContext {
 	
-	private List<NameValueEntity> inputParams=null;
+	private List<NameValuePair> inputParams=null;
 	private String path=null;
 	private String contextPathElement=null;
 
-	public GenericServiceContext(URLContext urlContext, RequestParams requestParams, OperationType operationType){
-		super(urlContext,requestParams, operationType);
+	public GenericServiceContext(URLContext urlContext, RequestParams requestParams, Verb verb){
+		super(urlContext,requestParams, verb);
 		this.contextPathElement=urlContext.getContextPath();
 		if(requestParams !=null)	this.inputParams=requestParams.getRequestParams();
 		this.path=this.contextPathElement+getParamPathElement();
@@ -51,7 +53,7 @@ public class GenericServiceContext extends ServiceContext {
 		return contextPathElement;
 	}//getContextPathElement
 	
-	public List<NameValueEntity> getInputParams(){
+	public List<NameValuePair> getInputParams(){
 		return inputParams;
 	}//getInputParams
 	
@@ -65,7 +67,7 @@ public class GenericServiceContext extends ServiceContext {
 		StringBuffer combinedParams = new StringBuffer("");
 		
 		int i=0;
-			for (NameValueEntity inputParam : inputParams){
+			for (NameValuePair inputParam : inputParams){
 				
 				try {
 					if (i > 0)

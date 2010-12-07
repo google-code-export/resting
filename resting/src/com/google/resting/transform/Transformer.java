@@ -17,6 +17,7 @@
 package com.google.resting.transform;
 
 import java.util.List;
+import java.util.Map;
 
 import com.google.resting.component.impl.Alias;
 
@@ -30,6 +31,7 @@ import com.google.resting.component.impl.Alias;
  */
 
 public interface Transformer<T,U> {
-	public List<T> getEntityList(U source, Class<T> targetType, Alias alias);
 	public T createEntity(String singleEntityStream, Class<T> targetType);
+	public List<T> getEntityList(U source, Class<T> targetType, Alias alias);
+	
 }

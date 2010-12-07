@@ -25,10 +25,10 @@ import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import org.apache.http.HttpStatus;
+import org.apache.http.NameValuePair;
 
-import com.google.resting.component.OperationType;
 import com.google.resting.component.ServiceContext;
-import com.google.resting.component.impl.NameValueEntity;
+import com.google.resting.component.Verb;
 import com.google.resting.component.impl.ServiceResponse;
 import com.google.resting.rest.client.RESTClient;
 import com.google.resting.serviceaccessor.Accessor;
@@ -52,12 +52,13 @@ public final class ServiceAccessor implements Accessor{
 		String targetDomain=serviceContext.getTargetDomain();
 		int port=serviceContext.getPort();
 		String path=serviceContext.getPath();
-		OperationType operationType=serviceContext.getOperationType();
+		Verb verb=serviceContext.getVerb();
 		ServiceResponse serviceResponse=null;
+		List<NameValuePair> inputParams=serviceContext.getInputParams();
 		if(isSecureInvocation)
-			serviceResponse= RESTClient.secureInvoke(targetDomain, path, operationType, port );
+			serviceResponse= RESTClient.secureInvoke(targetDomain, path, verb, port, inputParams );
 		else
-			serviceResponse= RESTClient.invoke(targetDomain, path, operationType, port );
+			serviceResponse= RESTClient.invoke(targetDomain, path, verb, port, inputParams );
 
 		if(validate(serviceResponse))
 		//Handle validation properly
@@ -88,11 +89,11 @@ public final class ServiceAccessor implements Accessor{
 		String targetDomain=serviceContext.getTargetDomain();
 		int port=serviceContext.getPort();
 		String path=serviceContext.getPath();
-		OperationType operationType=serviceContext.getOperationType();
+		Verb verb=serviceContext.getVerb();
 		String contextPathElement=serviceContext.getContextPathElement();
-		List<NameValueEntity> inputParams=serviceContext.getInputParams();
+		List<NameValuePair> inputParams=serviceContext.getInputParams();
 		try {
-			path=path+String.format(AMPERSAND_SEPARATED_STRING,SIGNATURE,getSignature(keyString,targetDomain,operationType, isSecureInvocation, contextPathElement, inputParams));
+			path=path+String.format(AMPERSAND_SEPARATED_STRING,SIGNATURE,getSignature(keyString,targetDomain,verb, isSecureInvocation, contextPathElement, inputParams));
 		} catch (InvalidKeyException e) {
 			e.printStackTrace();
 		} catch (NoSuchAlgorithmException e) {

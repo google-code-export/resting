@@ -45,7 +45,10 @@ public class GenericServiceContext extends ServiceContext {
 		super(urlContext,requestParams, verb);
 		this.contextPathElement=urlContext.getContextPath();
 		if(requestParams !=null)	this.inputParams=requestParams.getRequestParams();
-		this.path=this.contextPathElement+getParamPathElement();
+		if(verb!=Verb.POST)
+			this.path=this.contextPathElement+getParamPathElement();
+		else
+			this.path=this.contextPathElement;
 	//	System.out.println( "The path is "+path);
 	}//GenericServiceContext
 	

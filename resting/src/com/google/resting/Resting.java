@@ -250,12 +250,12 @@ public final class Resting {
 	 * @param port Port of the REST endpoint
 	 * @param requestParams {@link RequestParams} object containing collection of request parameters in key/ value pair
 	 * @param rootType Class of the root entity
-	 * @param aliasTypeMap Map containing ALL the XML aliases and corresponding types for marshalling the XML response. 
+	 * @param alias XMLAlias object 
 	 * 
 	 * @return Root entity
 	 */
 
-	public final static <T> T getByXML(String baseURI, int port, RequestParams requestParams, Class<T> rootType, Alias alias){
+	public final static <T> T getByXML(String baseURI, int port, RequestParams requestParams, Class<T> rootType, XMLAlias alias){
 		return RestingHelper.executeAndTransform(baseURI, port,requestParams, Verb.GET, TransformationType.XML, rootType, alias).get(0);
 	}//getByXML
 	

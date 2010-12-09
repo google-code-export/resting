@@ -97,7 +97,7 @@ public class RestingTest extends TestCase {
 		RequestParams params = new BasicRequestParams();   
 		params.add("appid", "YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--");  
 		params.add("state", "CA");  
-		Alias alias=new XMLAlias().add("Result", Result.class).add("ResultSet", ResultSet.class);   
+		XMLAlias alias=new XMLAlias().add("Result", Result.class).add("ResultSet", ResultSet.class);   
 	     ResultSet results=Resting.getByXML("http://local.yahooapis.com/MapsService/V1/geocode", 80,params,ResultSet.class, alias);	
 		System.out.println("[RestingTest::getByXML2] The response detail is "+results.getResult().toString());
 		assertNotNull(results);

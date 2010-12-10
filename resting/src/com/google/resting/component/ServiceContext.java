@@ -18,6 +18,7 @@ package com.google.resting.component;
 
 import java.util.List;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 
 import com.google.resting.component.impl.URLContext;
@@ -43,7 +44,8 @@ public abstract class ServiceContext {
 		this.port=urlContext.getPort();
 		this.isSecureInvocation=urlContext.isSecureInvocation();
 		this.verb=verb;
-	}
+	}//ServiceContext
+	
 	public abstract String getPath();
 	
 	public abstract String getContextPathElement();
@@ -53,19 +55,21 @@ public abstract class ServiceContext {
 	public Verb getVerb(){
 		assert verb!=null:"HTTP operation type should not be null";
 		return verb;
-	}
+	}//getVerb
 	
 	public boolean isSecureInvocation(){
 		return isSecureInvocation;
-	}
+	}//isSecureInvocation
 	
 	public String getTargetDomain(){
 		assert targetDomain!=null:"Base url should not be null";
 		return targetDomain;
-	}
+	}//getTargetDomain
 	
 	public int getPort(){
 		assert port!=0:"Port is not set";
 		return port;
-	}
-}
+	}//getPort
+	
+	public abstract HttpEntity getHttpEntity();
+}//ServiceContext

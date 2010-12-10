@@ -1,4 +1,4 @@
- /*
+/*
  * Copyright (C) 2010 Google Code.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,11 +16,11 @@
 
 package com.google.resting.component.impl;
 
-
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 
 import com.google.resting.component.Verb;
@@ -29,28 +29,25 @@ import com.google.resting.component.ServiceContext;
 import com.google.resting.component.impl.URLContext;
 import com.google.resting.rest.util.oauth.RequestConstants;
 /**
- * Generic implementation of ServiceContext
+ * Implementation of ServiceContext for HTTP DELETE operation.
  * 
  * @author sujata.de
- * @since resting 0.1
+ * @since resting 0.2
  */
 
-public class GenericServiceContext extends ServiceContext {
+public class DeleteServiceContext extends ServiceContext {
 	
 	private List<NameValuePair> inputParams=null;
 	private String path=null;
 	private String contextPathElement=null;
 
-	public GenericServiceContext(URLContext urlContext, RequestParams requestParams, Verb verb){
-		super(urlContext,requestParams, verb);
+	public DeleteServiceContext(URLContext urlContext, RequestParams requestParams){
+		super(urlContext,requestParams, Verb.DELETE);
 		this.contextPathElement=urlContext.getContextPath();
 		if(requestParams !=null)	this.inputParams=requestParams.getRequestParams();
-		if(verb!=Verb.POST)
-			this.path=this.contextPathElement+getParamPathElement();
-		else
-			this.path=this.contextPathElement;
+		this.path=this.contextPathElement+getParamPathElement();
 	//	System.out.println( "The path is "+path);
-	}//GenericServiceContext
+	}//DeleteServiceContext
 	
 	public String getContextPathElement(){
 		return contextPathElement;
@@ -91,4 +88,10 @@ public class GenericServiceContext extends ServiceContext {
 			return combinedParams.toString();
 	}//getParamPathElement
 
-}//GenericServiceContext
+	@Override
+	public HttpEntity getHttpEntity() {
+		//Delete operations do not have an http entity in the message body. Hence, return null;
+		return null;
+	}
+
+}//DeleteServiceContext

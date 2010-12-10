@@ -24,6 +24,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 
@@ -55,10 +56,11 @@ public final class ServiceAccessor implements Accessor{
 		Verb verb=serviceContext.getVerb();
 		ServiceResponse serviceResponse=null;
 		List<NameValuePair> inputParams=serviceContext.getInputParams();
+		HttpEntity httpEntity=serviceContext.getHttpEntity();
 		if(isSecureInvocation)
-			serviceResponse= RESTClient.secureInvoke(targetDomain, path, verb, port, inputParams );
+			serviceResponse= RESTClient.secureInvoke(targetDomain, path, verb, port, inputParams, httpEntity );
 		else
-			serviceResponse= RESTClient.invoke(targetDomain, path, verb, port, inputParams );
+			serviceResponse= RESTClient.invoke(targetDomain, path, verb, port, inputParams, httpEntity );
 
 		if(validate(serviceResponse))
 		//Handle validation properly

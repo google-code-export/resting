@@ -17,6 +17,8 @@
 package com.google.resting.component.impl;
 
 import java.util.Map;
+import java.util.Set;
+import java.util.Map.Entry;
 
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
@@ -106,8 +108,8 @@ public class JSONRequestParams extends RequestParams {
 		int size = values.size();
 		StringBuffer result = new StringBuffer("");
 		int i = 1;
-
-		for (Map.Entry<String, String[]> value : values.entrySet()) {
+        Set<Entry<String, String[]>> entrySet=values.entrySet();
+		for (Map.Entry<String, String[]> value : entrySet) {
 			valueElements = value.getValue();
 			jsonArray = new JSONArray();
 			for (String valueElement : valueElements) {
@@ -120,8 +122,10 @@ public class JSONRequestParams extends RequestParams {
 				// ErrorHandler.throwServiceException(e);
 			}
 			String str = jsonObject.toString();
-			str = str.substring(1, str.length() - 1).replaceAll("\"\\[", "[")
-					.replaceAll("\\]\"", "]").replaceAll("\\\\", "");
+			str = str.substring(1, str.length() - 1)
+							.replaceAll("\"\\[", "[")
+							.replaceAll("\\]\"", "]")
+							.replaceAll("\\\\", "");
 
 			if (i < size)
 				result.append(str).append(",");
@@ -129,7 +133,6 @@ public class JSONRequestParams extends RequestParams {
 				result.append(str).append("}");
 
 			i++;
-			System.out.println("String buildup: " + result);
 
 		}// for
 

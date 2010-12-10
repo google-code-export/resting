@@ -19,14 +19,18 @@ package com.google.resting;
 import java.util.List;
 import java.util.Map;
 
-import com.google.resting.component.Alias;
-import com.google.resting.component.Verb;
 import com.google.resting.component.RequestParams;
+import com.google.resting.component.Verb;
 import com.google.resting.component.impl.JSONAlias;
 import com.google.resting.component.impl.ServiceResponse;
 import com.google.resting.component.impl.XMLAlias;
+import com.google.resting.helper.DeleteHelper;
+import com.google.resting.helper.GetHelper;
+import com.google.resting.helper.PostHelper;
+import com.google.resting.helper.PutHelper;
 import com.google.resting.helper.RestingHelper;
 import com.google.resting.transform.TransformationType;
+
 /**
  * This is the main class for using resting. 
  * 
@@ -82,7 +86,7 @@ import com.google.resting.transform.TransformationType;
  *<p> B. For XML response:
  *
  *<pre>
- * Alias alias=new Alias().add("Result", Result.class).add("ResultSet", ResultSet.class); //Create an alias object which will help transforming each embedded object from XML to Java.
+ * XMLAlias alias=new XMLAlias().add("Result", Result.class).add("ResultSet", ResultSet.class); //Create an alias object which will help transforming each embedded object from XML to Java.
  * List<ResultSet> resultset=Resting.getByXML("http://local.yahooapis.com/MapsService/V1/geocode", 80,params,ResultSet.class, alias);
  *</pre>
  *</p>
@@ -106,7 +110,7 @@ public final class Resting {
 	 */
 	
 	public final static ServiceResponse get(String uri, int port){
-		return RestingHelper.execute(uri, port,Verb.GET);
+		return GetHelper.get(uri, port, null);
 	}//get
 	/**
 	 * Executes HTTP/HTTPS GET request and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
@@ -120,7 +124,7 @@ public final class Resting {
 	 */
 	
 	public final static ServiceResponse get(String baseURI, int port,RequestParams requestParams){
-		return RestingHelper.execute(baseURI, port,requestParams,Verb.GET);
+		return GetHelper.get(baseURI, port,requestParams);
 	}//get
 	
 	/**
@@ -134,7 +138,7 @@ public final class Resting {
 	 */
 	
 	public final static ServiceResponse post(String baseURI, int port){
-		return post(baseURI, port, null);
+		return PostHelper.post(baseURI, port, null);
 	}//post
 	
 	/**
@@ -149,9 +153,23 @@ public final class Resting {
 	 */
 	
 	public final static ServiceResponse post(String baseURI, int port, RequestParams requestParams){
-		return RestingHelper.execute(baseURI, port, requestParams,Verb.POST);
+		//Post
+		return PostHelper.post(baseURI, port, requestParams);
 	}//post
+	/**
+	 * Executes HTTP/HTTPS POST request with message String in the message body and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
+	 * as the response headers and the HTTP status code. This is the most commonly used form of POST method invocation. A typical  
+	 * 
+	 * @param baseURI Base URI of the REST endpoint
+	 * @param port Port of the REST endpoint
+	 * @param messageToPost String to be posted 
+	 * 
+	 * @return {@link ServiceResponse} object containing the entire REST response as a String, the HTTP status code and the response headers.
+	 */
 	
+	public final static ServiceResponse post(String baseURI, int port, String messageToPost, String messageEncoding){
+		return PostHelper.post(baseURI, port, messageToPost,messageEncoding);
+	}//post	
 	/**
 	 * Executes HTTP/HTTPS PUT request and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
 	 * as the response headers and the HTTP status code
@@ -162,7 +180,7 @@ public final class Resting {
 	 * @return {@link ServiceResponse} object containing the entire REST response as a String, the HTTP status code and the response headers.
 	 */
 	public final static ServiceResponse put(String baseURI, int port){
-		return RestingHelper.execute(baseURI,port, Verb.PUT);
+		return PutHelper.put(baseURI,port, null);
 	}//put
 	
 	/**
@@ -176,7 +194,7 @@ public final class Resting {
 	 * @return {@link ServiceResponse} object containing the entire REST response as a String, the HTTP status code and the response headers.
 	 */
 	public final static ServiceResponse put(String baseURI, int port, RequestParams requestParams){
-		return RestingHelper.execute(baseURI,port, requestParams, Verb.PUT);
+		return PutHelper.put(baseURI,port, requestParams);
 	}//put
 	
 	/**
@@ -190,7 +208,7 @@ public final class Resting {
 	 */
 	
 	public final static ServiceResponse delete(String uri, int port){
-		return RestingHelper.execute(uri, port,Verb.DELETE);
+		return DeleteHelper.delete(uri, port,null);
 	}//delete
 	
 	/**
@@ -205,7 +223,7 @@ public final class Resting {
 	 */
 	
 	public final static ServiceResponse delete(String baseURI, int port, RequestParams requestParams){
-		return RestingHelper.execute(baseURI, port, requestParams, Verb.DELETE);
+		return DeleteHelper.delete(baseURI, port, requestParams);
 	}//delete
 	
 	/**

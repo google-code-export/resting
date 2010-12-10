@@ -41,7 +41,8 @@ public class URLUtil {
 	 * @return Form-url-encoded string
 	 */
 	protected static String getFormURLEncodeParamList(List<NameValuePair> inputParams) {
-		int length=inputParams.size();
+		
+		int length=(inputParams==null)?-1:inputParams.size();
 		return (length <= 0) ? RequestConstants.EMPTY_STRING : formUrlEncode(inputParams, length);
 	}
 

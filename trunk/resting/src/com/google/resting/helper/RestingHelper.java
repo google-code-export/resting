@@ -16,19 +16,20 @@
 
 package com.google.resting.helper;
 
+import static com.google.resting.helper.DeleteHelper.delete;
+import static com.google.resting.helper.GetHelper.get;
+import static com.google.resting.helper.PostHelper.post;
+import static com.google.resting.helper.PutHelper.put;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import com.google.resting.component.Alias;
-import com.google.resting.component.Verb;
 import com.google.resting.component.RequestParams;
-import com.google.resting.component.ServiceContext;
+import com.google.resting.component.Verb;
 import com.google.resting.component.impl.JSONAlias;
-import com.google.resting.component.impl.GenericServiceContext;
 import com.google.resting.component.impl.ServiceResponse;
-import com.google.resting.component.impl.URLContext;
-import com.google.resting.serviceaccessor.impl.ServiceAccessor;
 import com.google.resting.transform.TransformationType;
 import com.google.resting.transform.impl.JSONTransformer;
 import com.google.resting.transform.impl.XMLTransformer;
@@ -41,19 +42,18 @@ import com.google.resting.transform.impl.XMLTransformer;
  */
 
 public final class RestingHelper {
-	
-	public final static ServiceResponse execute(String url, int port, RequestParams requestParams, Verb verb){
-		URLContext urlContext=new URLContext(url,port);
-		ServiceContext serviceContext= new GenericServiceContext(urlContext,requestParams,verb);
-		return ServiceAccessor.access(serviceContext);
-	}//execute	
-	
-	public final static ServiceResponse execute(String url,int port, Verb operationType){
-		return execute(url,port,null, operationType);
-	}//execute
-	
+
 	public final static<T> List<T> executeAndTransform(String url, int port, RequestParams requestParams, Verb verb, TransformationType transformationType, Class<T> targetType, Alias alias){
-		ServiceResponse serviceResponse=execute(url, port,requestParams, verb);
+		ServiceResponse serviceResponse=null;
+		if(verb==Verb.GET)
+			serviceResponse=get(url, port,requestParams);
+		else if (verb == Verb.DELETE)
+			serviceResponse=delete(url, port,requestParams);
+		else if (verb==Verb.POST)
+			serviceResponse=post(url, port,requestParams);
+		else if (verb==Verb.PUT)
+			serviceResponse=put(url, port,requestParams);
+		
 		List<T> results=new ArrayList<T>();
 		if(transformationType==TransformationType.JSON){
 			JSONTransformer<T> transformer=new JSONTransformer<T>();
@@ -70,11 +70,20 @@ public final class RestingHelper {
 	}//executeAndTransform
 	
 	public final static Map<String, List> executeAndTransform(String url, int port, RequestParams requestParams, Verb verb, TransformationType transformationType, JSONAlias alias){
-		ServiceResponse serviceResponse=execute(url, port,requestParams, verb);
+		ServiceResponse serviceResponse=null;
+		if(verb==Verb.GET)
+			serviceResponse=get(url, port,requestParams);
+		else if (verb == Verb.DELETE)
+			serviceResponse=delete(url, port,requestParams);
+		else if (verb==Verb.POST)
+			serviceResponse=post(url, port,requestParams);
+		else if (verb==Verb.PUT)
+			serviceResponse=put(url, port,requestParams);
+		
 		Map<String, List> results=null;
 		
 		if(transformationType==TransformationType.JSON){
-			JSONTransformer transformer=new JSONTransformer();
+			JSONTransformer<Object> transformer=new JSONTransformer<Object>();
 			results=transformer.getEntityLists(serviceResponse,  alias);
 		}//JSON
 		
@@ -82,5 +91,5 @@ public final class RestingHelper {
 		
 		
 		return results;
-	}//execute
+	}//executeAndTransform
 }

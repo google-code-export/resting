@@ -43,16 +43,16 @@ import com.google.resting.transform.impl.XMLTransformer;
 
 public final class RestingHelper {
 
-	public final static<T> List<T> executeAndTransform(String url, int port, RequestParams requestParams, Verb verb, TransformationType transformationType, Class<T> targetType, Alias alias){
+	public final static<T> List<T> executeAndTransform(String url, int port, RequestParams requestParams, Verb verb, TransformationType transformationType, Class<T> targetType, Alias alias, String encoding){
 		ServiceResponse serviceResponse=null;
 		if(verb==Verb.GET)
-			serviceResponse=get(url, port,requestParams);
+			serviceResponse=get(url, port,requestParams, encoding);
 		else if (verb == Verb.DELETE)
-			serviceResponse=delete(url, port,requestParams);
+			serviceResponse=delete(url, port,requestParams, encoding);
 		else if (verb==Verb.POST)
-			serviceResponse=post(url, port,requestParams);
+			serviceResponse=post(url, port,encoding, requestParams);
 		else if (verb==Verb.PUT)
-			serviceResponse=put(url, port,requestParams);
+			serviceResponse=put(url, encoding, port,requestParams);
 		
 		List<T> results=new ArrayList<T>();
 		if(transformationType==TransformationType.JSON){
@@ -69,16 +69,16 @@ public final class RestingHelper {
 		return results;
 	}//executeAndTransform
 	
-	public final static Map<String, List> executeAndTransform(String url, int port, RequestParams requestParams, Verb verb, TransformationType transformationType, JSONAlias alias){
+	public final static Map<String, List> executeAndTransform(String url, int port, RequestParams requestParams, Verb verb, TransformationType transformationType, JSONAlias alias, String encoding){
 		ServiceResponse serviceResponse=null;
 		if(verb==Verb.GET)
-			serviceResponse=get(url, port,requestParams);
+			serviceResponse=get(url, port,requestParams, encoding);
 		else if (verb == Verb.DELETE)
-			serviceResponse=delete(url, port,requestParams);
+			serviceResponse=delete(url, port,requestParams, encoding);
 		else if (verb==Verb.POST)
-			serviceResponse=post(url, port,requestParams);
+			serviceResponse=post(url, port, encoding, requestParams);
 		else if (verb==Verb.PUT)
-			serviceResponse=put(url, port,requestParams);
+			serviceResponse=put(url, encoding, port,requestParams);
 		
 		Map<String, List> results=null;
 		

@@ -29,9 +29,9 @@ import com.google.resting.serviceaccessor.impl.ServiceAccessor;
  *
  */
 public class DeleteHelper {
-	public final static ServiceResponse delete(String url, int port, RequestParams requestParams){
+	public final static ServiceResponse delete(String url, int port, RequestParams requestParams, String encoding){
 		URLContext urlContext=new URLContext(url,port);
-		ServiceContext serviceContext= new DeleteServiceContext(urlContext,requestParams);
+		ServiceContext serviceContext= new DeleteServiceContext(urlContext,requestParams, encoding);
 		return ServiceAccessor.access(serviceContext);	
 	}//delete
 	

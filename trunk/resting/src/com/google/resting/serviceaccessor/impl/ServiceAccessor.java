@@ -89,13 +89,13 @@ public final class ServiceAccessor implements Accessor{
 	public static void signRequest(String keyString, ServiceContext serviceContext){
 		boolean isSecureInvocation=serviceContext.isSecureInvocation();
 		String targetDomain=serviceContext.getTargetDomain();
-		int port=serviceContext.getPort();
 		String path=serviceContext.getPath();
 		Verb verb=serviceContext.getVerb();
 		String contextPathElement=serviceContext.getContextPathElement();
+		String encoding=serviceContext.getEncoding();
 		List<NameValuePair> inputParams=serviceContext.getInputParams();
 		try {
-			path=path+String.format(AMPERSAND_SEPARATED_STRING,SIGNATURE,getSignature(keyString,targetDomain,verb, isSecureInvocation, contextPathElement, inputParams));
+			path=path+String.format(AMPERSAND_SEPARATED_STRING,SIGNATURE,getSignature(keyString,targetDomain,verb, isSecureInvocation, contextPathElement, inputParams, encoding));
 		} catch (InvalidKeyException e) {
 			e.printStackTrace();
 		} catch (NoSuchAlgorithmException e) {

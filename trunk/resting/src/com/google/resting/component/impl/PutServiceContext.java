@@ -27,7 +27,6 @@ import org.apache.http.entity.StringEntity;
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.ServiceContext;
 import com.google.resting.component.Verb;
-import com.google.resting.rest.util.oauth.RequestConstants;
 
 /**
  * Implementation of ServiceContext for HTTP PUT operation.
@@ -42,8 +41,8 @@ public class PutServiceContext extends ServiceContext {
 	private String contextPathElement=null;
 	private HttpEntity httpEntity=null;
 	
-	public PutServiceContext(URLContext urlContext, RequestParams requestParams) {
-		super(urlContext, requestParams, Verb.PUT);
+	public PutServiceContext(URLContext urlContext, RequestParams requestParams, String encoding) {
+		super(urlContext, requestParams, Verb.PUT, encoding);
 		this.contextPathElement=urlContext.getContextPath();
 		this.path=this.contextPathElement;
 		if(requestParams !=null){
@@ -54,7 +53,7 @@ public class PutServiceContext extends ServiceContext {
 	}//PutServiceContext
 	
 	public PutServiceContext(URLContext urlContext, String message, String encoding) {
-		super(urlContext, null, Verb.PUT);
+		super(urlContext, null, Verb.PUT,encoding);
 		this.contextPathElement=urlContext.getContextPath();
 		this.path=this.contextPathElement;
 		this.httpEntity=setMessageEntity(message, encoding);
@@ -62,7 +61,7 @@ public class PutServiceContext extends ServiceContext {
 	}//PutServiceContext	
 
 	public PutServiceContext(URLContext urlContext, File file, String encoding, boolean isBinary) {
-		super(urlContext, null, Verb.PUT);
+		super(urlContext, null, Verb.PUT,encoding);
 		this.contextPathElement=urlContext.getContextPath();
 		this.path=this.contextPathElement;
 		//this.httpEntity=setMessageEntity(message, encoding);
@@ -83,7 +82,7 @@ public class PutServiceContext extends ServiceContext {
 	private HttpEntity setFormEntity(List<NameValuePair> inputParams){
 		UrlEncodedFormEntity entity=null;
 		try {
-			entity = new UrlEncodedFormEntity(inputParams, RequestConstants.UTF8);
+			entity = new UrlEncodedFormEntity(inputParams, getEncoding());
 			
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();

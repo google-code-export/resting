@@ -23,7 +23,6 @@ import test.com.google.resting.vo.Result;
 import test.com.google.resting.vo.ResultSet;
 
 import com.google.resting.Resting;
-import com.google.resting.component.Alias;
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.impl.BasicRequestParams;
 import com.google.resting.component.impl.JSONRequestParams;

@@ -20,14 +20,11 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 
-import com.google.resting.component.Verb;
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.ServiceContext;
-import com.google.resting.component.impl.URLContext;
-import com.google.resting.rest.util.oauth.RequestConstants;
+import com.google.resting.component.Verb;
 /**
  * Implementation of ServiceContext for HTTP DELETE operation.
  * 
@@ -41,8 +38,8 @@ public class DeleteServiceContext extends ServiceContext {
 	private String path=null;
 	private String contextPathElement=null;
 
-	public DeleteServiceContext(URLContext urlContext, RequestParams requestParams){
-		super(urlContext,requestParams, Verb.DELETE);
+	public DeleteServiceContext(URLContext urlContext, RequestParams requestParams, String encoding){
+		super(urlContext,requestParams, Verb.DELETE, encoding);
 		this.contextPathElement=urlContext.getContextPath();
 		if(requestParams !=null)	this.inputParams=requestParams.getRequestParams();
 		this.path=this.contextPathElement+getParamPathElement();
@@ -71,9 +68,9 @@ public class DeleteServiceContext extends ServiceContext {
 				
 				try {
 					if (i > 0)
-						combinedParams.append("&").append(inputParam.getName()).append("=").append(URLEncoder.encode(inputParam.getValue(), RequestConstants.UTF8));
+						combinedParams.append("&").append(inputParam.getName()).append("=").append(URLEncoder.encode(inputParam.getValue(), getEncoding()));
 					else
-						combinedParams.append(inputParam.getName()).append("=").append(URLEncoder.encode(inputParam.getValue(), RequestConstants.UTF8));
+						combinedParams.append(inputParam.getName()).append("=").append(URLEncoder.encode(inputParam.getValue(), getEncoding()));
 					
 				} catch (UnsupportedEncodingException e) {
 					e.printStackTrace();
@@ -88,10 +85,5 @@ public class DeleteServiceContext extends ServiceContext {
 			return combinedParams.toString();
 	}//getParamPathElement
 
-	@Override
-	public HttpEntity getHttpEntity() {
-		//Delete operations do not have an http entity in the message body. Hence, return null;
-		return null;
-	}
 
 }//DeleteServiceContext

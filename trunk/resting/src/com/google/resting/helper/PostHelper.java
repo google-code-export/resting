@@ -31,13 +31,13 @@ import com.google.resting.serviceaccessor.impl.ServiceAccessor;
  *
  */
 public class PostHelper {
-	public final static ServiceResponse post(String url, int port, RequestParams requestParams){
+	public final static ServiceResponse post(String url, int port, String encoding, RequestParams requestParams){
 		URLContext urlContext=new URLContext(url,port);
-		ServiceContext serviceContext= new PostServiceContext(urlContext,requestParams);
+		ServiceContext serviceContext= new PostServiceContext(urlContext,requestParams, encoding);
 		return ServiceAccessor.access(serviceContext);
 	}//post
 	
-	public final static ServiceResponse post(String url, int port, String messageToPost, String encoding){
+	public final static ServiceResponse post(String messageToPost, String encoding, String url, int port){
 		URLContext urlContext=new URLContext(url,port);
 		ServiceContext serviceContext= new PostServiceContext(urlContext,messageToPost,encoding);
 		return ServiceAccessor.access(serviceContext);

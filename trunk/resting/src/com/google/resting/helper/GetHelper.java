@@ -29,9 +29,9 @@ import com.google.resting.serviceaccessor.impl.ServiceAccessor;
  *
  */
 public class GetHelper {
-	public final static ServiceResponse get(String url, int port, RequestParams requestParams){
+	public final static ServiceResponse get(String url, int port, RequestParams requestParams, String encoding){
 		URLContext urlContext=new URLContext(url,port);
-		ServiceContext serviceContext= new GetServiceContext(urlContext,requestParams);
+		ServiceContext serviceContext= new GetServiceContext(urlContext,requestParams, encoding);
 		return ServiceAccessor.access(serviceContext);
 	}//get
 }//GetHelper

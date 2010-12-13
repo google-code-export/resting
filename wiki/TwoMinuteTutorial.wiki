@@ -5,7 +5,7 @@
 
 This is a very quick tutorial to demonstrate how easy it is to use resting. 
 
-Suppose  your REST URL is http://local.yahooapis.com/MapsService/V1/geocode?appid=YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--&state=CA. 
+Suppose  your REST URI is a weather service by Yahoo: http://local.yahooapis.com/MapsService/V1/geocode?appid=YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--&state=CA. You wish to execute a GET request to get the weather details of your location.
 
 The resting code can be used in these three ways: 
  

@@ -62,9 +62,9 @@ public final class ServiceAccessor implements Accessor{
 		else
 			serviceResponse= RESTClient.invoke(targetDomain, path, verb, port, inputParams, httpEntity );
 
-		if(validate(serviceResponse))
+		//if(validate(serviceResponse))
 		//Handle validation properly
-			System.out.println("[Resting::ServiceAccessor] Service response validation passed");
+		//	System.out.println("[Resting::ServiceAccessor] Service response validation passed");
 		return serviceResponse;
 
 	}//access

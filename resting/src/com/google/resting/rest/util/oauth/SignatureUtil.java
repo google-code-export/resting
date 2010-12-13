@@ -40,7 +40,7 @@ public class SignatureUtil {
 	private static final String SEPARATOR="://";
 
 	
-	private static String getBaseString(String targetDomain, String requestType, boolean isSecureInvocation, String contextPathElement, List<NameValuePair> inputParams){
+	private static String getBaseString(String targetDomain, String requestType, boolean isSecureInvocation, String contextPathElement, List<NameValuePair> inputParams, String messageEncoding){
 		String sourceVerb=requestType;
 		String sourceUrl=SEPARATOR+targetDomain+contextPathElement;
 		if(isSecureInvocation){
@@ -49,7 +49,7 @@ public class SignatureUtil {
 			sourceUrl=RequestConstants.HTTP+sourceUrl;
 		}
 		System.out.println("Source url is "+sourceUrl);
-		return BaseStringExtractorImpl.extract(sourceVerb, sourceUrl,inputParams );
+		return BaseStringExtractorImpl.extract(sourceVerb, sourceUrl,inputParams, messageEncoding );
 	}
 	
 	/**
@@ -67,18 +67,18 @@ public class SignatureUtil {
 	 * @throws IllegalStateException 
 	 * @throws UnsupportedEncodingException The exception is thrown if the URL encoding is incorrect.
 	 */
-	public static String getSignature(String keyString, String targetDomain, Verb verb, boolean isSecureInvocation, String contextPathElement, List<NameValuePair> inputParams) throws NoSuchAlgorithmException,InvalidKeyException, IllegalStateException, UnsupportedEncodingException{
+	public static String getSignature(String keyString, String targetDomain, Verb verb, boolean isSecureInvocation, String contextPathElement, List<NameValuePair> inputParams, String messageEncoding) throws NoSuchAlgorithmException,InvalidKeyException, IllegalStateException, UnsupportedEncodingException{
 		
-		String baseString=getBaseString(targetDomain,verb.toString(), isSecureInvocation, contextPathElement, inputParams)
+		String baseString=getBaseString(targetDomain,verb.toString(), isSecureInvocation, contextPathElement, inputParams, messageEncoding)
 							.replace("+", "%20")
 							.replace("*", "%2A")
 							.replace("%7E", "~");
 		
 		System.out.println("Base string is "+baseString);
 		Mac mac = Mac.getInstance("HmacSHA1");    
-		SecretKeySpec secret = new SecretKeySpec(keyString.getBytes(RequestConstants.UTF8), mac.getAlgorithm());    
+		SecretKeySpec secret = new SecretKeySpec(keyString.getBytes(messageEncoding), mac.getAlgorithm());    
 		mac.init(secret);     
-		byte[] digest = mac.doFinal(baseString.getBytes(RequestConstants.UTF8));     
+		byte[] digest = mac.doFinal(baseString.getBytes(messageEncoding));     
 		return new String(Base64.encodeBase64(digest)).replace(RequestConstants.CARRIAGE_RETURN, RequestConstants.EMPTY_STRING); 
 	}
 }

@@ -13,22 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.google.resting.rest.util.oauth;
+package com.google.resting.component;
 /**
- * This class contains the constants required for REST invocation
+ * Types of encoding supported.
  * 
  * @author sujata.de
- * @since resting 0.1
+ * @since resting 0.3
  *
  */
+public class EncodingTypes {
+	
+	public static final String UTF8="UTF-8";
+	public static final String UTF16="UTF-16";
+	public static final String UTF32="UTF-32";
 
-public class RequestConstants {
-	public static final String HTTP="http";
-	public static final String HTTPS="https";
-//	public static final String UTF8="UTF-8";
-	public static final String EMPTY_STRING = "";
-	public static final String PAIR_SEPARATOR = "%3D";
-	public static final String PARAM_SEPARATOR = "%26";
-	public static final String CARRIAGE_RETURN = "\r\n";
-}//RequestConstants
+}

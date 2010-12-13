@@ -32,15 +32,15 @@ public class BaseStringExtractorImpl {
 
 	private static final String AMPERSAND_SEPARATED_STRING = "%s&%s&%s";
 
-	public static String extract(String sourceVerb, String sourceUrl,List<NameValuePair> inputParams) {
-		String verb = URLUtil.percentEncode(sourceVerb);
-		String url = URLUtil.percentEncode(getSanitizedUrl(sourceUrl));
-		String params = getSortedAndEncodedParams(inputParams);
+	public static String extract(String sourceVerb, String sourceUrl,List<NameValuePair> inputParams, String messageEncoding) {
+		String verb = URLUtil.percentEncode(sourceVerb,messageEncoding);
+		String url = URLUtil.percentEncode(getSanitizedUrl(sourceUrl),messageEncoding);
+		String params = getSortedAndEncodedParams(inputParams,messageEncoding);
 		return String.format(AMPERSAND_SEPARATED_STRING, verb, url, params);
 	}
 
-	private static String getSortedAndEncodedParams(List<NameValuePair> sourceParams) {
-		return URLUtil.getFormURLEncodeParamList(sourceParams);
+	private static String getSortedAndEncodedParams(List<NameValuePair> sourceParams, String messageEncoding) {
+		return URLUtil.getFormURLEncodeParamList(sourceParams,messageEncoding);
 	}
 
 	private static String getSanitizedUrl(String url) {

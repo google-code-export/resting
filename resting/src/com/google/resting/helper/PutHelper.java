@@ -32,9 +32,9 @@ import com.google.resting.serviceaccessor.impl.ServiceAccessor;
  */
 public class PutHelper {
 	
-	public final static ServiceResponse put(String url, int port, RequestParams requestParams){
+	public final static ServiceResponse put(String url, String encoding , int port, RequestParams requestParams){
 		URLContext urlContext=new URLContext(url,port);
-		ServiceContext serviceContext= new PutServiceContext(urlContext,requestParams);
+		ServiceContext serviceContext= new PutServiceContext(urlContext,requestParams, encoding);
 		return ServiceAccessor.access(serviceContext);
 	}//put
 	

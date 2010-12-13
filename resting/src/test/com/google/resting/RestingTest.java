@@ -18,6 +18,7 @@ package test.com.google.resting;
 import java.util.List;
 
 import junit.framework.TestCase;
+import test.com.google.resting.vo.Facets;
 import test.com.google.resting.vo.Product;
 import test.com.google.resting.vo.Result;
 import test.com.google.resting.vo.ResultSet;
@@ -39,7 +40,7 @@ public class RestingTest extends TestCase {
 
 	public void testGet() {
 		ServiceResponse response=Resting.get("http://local.yahooapis.com/MapsService/V1/geocode?appid=YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--&state=CA",80); 
-		System.out.println("[RestingTest::testGet] Response is" +response);
+		//System.out.println("[RestingTest::testGet] Response is" +response);
 		assertEquals(200, response.getStatusCode());
 	}
 
@@ -48,7 +49,7 @@ public class RestingTest extends TestCase {
 		params.add("appid", "YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--");  
 		params.add("state", "CA");  
 		ServiceResponse response=Resting.get("http://local.yahooapis.com/MapsService/V1/geocode",80,params);  
-		System.out.println("[RestingTest::testGetWithRequestParams] Response is" +response);
+		//System.out.println("[RestingTest::testGetWithRequestParams] Response is" +response);
 		assertEquals(200, response.getStatusCode());
 	}
 
@@ -82,6 +83,16 @@ public class RestingTest extends TestCase {
 		System.out.println("[RestingTest::getByJSON] The product detail is "+products.get(0).toString());
 		assertEquals(7564933,products.get(0).getProductId());
 	}
+	
+	public void testGetByJSONLongResponse(){
+		RequestParams jsonParams = new JSONRequestParams();   
+		jsonParams.add("key", "fdb3c385a8d22d174cafeadc6d4c1405b08d5609"); 
+		jsonParams.add("facets", "[\"brandNameFacet\"]");
+		List<Facets> facets=Resting.getByJSON("http://api.zappos.com/Search",80,jsonParams, Facets.class, "facets");
+		System.out.println("[RestingTest::testGetByJSONLongResponse] The length of values in facets is "+facets.get(0).getValues().size());
+		
+		
+	}
 
 	public void testGetByXML() {
 		RequestParams params = new BasicRequestParams();   
@@ -89,7 +100,7 @@ public class RestingTest extends TestCase {
 		params.add("state", "CA");  
 		XMLAlias alias=new XMLAlias().add("Result", Result.class).add("ResultSet", ResultSet.class);   
 		ResultSet resultset=Resting.getByXML("http://local.yahooapis.com/MapsService/V1/geocode", 80,params,ResultSet.class, alias);	
-		System.out.println("[RestingTest::getByXML] The response detail is "+resultset.getResult().toString());
+		//System.out.println("[RestingTest::getByXML] The response detail is "+resultset.getResult().toString());
 		assertNotNull(resultset);
 	}
 	public void testGetByXML2() {
@@ -98,7 +109,7 @@ public class RestingTest extends TestCase {
 		params.add("state", "CA");  
 		XMLAlias alias=new XMLAlias().add("Result", Result.class).add("ResultSet", ResultSet.class);   
 	     ResultSet results=Resting.getByXML("http://local.yahooapis.com/MapsService/V1/geocode", 80,params,ResultSet.class, alias);	
-		System.out.println("[RestingTest::getByXML2] The response detail is "+results.getResult().toString());
+		//System.out.println("[RestingTest::getByXML2] The response detail is "+results.getResult().toString());
 		assertNotNull(results);
 	}
 }

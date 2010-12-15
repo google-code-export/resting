@@ -83,7 +83,7 @@ public class PostServiceContext extends ServiceContext {
 	private HttpEntity setFormEntity(List<NameValuePair> inputParams){
 		UrlEncodedFormEntity entity=null;
 		try {
-			entity = new UrlEncodedFormEntity(inputParams, getEncoding());
+			entity = new UrlEncodedFormEntity(inputParams, getCharset());
 			
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();

@@ -16,16 +16,11 @@
 
 package com.google.resting.rest.client;
 
-import java.io.UnsupportedEncodingException;
-import java.util.List;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -34,6 +29,7 @@ import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import com.google.resting.component.ServiceContext;
 import com.google.resting.component.Verb;
 import com.google.resting.component.impl.ServiceResponse;
 import com.google.resting.rest.CustomSSLSocketFactory;
@@ -60,7 +56,14 @@ public class RESTClient {
 	 * @return ServiceResponse object containing http status code and entire response as a String
 	 */
 
-	public static ServiceResponse invoke(String targetDomain, String path, Verb verb, int port, List<NameValuePair> inputParams, HttpEntity httpEntity) {
+	public static ServiceResponse invoke(ServiceContext serviceContext) {
+		String targetDomain=serviceContext.getTargetDomain();
+		int port=serviceContext.getPort();
+		String path=serviceContext.getPath();
+		Verb verb=serviceContext.getVerb();
+		HttpEntity httpEntity=serviceContext.getHttpEntity();
+		String charset=serviceContext.getCharset();
+
 		HttpResponse response = null;
 		ServiceResponse serviceResponse = null;
 		String functionName="invoke";
@@ -84,7 +87,7 @@ public class RESTClient {
 			response = httpClient.execute(targetHost, request);
 			final long endTime = System.currentTimeMillis();
 
-			serviceResponse = new ServiceResponse(response);
+			serviceResponse = new ServiceResponse(response,charset);
 			
 			final long endTime2 = System.currentTimeMillis();
 			
@@ -143,8 +146,14 @@ public class RESTClient {
 	 * 
 	 * @return ServiceResponse object containing http status code and entire response as a String
 	 */
-	public static ServiceResponse secureInvoke(String targetDomain, String path, Verb verb, int port, List<NameValuePair> inputParams, HttpEntity httpEntity){
+	public static ServiceResponse secureInvoke(ServiceContext serviceContext){
+		String targetDomain=serviceContext.getTargetDomain();
+		int port=serviceContext.getPort();
+		String path=serviceContext.getPath();
+		Verb verb=serviceContext.getVerb();
 		ServiceResponse serviceResponse=null;
+		HttpEntity httpEntity=serviceContext.getHttpEntity();
+		String charset=serviceContext.getCharset();
 		
 	//	System.out.println( "Target domain: " + targetDomain);
 	//	System.out.println( "Port: " + port);
@@ -159,11 +168,10 @@ public class RESTClient {
 	        httpclient.getConnectionManager().getSchemeRegistry().register(new Scheme(RequestConstants.HTTPS, new CustomSSLSocketFactory(), port));
 
 	        HttpResponse response = httpclient.execute(targetHost,request);
-	        serviceResponse=new ServiceResponse(response);
+	        serviceResponse=new ServiceResponse(response,charset);
 		    long ioEndTime=System.currentTimeMillis();
 		    
-		   // System.out.println( "The REST response is:\n "+ serviceResponse);
-		   // System.out.println( "Time taken in executing REST: "+(ioEndTime-ioStartTime));
+		    System.out.println( "Time taken in executing REST: "+(ioEndTime-ioStartTime));
 		    
 		} catch (Exception e) {
 			e.printStackTrace();

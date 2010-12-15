@@ -68,9 +68,9 @@ public class DeleteServiceContext extends ServiceContext {
 				
 				try {
 					if (i > 0)
-						combinedParams.append("&").append(inputParam.getName()).append("=").append(URLEncoder.encode(inputParam.getValue(), getEncoding()));
+						combinedParams.append("&").append(inputParam.getName()).append("=").append(URLEncoder.encode(inputParam.getValue(), getCharset()));
 					else
-						combinedParams.append(inputParam.getName()).append("=").append(URLEncoder.encode(inputParam.getValue(), getEncoding()));
+						combinedParams.append(inputParam.getName()).append("=").append(URLEncoder.encode(inputParam.getValue(), getCharset()));
 					
 				} catch (UnsupportedEncodingException e) {
 					e.printStackTrace();

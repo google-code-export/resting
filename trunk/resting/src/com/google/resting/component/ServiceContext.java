@@ -38,14 +38,14 @@ public abstract class ServiceContext {
 	private int port=0;
 	private boolean isSecureInvocation=false;
 	private Verb verb=null;
-	private String encoding=null;
+	private String charset=null;
 	
-	protected ServiceContext(URLContext urlContext, RequestParams queryParams, Verb verb, String encoding){
+	protected ServiceContext(URLContext urlContext, RequestParams queryParams, Verb verb, String charset){
 		this.targetDomain=urlContext.getTargetDomain();
 		this.port=urlContext.getPort();
 		this.isSecureInvocation=urlContext.isSecureInvocation();
 		this.verb=verb;
-		this.encoding=encoding;
+		this.charset=charset;
 	}//ServiceContext
 	
 	public abstract String getPath();
@@ -77,10 +77,10 @@ public abstract class ServiceContext {
 		return null;
 	}//getHttpEntity
 	
-	public String getEncoding(){
-		assert encoding!=null:"Encoding should not be null";
-		return encoding;
-	}//getEncoding
+	public String getCharset(){
+		assert charset!=null:"Charset should not be null";
+		return charset;
+	}//getCharset
 
 
 }//ServiceContext

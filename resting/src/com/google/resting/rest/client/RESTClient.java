@@ -85,9 +85,12 @@ public class RESTClient {
 			final long endTime = System.currentTimeMillis();
 
 			serviceResponse = new ServiceResponse(response);
-
+			
+			final long endTime2 = System.currentTimeMillis();
+			
 		//	System.out.println( "The REST response is:\n " + serviceResponse);
-		//	System.out.println( "Time taken in REST operation :"+ (endTime - startTime) + " ms.");
+			System.out.println( "Time taken in REST operation : "+ (endTime - startTime) + " ms.");
+			System.out.println( "Time taken in service response construction : "+ (endTime2 - endTime) + " ms.");
 
 		}// try
 		catch(ConnectTimeoutException e){

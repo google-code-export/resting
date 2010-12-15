@@ -55,6 +55,7 @@ public final class RestingHelper {
 			serviceResponse=put(url, encoding, port,requestParams);
 		
 		List<T> results=new ArrayList<T>();
+		final long startTime=System.currentTimeMillis();
 		if(transformationType==TransformationType.JSON){
 			JSONTransformer<T> transformer=new JSONTransformer<T>();
 			results=transformer.getEntityList(serviceResponse, targetType, alias);
@@ -65,6 +66,8 @@ public final class RestingHelper {
 			results=transformer.getEntityList(serviceResponse, targetType, alias);
 			
 		}//XML
+		final long endTime=System.currentTimeMillis();
+		System.out.println( "Time taken in transformation : "+ (endTime - startTime) + " ms.");
 		
 		return results;
 	}//executeAndTransform
@@ -84,7 +87,10 @@ public final class RestingHelper {
 		
 		if(transformationType==TransformationType.JSON){
 			JSONTransformer<Object> transformer=new JSONTransformer<Object>();
+			final long startTime=System.currentTimeMillis();
 			results=transformer.getEntityLists(serviceResponse,  alias);
+			final long endTime=System.currentTimeMillis();
+			System.out.println( "Time taken in transformation : "+ (endTime - startTime) + " ms.");
 		}//JSON
 		
 		//Not needed for XML

@@ -62,7 +62,7 @@ public class GetServiceContext extends ServiceContext {
 
 	private String getParamPathElement(){
 		if(inputParams == null) return "";
-		StringBuffer combinedParams = new StringBuffer("");
+		StringBuilder combinedParams = new StringBuilder("");
 		
 		int i=0;
 			for (NameValuePair inputParam : inputParams){

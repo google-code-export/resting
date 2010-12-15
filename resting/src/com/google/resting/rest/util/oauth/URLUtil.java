@@ -47,7 +47,7 @@ public class URLUtil {
 	}
 
 	private static String formUrlEncode(List<NameValuePair> inputParams, int length, String messageEncoding) {
-		StringBuffer encodedString = new StringBuffer(length * 20);
+		StringBuilder encodedString = new StringBuilder(length * 20);
 		for (NameValuePair inputParam : inputParams) {
 			if (encodedString.length() > 0) {
 				encodedString.append(RequestConstants.PARAM_SEPARATOR);

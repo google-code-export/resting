@@ -21,11 +21,11 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import com.google.resting.component.RequestParams;
+import com.google.resting.json.JSONArray;
+import com.google.resting.json.JSONException;
+import com.google.resting.json.JSONObject;
 
 /**
  * Implementation of the collection of JSON request parameters in the REST request.
@@ -106,7 +106,7 @@ public class JSONRequestParams extends RequestParams {
 		JSONArray jsonArray;
 		JSONObject jsonObject = null;
 		int size = values.size();
-		StringBuffer result = new StringBuffer("");
+		StringBuilder result = new StringBuilder("");
 		int i = 1;
         Set<Entry<String, String[]>> entrySet=values.entrySet();
 		for (Map.Entry<String, String[]> value : entrySet) {

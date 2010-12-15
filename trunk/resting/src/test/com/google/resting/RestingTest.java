@@ -39,12 +39,14 @@ import com.google.resting.component.impl.XMLAlias;
 public class RestingTest extends TestCase {
 
 	public void testGet() {
+		System.out.println("\ntestGet\n-----------------------------");
 		ServiceResponse response=Resting.get("http://local.yahooapis.com/MapsService/V1/geocode?appid=YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--&state=CA",80); 
 		//System.out.println("[RestingTest::testGet] Response is" +response);
 		assertEquals(200, response.getStatusCode());
 	}
 
 	public void testGetWithRequestParams() {
+		System.out.println("\ntestGetWithRequestParams\n-----------------------------");
 		RequestParams params = new BasicRequestParams();   
 		params.add("appid", "YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--");  
 		params.add("state", "CA");  
@@ -77,6 +79,7 @@ public class RestingTest extends TestCase {
 	}
 
 	public void testGetByJSON() {
+		System.out.println("\ntestGetByJSON\n-----------------------------");
 		RequestParams jsonParams = new JSONRequestParams();   
 		jsonParams.add("key", "fdb3c385a8d22d174cafeadc6d4c1405b08d5609");  
 		List<Product> products=Resting.getByJSON("http://api.zappos.com/Product/7564933",80,jsonParams, Product.class, "product");
@@ -85,6 +88,7 @@ public class RestingTest extends TestCase {
 	}
 	
 	public void testGetByJSONLongResponse(){
+		System.out.println("\ntestGetByJSONLongResponse\n-----------------------------");
 		RequestParams jsonParams = new JSONRequestParams();   
 		jsonParams.add("key", "fdb3c385a8d22d174cafeadc6d4c1405b08d5609"); 
 		jsonParams.add("facets", "[\"brandNameFacet\"]");
@@ -95,6 +99,7 @@ public class RestingTest extends TestCase {
 	}
 
 	public void testGetByXML() {
+		System.out.println("\ntestGetByXML\n-----------------------------");
 		RequestParams params = new BasicRequestParams();   
 		params.add("appid", "YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--");  
 		params.add("state", "CA");  
@@ -104,6 +109,7 @@ public class RestingTest extends TestCase {
 		assertNotNull(resultset);
 	}
 	public void testGetByXML2() {
+		System.out.println("\ntestGetByXML2\n-----------------------------");		
 		RequestParams params = new BasicRequestParams();   
 		params.add("appid", "YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--");  
 		params.add("state", "CA");  

@@ -19,13 +19,13 @@ package com.google.resting.component.impl;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.CharArrayBuffer;
 
 import com.google.resting.Resting;
+import com.google.resting.util.IOUtils;
 /**
  * Wrapper object for REST response. This entity encapsulates the HTTP status code, the HTTP response body as a String and 
  * the HTTP headers of the REST response. {@link Resting} APIs like {@link Resting.get()}, {@link Resting.put()}, 
@@ -42,21 +42,16 @@ public class ServiceResponse {
 	private String responseString=null;
 	private Header[] responseHeaders=null;
 
-	public ServiceResponse(HttpResponse response) {
+	public ServiceResponse(HttpResponse response, String charset) {
 		assert response!=null:"HttpResponse should not be null";
-		long ioStartTime=System.currentTimeMillis();
-		
-		InputStream inputStream=null;
-		
+		InputStream inputStream=null;	
 		try {
 			if (response ==null){} 
 			HttpEntity entity = response.getEntity();
 			this.statusCode = response.getStatusLine().getStatusCode();
 			this.responseHeaders=response.getAllHeaders();
 			inputStream=entity.getContent();
-			this.responseString=IOUtils.toString(inputStream);
-			long ioEndTime=System.currentTimeMillis();
-		//	System.out.println("Time taken in converting IOStream: "+(ioEndTime-ioStartTime));
+			this.responseString=IOUtils.toString(inputStream,charset);
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

@@ -24,7 +24,6 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 
@@ -50,17 +49,11 @@ public final class ServiceAccessor implements Accessor{
 	 */
 	public static ServiceResponse access(ServiceContext serviceContext){
 		boolean isSecureInvocation=serviceContext.isSecureInvocation();
-		String targetDomain=serviceContext.getTargetDomain();
-		int port=serviceContext.getPort();
-		String path=serviceContext.getPath();
-		Verb verb=serviceContext.getVerb();
 		ServiceResponse serviceResponse=null;
-		List<NameValuePair> inputParams=serviceContext.getInputParams();
-		HttpEntity httpEntity=serviceContext.getHttpEntity();
 		if(isSecureInvocation)
-			serviceResponse= RESTClient.secureInvoke(targetDomain, path, verb, port, inputParams, httpEntity );
+			serviceResponse= RESTClient.secureInvoke(serviceContext );
 		else
-			serviceResponse= RESTClient.invoke(targetDomain, path, verb, port, inputParams, httpEntity );
+			serviceResponse= RESTClient.invoke(serviceContext );
 
 		//if(validate(serviceResponse))
 		//Handle validation properly
@@ -92,7 +85,7 @@ public final class ServiceAccessor implements Accessor{
 		String path=serviceContext.getPath();
 		Verb verb=serviceContext.getVerb();
 		String contextPathElement=serviceContext.getContextPathElement();
-		String encoding=serviceContext.getEncoding();
+		String encoding=serviceContext.getCharset();
 		List<NameValuePair> inputParams=serviceContext.getInputParams();
 		try {
 			path=path+String.format(AMPERSAND_SEPARATED_STRING,SIGNATURE,getSignature(keyString,targetDomain,verb, isSecureInvocation, contextPathElement, inputParams, encoding));

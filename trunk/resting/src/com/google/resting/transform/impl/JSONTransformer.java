@@ -23,15 +23,16 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+
 
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import com.google.resting.component.Alias;
 import com.google.resting.component.impl.JSONAlias;
 import com.google.resting.component.impl.ServiceResponse;
+import com.google.resting.json.JSONArray;
+import com.google.resting.json.JSONException;
+import com.google.resting.json.JSONObject;
 import com.google.resting.transform.Transformer;
 /**
  * Base transformer for transforming JSON response. 

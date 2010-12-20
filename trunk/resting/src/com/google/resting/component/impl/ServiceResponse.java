@@ -51,7 +51,8 @@ public class ServiceResponse {
 			this.statusCode = response.getStatusLine().getStatusCode();
 			this.responseHeaders=response.getAllHeaders();
 			inputStream=entity.getContent();
-			this.responseString=IOUtils.toString(inputStream,charset);
+			this.responseString=IOUtils.writeToString(inputStream, charset);
+			//this.responseString=IOUtils.toString(inputStream, charset);
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

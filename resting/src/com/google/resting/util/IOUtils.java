@@ -15,13 +15,19 @@
  */
 package com.google.resting.util;
 
+import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
+import java.io.UnsupportedEncodingException;
 import java.io.Writer;
+import java.nio.ByteBuffer;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
+import java.nio.channels.WritableByteChannel;
 /**
  * IO utilities for resting
  * 
@@ -138,4 +144,53 @@ public class IOUtils {
 			}
     	
     }//closeQuietly
+    
+    private static void fastChannelCopy(final ReadableByteChannel src, final WritableByteChannel dest){
+    	final ByteBuffer buffer=ByteBuffer.allocateDirect(DEFAULT_BUFFER_SIZE);
+    	try {
+			while(src.read(buffer)!=-1){
+				//prepare the buffer to be drained.
+				buffer.flip();
+				//write to the channel. may block.
+				dest.write(buffer);
+				//if partial transfer, shift remainder down.
+				//if buffer is empty, same as compact
+				buffer.compact();
+			}
+			//EOF will leave buffer in fill state
+			buffer.flip();
+			
+			//make sure buffer is fully drained.
+			while(buffer.hasRemaining()){
+				dest.write(buffer);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }//fastChannelCopy
+    
+    public static String writeToString(InputStream inputStream, String charset){
+    	String outputString="";
+    	ByteArrayOutputStream baos=new ByteArrayOutputStream();
+    	final ReadableByteChannel inputChannel=Channels.newChannel(inputStream);
+    	final WritableByteChannel outputChannel=Channels.newChannel(baos);
+    	//copy the channels
+    	fastChannelCopy(inputChannel, outputChannel);
+    	try {
+			outputString=new String(baos.toByteArray(), charset);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			closeQuietly(inputChannel);
+			closeQuietly(outputChannel);
+			closeQuietly(inputStream);
+			closeQuietly(baos);
+		}
+    	
+    	
+    	return outputString;
+    }
 }

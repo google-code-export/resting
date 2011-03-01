@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.resting.component.impl;
+package com.google.resting.component.impl.json;
 
 import java.util.Map;
 import java.util.Set;

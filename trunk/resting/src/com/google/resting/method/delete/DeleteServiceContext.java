@@ -1,4 +1,4 @@
- /*
+/*
  * Copyright (C) 2010 Google Code.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.resting.component.impl;
-
+package com.google.resting.method.delete;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -27,26 +26,27 @@ import org.apache.http.NameValuePair;
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.ServiceContext;
 import com.google.resting.component.Verb;
+import com.google.resting.component.impl.URLContext;
 /**
- * Implementation of ServiceContext for HTTP GET operation
+ * Implementation of ServiceContext for HTTP DELETE operation.
  * 
  * @author sujata.de
  * @since resting 0.2
  */
 
-public class GetServiceContext extends ServiceContext {
+public class DeleteServiceContext extends ServiceContext {
 	
 	private List<NameValuePair> inputParams=null;
 	private String path=null;
 	private String contextPathElement=null;
 
-	public GetServiceContext(URLContext urlContext, RequestParams requestParams, String encoding, List<Header> inputHeaders ){
-		super(urlContext,requestParams, Verb.GET, encoding, inputHeaders);
+	public DeleteServiceContext(URLContext urlContext, RequestParams requestParams, String encoding,  List<Header> inputHeaders){
+		super(urlContext,requestParams, Verb.DELETE, encoding, inputHeaders);
 		this.contextPathElement=urlContext.getContextPath();
 		if(requestParams !=null)	this.inputParams=requestParams.getRequestParams();
 		this.path=this.contextPathElement+getParamPathElement();
 	//	System.out.println( "The path is "+path);
-	}//GetServiceContext
+	}//DeleteServiceContext
 	
 	public String getContextPathElement(){
 		return contextPathElement;
@@ -87,4 +87,5 @@ public class GetServiceContext extends ServiceContext {
 			return combinedParams.toString();
 	}//getParamPathElement
 
-}//GetServiceContext
+
+}//DeleteServiceContext

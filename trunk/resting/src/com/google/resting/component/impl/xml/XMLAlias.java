@@ -14,40 +14,32 @@
  * limitations under the License.
  */
 
-package com.google.resting.component.impl;
+package com.google.resting.component.impl.xml;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import com.google.resting.component.Alias;
 /**
- * To encapsulate all the aliases used for marshalling JSON response into objects.
+ * To encapsulate all the aliases used for marshalling XML response into objects.
  * 
  * @author sujata.de
  * @since resting 0.2
  *
  */
-public class JSONAlias implements Alias{
-	
+public class XMLAlias<T> implements Alias{
 	private Map<String,Class> aliasTypeMap=null;
 	
-	private String singleAlias=null;
-	
-	public JSONAlias(){
+	public XMLAlias(){
 		aliasTypeMap= new HashMap<String, Class>();
-	}//JSONAlias 
+	}//XMLAlias
 	
-	public JSONAlias(String singleAlias){
-		this.singleAlias=singleAlias;
-		//The aliasMap or the alias list is not needed to be initialized since
-		//a single alias is enough for transformers for JSON.
-	}//JSONAlias 
 
-	public JSONAlias(Map<String,Class> aliasTypeMap){
+	public XMLAlias(Map<String,Class> aliasTypeMap){
 		this.aliasTypeMap= aliasTypeMap;
-	}//JSONAlias 	
+	}//XMLAlias 	
 	
-	public JSONAlias add(String alias, Class aliasClass){
+	public XMLAlias add(String alias, Class aliasClass){
 		if(aliasTypeMap==null)
 			aliasTypeMap= new HashMap<String, Class>();
 		aliasTypeMap.put(alias, aliasClass);
@@ -60,15 +52,12 @@ public class JSONAlias implements Alias{
 		assert aliasTypeMap!=null:"The key-value map of aliases is null.";
 		return aliasTypeMap;
 	}//getAliasTypeMap
-	
-	public String getSingleAlias(){
-		assert singleAlias!=null:"The alias is null";
-		return singleAlias;
-	}//getSingleAlias
+
 
 	@Override
 	public void setAliasTypeMap(Map<String, Class> aliasTypeMap) {
-		this.aliasTypeMap=aliasTypeMap;		
+		this.aliasTypeMap=aliasTypeMap;
 	}//setAliasTypeMap
+	
 
-}//JSONAlias
+}//XMLAlias

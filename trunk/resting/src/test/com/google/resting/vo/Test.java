@@ -21,9 +21,9 @@ import java.util.List;
 import com.google.resting.Resting;
 import com.google.resting.component.Verb;
 import com.google.resting.component.RequestParams;
-import com.google.resting.component.impl.JSONAlias;
 import com.google.resting.component.impl.BasicRequestParams;
 import com.google.resting.component.impl.ServiceResponse;
+import com.google.resting.component.impl.json.JSONAlias;
 import com.google.resting.helper.RestingHelper;
 import com.google.resting.transform.impl.XMLTransformer;
 /**

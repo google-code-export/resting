@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.google.resting.helper;
+package com.google.resting.method.put;
 
 import java.io.File;
 import java.util.List;
@@ -22,7 +22,6 @@ import org.apache.http.Header;
 
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.ServiceContext;
-import com.google.resting.component.impl.PostServiceContext;
 import com.google.resting.component.impl.ServiceResponse;
 import com.google.resting.component.impl.URLContext;
 import com.google.resting.serviceaccessor.impl.ServiceAccessor;
@@ -33,22 +32,23 @@ import com.google.resting.serviceaccessor.impl.ServiceAccessor;
  * @since resting 0.2
  *
  */
-public class PostHelper {
-	public final static ServiceResponse post(String url, int port, String encoding, RequestParams requestParams, List<Header> additionalHeaders){
-		URLContext urlContext=new URLContext(url,port);
-		ServiceContext serviceContext= new PostServiceContext(urlContext,requestParams, encoding, additionalHeaders);
-		return ServiceAccessor.access(serviceContext);
-	}//post
+public class PutHelper {
 	
-	public final static ServiceResponse post(String messageToPost, String encoding, String url, int port, List<Header> additionalHeaders){
+	public final static ServiceResponse put(String url, String encoding , int port, RequestParams requestParams,List<Header> additionalHeaders){
 		URLContext urlContext=new URLContext(url,port);
-		ServiceContext serviceContext= new PostServiceContext(urlContext,messageToPost,encoding, additionalHeaders);
+		ServiceContext serviceContext= new PutServiceContext(urlContext,requestParams, encoding, additionalHeaders);
 		return ServiceAccessor.access(serviceContext);
-	}//post
+	}//put
+	
+	public final static ServiceResponse put(String url, int port, String messageToPost,String encoding, List<Header> additionalHeaders){
+		URLContext urlContext=new URLContext(url,port);
+		ServiceContext serviceContext= new PutServiceContext(urlContext,messageToPost,encoding, additionalHeaders);
+		return ServiceAccessor.access(serviceContext);
+	}//put
 
-	public final static ServiceResponse post(String url, int port, File file, String encoding, boolean isBinaryFile, List<Header> additionalHeaders){
+	public final static ServiceResponse put(String url, int port, File file, String encoding, boolean isBinaryFile, List<Header> additionalHeaders){
 		URLContext urlContext=new URLContext(url,port);
-		ServiceContext serviceContext= new PostServiceContext(urlContext,file, encoding, isBinaryFile, additionalHeaders);
+		ServiceContext serviceContext= new PutServiceContext(urlContext,file, encoding, isBinaryFile, additionalHeaders);
 		return ServiceAccessor.access(serviceContext);
-	}//post
-}//PostHelper
+	}//put	
+}//PutHelper

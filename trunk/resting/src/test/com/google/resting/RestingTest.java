@@ -26,9 +26,9 @@ import test.com.google.resting.vo.ResultSet;
 import com.google.resting.Resting;
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.impl.BasicRequestParams;
-import com.google.resting.component.impl.JSONRequestParams;
 import com.google.resting.component.impl.ServiceResponse;
-import com.google.resting.component.impl.XMLAlias;
+import com.google.resting.component.impl.json.JSONRequestParams;
+import com.google.resting.component.impl.xml.XMLAlias;
 /**
  * Test case for main Resting API
  * 

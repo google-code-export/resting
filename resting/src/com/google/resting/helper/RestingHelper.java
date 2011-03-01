@@ -16,10 +16,10 @@
 
 package com.google.resting.helper;
 
-import static com.google.resting.helper.DeleteHelper.delete;
-import static com.google.resting.helper.GetHelper.get;
-import static com.google.resting.helper.PostHelper.post;
-import static com.google.resting.helper.PutHelper.put;
+import static com.google.resting.method.delete.DeleteHelper.delete;
+import static com.google.resting.method.get.GetHelper.get;
+import static com.google.resting.method.post.PostHelper.post;
+import static com.google.resting.method.put.PutHelper.put;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +30,8 @@ import org.apache.http.Header;
 import com.google.resting.component.Alias;
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.Verb;
-import com.google.resting.component.impl.JSONAlias;
 import com.google.resting.component.impl.ServiceResponse;
+import com.google.resting.component.impl.json.JSONAlias;
 import com.google.resting.transform.TransformationType;
 import com.google.resting.transform.impl.JSONTransformer;
 import com.google.resting.transform.impl.XMLTransformer;

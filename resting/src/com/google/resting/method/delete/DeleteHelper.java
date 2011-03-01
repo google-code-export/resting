@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.google.resting.helper;
+package com.google.resting.method.delete;
 
 import java.util.List;
 
@@ -21,7 +21,6 @@ import org.apache.http.Header;
 
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.ServiceContext;
-import com.google.resting.component.impl.DeleteServiceContext;
 import com.google.resting.component.impl.ServiceResponse;
 import com.google.resting.component.impl.URLContext;
 import com.google.resting.serviceaccessor.impl.ServiceAccessor;

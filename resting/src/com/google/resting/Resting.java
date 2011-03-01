@@ -23,16 +23,17 @@ import java.util.Map;
 
 import org.apache.http.Header;
 
+import com.google.resting.component.EncodingTypes;
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.Verb;
-import com.google.resting.component.impl.JSONAlias;
 import com.google.resting.component.impl.ServiceResponse;
-import com.google.resting.component.impl.XMLAlias;
-import com.google.resting.helper.DeleteHelper;
-import com.google.resting.helper.GetHelper;
-import com.google.resting.helper.PostHelper;
-import com.google.resting.helper.PutHelper;
+import com.google.resting.component.impl.json.JSONAlias;
+import com.google.resting.component.impl.xml.XMLAlias;
 import com.google.resting.helper.RestingHelper;
+import com.google.resting.method.delete.DeleteHelper;
+import com.google.resting.method.get.GetHelper;
+import com.google.resting.method.post.PostHelper;
+import com.google.resting.method.put.PutHelper;
 import com.google.resting.transform.TransformationType;
 
 
@@ -115,7 +116,7 @@ public final class Resting {
 	 */
 	
 	public final static ServiceResponse get(String uri, int port){
-		return GetHelper.get(uri, port, null,UTF8);
+		return GetHelper.get(uri, port, null,UTF8.getName());
 	}//get
 	/**
 	 * Executes HTTP/HTTPS GET request and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
@@ -129,7 +130,7 @@ public final class Resting {
 	 */
 	
 	public final static ServiceResponse get(String baseURI, int port,RequestParams requestParams){
-		return GetHelper.get(baseURI, port,requestParams,UTF8);
+		return GetHelper.get(baseURI, port,requestParams,UTF8.getName());
 	}//get
 	
 	/**
@@ -144,8 +145,8 @@ public final class Resting {
 	 * @return
 	 */
 	
-	public final static ServiceResponse get(String baseURI, int port,RequestParams requestParams, String encoding, List<Header> additionalHeaders){
-		return GetHelper.get(baseURI, port,requestParams,encoding, additionalHeaders);
+	public final static ServiceResponse get(String baseURI, int port,RequestParams requestParams, EncodingTypes encoding, List<Header> additionalHeaders){
+		return GetHelper.get(baseURI, port,requestParams,encoding.getName(), additionalHeaders);
 	}//get
 
 	
@@ -160,7 +161,7 @@ public final class Resting {
 	 */
 	
 	public final static ServiceResponse post(String baseURI, int port){
-		return PostHelper.post(baseURI, port, UTF8,null,null);
+		return PostHelper.post(baseURI, port, UTF8.getName(),null,null);
 	}//post
 	
 	/**
@@ -176,7 +177,7 @@ public final class Resting {
 	
 	public final static ServiceResponse post(String baseURI, int port, RequestParams requestParams){
 		//Post
-		return PostHelper.post(baseURI, port, UTF8,requestParams,null);
+		return PostHelper.post(baseURI, port, UTF8.getName(),requestParams,null);
 	}//post
 	/**
 	 * Executes HTTP/HTTPS POST request with message String in the message body and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
@@ -202,7 +203,7 @@ public final class Resting {
 	 * @return {@link ServiceResponse} object containing the entire REST response as a String, the HTTP status code and the response headers.
 	 */
 	public final static ServiceResponse put(String baseURI, int port){
-		return PutHelper.put(baseURI,port, null, UTF8,null);
+		return PutHelper.put(baseURI,port, null, UTF8.getName(),null);
 	}//put
 	
 	/**
@@ -216,7 +217,7 @@ public final class Resting {
 	 * @return {@link ServiceResponse} object containing the entire REST response as a String, the HTTP status code and the response headers.
 	 */
 	public final static ServiceResponse put(String baseURI, int port, RequestParams requestParams){
-		return PutHelper.put(baseURI,UTF8,port, requestParams,null);
+		return PutHelper.put(baseURI,UTF8.getName(),port, requestParams,null);
 	}//put
 	
 	/**
@@ -230,7 +231,7 @@ public final class Resting {
 	 */
 	
 	public final static ServiceResponse delete(String uri, int port){
-		return DeleteHelper.delete(uri, port,null,UTF8);
+		return DeleteHelper.delete(uri, port,null,UTF8.getName());
 	}//delete
 	
 	/**
@@ -245,7 +246,7 @@ public final class Resting {
 	 */
 	
 	public final static ServiceResponse delete(String baseURI, int port, RequestParams requestParams){
-		return DeleteHelper.delete(baseURI, port, requestParams,UTF8);
+		return DeleteHelper.delete(baseURI, port, requestParams,UTF8.getName());
 	}//delete
 	
 	/**
@@ -263,12 +264,12 @@ public final class Resting {
 	
 	public final static <T> List<T> getByJSON(String baseURI, int port, RequestParams requestParams, Class<T> targetType, String alias){
 		JSONAlias jsonAlias=new JSONAlias(alias);
-		return RestingHelper.executeAndTransform(baseURI, port,requestParams, Verb.GET, TransformationType.JSON, targetType, jsonAlias,UTF8, null);
+		return RestingHelper.executeAndTransform(baseURI, port,requestParams, Verb.GET, TransformationType.JSON, targetType, jsonAlias,UTF8.getName(), null);
 	}//getByJSON
 
-	public final static <T> List<T> getByJSON(String baseURI, int port, RequestParams requestParams, Class<T> targetType, String alias, String encoding, List<Header> additionalHeaders){
+	public final static <T> List<T> getByJSON(String baseURI, int port, RequestParams requestParams, Class<T> targetType, String alias, EncodingTypes encoding, List<Header> additionalHeaders){
 		JSONAlias jsonAlias=new JSONAlias(alias);
-		return RestingHelper.executeAndTransform(baseURI, port,requestParams, Verb.GET, TransformationType.JSON, targetType, jsonAlias,encoding, additionalHeaders);
+		return RestingHelper.executeAndTransform(baseURI, port,requestParams, Verb.GET, TransformationType.JSON, targetType, jsonAlias,encoding.getName(), additionalHeaders);
 	}//getByJSON
 	
 	/**
@@ -285,7 +286,7 @@ public final class Resting {
 	
 	public final static  Map<String, List> getByJSON(String baseURI, int port, RequestParams requestParams, Map<String, Class> aliasTypeMap){	
 		JSONAlias alias=new JSONAlias(aliasTypeMap);
-		return RestingHelper.executeAndTransform(baseURI, port,requestParams, Verb.GET, TransformationType.JSON, alias,UTF8,null);
+		return RestingHelper.executeAndTransform(baseURI, port,requestParams, Verb.GET, TransformationType.JSON, alias,UTF8.getName(),null);
 	}//getByJSON	
 	/**
 	 * Executes HTTP/HTTPS GET request and transforms the XML response into target entity.
@@ -301,7 +302,7 @@ public final class Resting {
 	 */
 
 	public final static <T> T getByXML(String baseURI, int port, RequestParams requestParams, Class<T> rootType, XMLAlias alias){
-		return RestingHelper.executeAndTransform(baseURI, port,requestParams, Verb.GET, TransformationType.XML, rootType, alias,UTF8, null).get(0);
+		return RestingHelper.executeAndTransform(baseURI, port,requestParams, Verb.GET, TransformationType.XML, rootType, alias,UTF8.getName(), null).get(0);
 	}//getByXML
 	
 

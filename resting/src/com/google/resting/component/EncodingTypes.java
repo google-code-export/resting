@@ -21,10 +21,20 @@ package com.google.resting.component;
  * @since resting 0.3
  *
  */
-public class EncodingTypes {
+public enum EncodingTypes {
 	
-	public static final String UTF8="UTF-8";
-	public static final String UTF16="UTF-16";
-	public static final String UTF32="UTF-32";
+	UTF8("UTF-8"),
+	UTF16("UTF-16"),
+	UTF32("UTF-32");
+	
+	private String name;
+	
+	private EncodingTypes (String name){
+		this.name=name;
+	}
+	
+	public String getName(){
+		return name;
+	}
 
 }

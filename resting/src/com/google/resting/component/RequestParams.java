@@ -22,7 +22,7 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 
 import com.google.resting.component.impl.BasicRequestParams;
-import com.google.resting.component.impl.JSONRequestParams;
+import com.google.resting.component.impl.json.JSONRequestParams;
 
 /**
  * Abstract class for handling collection query parameters for REST invocation. This class should be extended 

@@ -23,8 +23,8 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import com.google.resting.component.Alias;
-import com.google.resting.component.impl.JSONAlias;
 import com.google.resting.component.impl.ServiceResponse;
+import com.google.resting.component.impl.json.JSONAlias;
 import com.google.resting.transform.Transformer;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;

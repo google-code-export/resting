@@ -13,8 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package com.google.resting.component.impl;
+package com.google.resting.method.put;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -29,21 +28,23 @@ import org.apache.http.entity.StringEntity;
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.ServiceContext;
 import com.google.resting.component.Verb;
+import com.google.resting.component.impl.URLContext;
+
 /**
- * Implementation of ServiceContext for HTTP POST operation.
+ * Implementation of ServiceContext for HTTP PUT operation.
  * 
  * @author sujata.de
  * @since resting 0.2
  */
-public class PostServiceContext extends ServiceContext {
+public class PutServiceContext extends ServiceContext {
 	
 	private List<NameValuePair> inputParams=null;
 	private String path=null;
 	private String contextPathElement=null;
 	private HttpEntity httpEntity=null;
 	
-	public PostServiceContext(URLContext urlContext, RequestParams requestParams, String encoding, List<Header> inputHeaders ) {
-		super(urlContext, requestParams, Verb.POST, encoding, inputHeaders);
+	public PutServiceContext(URLContext urlContext, RequestParams requestParams, String encoding, List<Header> inputHeaders ) {
+		super(urlContext, requestParams, Verb.PUT, encoding, inputHeaders );
 		this.contextPathElement=urlContext.getContextPath();
 		this.path=this.contextPathElement;
 		if(requestParams !=null){
@@ -51,24 +52,23 @@ public class PostServiceContext extends ServiceContext {
 			this.httpEntity=setFormEntity(this.inputParams);
 		}
 	//	System.out.println( "The path is "+path);		
-	}//PostServiceContext
+	}//PutServiceContext
 	
-	public PostServiceContext(URLContext urlContext, String message, String encoding, List<Header> inputHeaders ) {
-		super(urlContext, null, Verb.POST, encoding,inputHeaders);
+	public PutServiceContext(URLContext urlContext, String message, String encoding, List<Header> inputHeaders ) {
+		super(urlContext, null, Verb.PUT,encoding, inputHeaders);
 		this.contextPathElement=urlContext.getContextPath();
 		this.path=this.contextPathElement;
 		this.httpEntity=setMessageEntity(message, encoding);
-		
 	//	System.out.println( "The path is "+path);		
-	}//PostServiceContext	
+	}//PutServiceContext	
 
-	public PostServiceContext(URLContext urlContext, File file, String encoding, boolean isBinary, List<Header> inputHeaders ) {
-		super(urlContext, null, Verb.POST, encoding, inputHeaders);
+	public PutServiceContext(URLContext urlContext, File file, String encoding, boolean isBinary, List<Header> inputHeaders ) {
+		super(urlContext, null, Verb.PUT,encoding, inputHeaders);
 		this.contextPathElement=urlContext.getContextPath();
 		this.path=this.contextPathElement;
 		//this.httpEntity=setMessageEntity(message, encoding);
 	//	System.out.println( "The path is "+path);		
-	}//PostServiceContext		
+	}//PutServiceContext		
 	
 	private HttpEntity setMessageEntity(String message, String encoding){
 		StringEntity entity =null;
@@ -117,4 +117,4 @@ public class PostServiceContext extends ServiceContext {
 		return path;
 	}//getPath
 
-}//PostServiceContext
+}//PutServiceContext

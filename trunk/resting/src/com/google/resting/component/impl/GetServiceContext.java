@@ -21,6 +21,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 
+import org.apache.http.Header;
 import org.apache.http.NameValuePair;
 
 import com.google.resting.component.RequestParams;
@@ -39,8 +40,8 @@ public class GetServiceContext extends ServiceContext {
 	private String path=null;
 	private String contextPathElement=null;
 
-	public GetServiceContext(URLContext urlContext, RequestParams requestParams, String encoding){
-		super(urlContext,requestParams, Verb.GET, encoding);
+	public GetServiceContext(URLContext urlContext, RequestParams requestParams, String encoding, List<Header> inputHeaders ){
+		super(urlContext,requestParams, Verb.GET, encoding, inputHeaders);
 		this.contextPathElement=urlContext.getContextPath();
 		if(requestParams !=null)	this.inputParams=requestParams.getRequestParams();
 		this.path=this.contextPathElement+getParamPathElement();

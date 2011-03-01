@@ -40,9 +40,13 @@ public class RestingTest extends TestCase {
 
 	public void testGet() {
 		System.out.println("\ntestGet\n-----------------------------");
-		ServiceResponse response=Resting.get("http://local.yahooapis.com/MapsService/V1/geocode?appid=YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--&state=CA",80); 
-		//System.out.println("[RestingTest::testGet] Response is" +response);
-		assertEquals(200, response.getStatusCode());
+		try {
+			ServiceResponse response=Resting.get("http://local.yahooapis.com/MapsService/V1/geocode?appid=YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--&state=CA",80); 
+			System.out.println("[RestingTest::testGet] Response is" +response);
+			assertEquals(200, response.getStatusCode());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void testGetWithRequestParams() {
@@ -50,9 +54,13 @@ public class RestingTest extends TestCase {
 		RequestParams params = new BasicRequestParams();   
 		params.add("appid", "YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--");  
 		params.add("state", "CA");  
-		ServiceResponse response=Resting.get("http://local.yahooapis.com/MapsService/V1/geocode",80,params);  
-		//System.out.println("[RestingTest::testGetWithRequestParams] Response is" +response);
-		assertEquals(200, response.getStatusCode());
+		try {
+			ServiceResponse response=Resting.get("http://local.yahooapis.com/MapsService/V1/geocode",80,params);  
+			System.out.println("[RestingTest::testGetWithRequestParams] Response is" +response);
+			assertEquals(200, response.getStatusCode());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void testPost() {
@@ -82,9 +90,13 @@ public class RestingTest extends TestCase {
 		System.out.println("\ntestGetByJSON\n-----------------------------");
 		RequestParams jsonParams = new JSONRequestParams();   
 		jsonParams.add("key", "fdb3c385a8d22d174cafeadc6d4c1405b08d5609");  
-		List<Product> products=Resting.getByJSON("http://api.zappos.com/Product/7564933",80,jsonParams, Product.class, "product");
-		System.out.println("[RestingTest::getByJSON] The product detail is "+products.get(0).toString());
-		assertEquals(7564933,products.get(0).getProductId());
+		try {
+			List<Product> products=Resting.getByJSON("http://api.zappos.com/Product/7564933",80,jsonParams, Product.class, "product");
+			System.out.println("[RestingTest::getByJSON] The product detail is "+products.get(0).toString());
+			assertEquals(7564933,products.get(0).getProductId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void testGetByJSONLongResponse(){
@@ -92,10 +104,13 @@ public class RestingTest extends TestCase {
 		RequestParams jsonParams = new JSONRequestParams();   
 		jsonParams.add("key", "fdb3c385a8d22d174cafeadc6d4c1405b08d5609"); 
 		jsonParams.add("facets", "[\"brandNameFacet\"]");
-		List<Facets> facets=Resting.getByJSON("http://api.zappos.com/Search",80,jsonParams, Facets.class, "facets");
-		System.out.println("[RestingTest::testGetByJSONLongResponse] The length of values in facets is "+facets.get(0).getValues().size());
-		
-		
+		try {
+			List<Facets> facets=Resting.getByJSON("http://api.zappos.com/Search",80,jsonParams, Facets.class, "facets");
+			System.out.println("[RestingTest::testGetByJSONLongResponse] The length of values in facets is "+facets.get(0).getValues().size());
+			assertNotNull(facets);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void testGetByXML() {
@@ -104,9 +119,12 @@ public class RestingTest extends TestCase {
 		params.add("appid", "YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--");  
 		params.add("state", "CA");  
 		XMLAlias alias=new XMLAlias().add("Result", Result.class).add("ResultSet", ResultSet.class);   
-		ResultSet resultset=Resting.getByXML("http://local.yahooapis.com/MapsService/V1/geocode", 80,params,ResultSet.class, alias);	
-		//System.out.println("[RestingTest::getByXML] The response detail is "+resultset.getResult().toString());
-		assertNotNull(resultset);
+		try {
+			ResultSet resultset=Resting.getByXML("http://local.yahooapis.com/MapsService/V1/geocode", 80,params,ResultSet.class, alias);	
+			System.out.println("[RestingTest::getByXML] The response detail is "+resultset.getResult().toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	public void testGetByXML2() {
 		System.out.println("\ntestGetByXML2\n-----------------------------");		
@@ -114,8 +132,37 @@ public class RestingTest extends TestCase {
 		params.add("appid", "YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--");  
 		params.add("state", "CA");  
 		XMLAlias alias=new XMLAlias().add("Result", Result.class).add("ResultSet", ResultSet.class);   
-	     ResultSet results=Resting.getByXML("http://local.yahooapis.com/MapsService/V1/geocode", 80,params,ResultSet.class, alias);	
-		//System.out.println("[RestingTest::getByXML2] The response detail is "+results.getResult().toString());
-		assertNotNull(results);
+	    try {
+			ResultSet results=Resting.getByXML("http://local.yahooapis.com/MapsService/V1/geocode", 80,params,ResultSet.class, alias);	
+			System.out.println("[RestingTest::getByXML2] The response detail is "+results.getResult().toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
+	
+	public void testMime(){
+		System.out.println("\ntestMime\n-----------------------------");		
+		ServiceResponse response=null;
+		try {
+			response = Resting.get("http://localhost/testresting/rest/hello",8080);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		System.out.println("[RestingTest::testMime] Response is" +response);
+		assertEquals(200, response.getStatusCode());
+		
+		
+	}
+	public void testMime2(){
+		System.out.println("\ntestMime2\n-----------------------------");		
+		ServiceResponse response=null;
+		try {
+			response = Resting.get("http://localhost/testresting/rest/hello/vo",8080);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		System.out.println("[RestingTest::testMime2] Response is" +response);
+		assertEquals(200, response.getStatusCode());
+		
+	}	
 }

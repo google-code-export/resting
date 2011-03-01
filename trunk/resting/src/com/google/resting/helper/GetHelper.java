@@ -15,6 +15,10 @@
  */
 package com.google.resting.helper;
 
+import java.util.List;
+
+import org.apache.http.Header;
+
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.ServiceContext;
 import com.google.resting.component.impl.GetServiceContext;
@@ -31,7 +35,14 @@ import com.google.resting.serviceaccessor.impl.ServiceAccessor;
 public class GetHelper {
 	public final static ServiceResponse get(String url, int port, RequestParams requestParams, String encoding){
 		URLContext urlContext=new URLContext(url,port);
-		ServiceContext serviceContext= new GetServiceContext(urlContext,requestParams, encoding);
+		ServiceContext serviceContext= new GetServiceContext(urlContext,requestParams, encoding, null);
 		return ServiceAccessor.access(serviceContext);
 	}//get
+	
+	public final static ServiceResponse get(String url, int port, RequestParams requestParams, String encoding,  List<Header> inputHeaders){
+		URLContext urlContext=new URLContext(url,port);
+		ServiceContext serviceContext= new GetServiceContext(urlContext,requestParams, encoding, inputHeaders);
+		return ServiceAccessor.access(serviceContext);
+	}//get
+	
 }//GetHelper

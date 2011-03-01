@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -41,8 +42,8 @@ public class PutServiceContext extends ServiceContext {
 	private String contextPathElement=null;
 	private HttpEntity httpEntity=null;
 	
-	public PutServiceContext(URLContext urlContext, RequestParams requestParams, String encoding) {
-		super(urlContext, requestParams, Verb.PUT, encoding);
+	public PutServiceContext(URLContext urlContext, RequestParams requestParams, String encoding, List<Header> inputHeaders ) {
+		super(urlContext, requestParams, Verb.PUT, encoding, inputHeaders );
 		this.contextPathElement=urlContext.getContextPath();
 		this.path=this.contextPathElement;
 		if(requestParams !=null){
@@ -52,16 +53,16 @@ public class PutServiceContext extends ServiceContext {
 	//	System.out.println( "The path is "+path);		
 	}//PutServiceContext
 	
-	public PutServiceContext(URLContext urlContext, String message, String encoding) {
-		super(urlContext, null, Verb.PUT,encoding);
+	public PutServiceContext(URLContext urlContext, String message, String encoding, List<Header> inputHeaders ) {
+		super(urlContext, null, Verb.PUT,encoding, inputHeaders);
 		this.contextPathElement=urlContext.getContextPath();
 		this.path=this.contextPathElement;
 		this.httpEntity=setMessageEntity(message, encoding);
 	//	System.out.println( "The path is "+path);		
 	}//PutServiceContext	
 
-	public PutServiceContext(URLContext urlContext, File file, String encoding, boolean isBinary) {
-		super(urlContext, null, Verb.PUT,encoding);
+	public PutServiceContext(URLContext urlContext, File file, String encoding, boolean isBinary, List<Header> inputHeaders ) {
+		super(urlContext, null, Verb.PUT,encoding, inputHeaders);
 		this.contextPathElement=urlContext.getContextPath();
 		this.path=this.contextPathElement;
 		//this.httpEntity=setMessageEntity(message, encoding);

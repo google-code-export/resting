@@ -20,6 +20,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 
+import org.apache.http.Header;
 import org.apache.http.NameValuePair;
 
 import com.google.resting.component.RequestParams;
@@ -38,8 +39,8 @@ public class DeleteServiceContext extends ServiceContext {
 	private String path=null;
 	private String contextPathElement=null;
 
-	public DeleteServiceContext(URLContext urlContext, RequestParams requestParams, String encoding){
-		super(urlContext,requestParams, Verb.DELETE, encoding);
+	public DeleteServiceContext(URLContext urlContext, RequestParams requestParams, String encoding,  List<Header> inputHeaders){
+		super(urlContext,requestParams, Verb.DELETE, encoding, inputHeaders);
 		this.contextPathElement=urlContext.getContextPath();
 		if(requestParams !=null)	this.inputParams=requestParams.getRequestParams();
 		this.path=this.contextPathElement+getParamPathElement();

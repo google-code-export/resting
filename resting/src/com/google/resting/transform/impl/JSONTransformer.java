@@ -66,6 +66,8 @@ public class JSONTransformer<T> implements Transformer<T, ServiceResponse> {
 		else
 			return null;
 		JSONObject responseObject=null;
+		JSONArray responseArray=null;
+		JSONObject jsonObject=null;
 		try {
 			responseObject=new JSONObject(serviceResponse.getResponseString());
 			
@@ -75,11 +77,11 @@ public class JSONTransformer<T> implements Transformer<T, ServiceResponse> {
 				
 				//If the entity is JSONArray
 				if (aliasedObject instanceof JSONArray){
-					JSONArray responseArray=responseObject.getJSONArray(singleAlias);
+					responseArray=responseObject.getJSONArray(singleAlias);
 					int arrayLength=responseArray.length();
 					dests=new ArrayList<T>(arrayLength);
 					for(int i=0;i<arrayLength;i++){
-						JSONObject jsonObject=responseArray.getJSONObject(i);
+						jsonObject=responseArray.getJSONObject(i);
 						dests.add(createEntity(jsonObject.toString(), targetType));
 					}	
 					return dests;
@@ -104,6 +106,8 @@ public class JSONTransformer<T> implements Transformer<T, ServiceResponse> {
 		Map<String, List> destMap = new HashMap<String, List>();
 		List dests = null;
 		JSONObject responseObject = null;
+		JSONArray responseArray = null;
+		JSONObject jsonObject = null;
 		Set<Entry<String, Class>> aliasSet = alias.getAliasTypeMap().entrySet();
 		try {
 			responseObject = new JSONObject(serviceResponse.getResponseString());
@@ -115,13 +119,11 @@ public class JSONTransformer<T> implements Transformer<T, ServiceResponse> {
 					Object aliasedObject = responseObject.get(singleAlias);
 
 					if (aliasedObject instanceof JSONArray) {
-						JSONArray responseArray = responseObject
-								.getJSONArray(singleAlias);
+						responseArray = responseObject.getJSONArray(singleAlias);
 						int arrayLength = responseArray.length();
 						dests = new ArrayList<T>(arrayLength);
 						for (int i = 0; i < arrayLength; i++) {
-							JSONObject jsonObject = responseArray
-									.getJSONObject(i);
+							jsonObject = responseArray.getJSONObject(i);
 							dests.add(createEntity(jsonObject.toString(), targetType));
 						}
 						destMap.put(singleAlias, dests);

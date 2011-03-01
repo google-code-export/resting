@@ -16,6 +16,9 @@
 package com.google.resting.helper;
 
 import java.io.File;
+import java.util.List;
+
+import org.apache.http.Header;
 
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.ServiceContext;
@@ -32,21 +35,21 @@ import com.google.resting.serviceaccessor.impl.ServiceAccessor;
  */
 public class PutHelper {
 	
-	public final static ServiceResponse put(String url, String encoding , int port, RequestParams requestParams){
+	public final static ServiceResponse put(String url, String encoding , int port, RequestParams requestParams,List<Header> additionalHeaders){
 		URLContext urlContext=new URLContext(url,port);
-		ServiceContext serviceContext= new PutServiceContext(urlContext,requestParams, encoding);
+		ServiceContext serviceContext= new PutServiceContext(urlContext,requestParams, encoding, additionalHeaders);
 		return ServiceAccessor.access(serviceContext);
 	}//put
 	
-	public final static ServiceResponse put(String url, int port, String messageToPost,String encoding){
+	public final static ServiceResponse put(String url, int port, String messageToPost,String encoding, List<Header> additionalHeaders){
 		URLContext urlContext=new URLContext(url,port);
-		ServiceContext serviceContext= new PutServiceContext(urlContext,messageToPost,encoding);
+		ServiceContext serviceContext= new PutServiceContext(urlContext,messageToPost,encoding, additionalHeaders);
 		return ServiceAccessor.access(serviceContext);
 	}//put
 
-	public final static ServiceResponse put(String url, int port, File file, String encoding, boolean isBinaryFile){
+	public final static ServiceResponse put(String url, int port, File file, String encoding, boolean isBinaryFile, List<Header> additionalHeaders){
 		URLContext urlContext=new URLContext(url,port);
-		ServiceContext serviceContext= new PutServiceContext(urlContext,file, encoding, isBinaryFile);
+		ServiceContext serviceContext= new PutServiceContext(urlContext,file, encoding, isBinaryFile, additionalHeaders);
 		return ServiceAccessor.access(serviceContext);
 	}//put	
 }//PutHelper

@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -41,8 +42,8 @@ public class PostServiceContext extends ServiceContext {
 	private String contextPathElement=null;
 	private HttpEntity httpEntity=null;
 	
-	public PostServiceContext(URLContext urlContext, RequestParams requestParams, String encoding) {
-		super(urlContext, requestParams, Verb.POST, encoding);
+	public PostServiceContext(URLContext urlContext, RequestParams requestParams, String encoding, List<Header> inputHeaders ) {
+		super(urlContext, requestParams, Verb.POST, encoding, inputHeaders);
 		this.contextPathElement=urlContext.getContextPath();
 		this.path=this.contextPathElement;
 		if(requestParams !=null){
@@ -52,8 +53,8 @@ public class PostServiceContext extends ServiceContext {
 	//	System.out.println( "The path is "+path);		
 	}//PostServiceContext
 	
-	public PostServiceContext(URLContext urlContext, String message, String encoding) {
-		super(urlContext, null, Verb.POST, encoding);
+	public PostServiceContext(URLContext urlContext, String message, String encoding, List<Header> inputHeaders ) {
+		super(urlContext, null, Verb.POST, encoding,inputHeaders);
 		this.contextPathElement=urlContext.getContextPath();
 		this.path=this.contextPathElement;
 		this.httpEntity=setMessageEntity(message, encoding);
@@ -61,8 +62,8 @@ public class PostServiceContext extends ServiceContext {
 	//	System.out.println( "The path is "+path);		
 	}//PostServiceContext	
 
-	public PostServiceContext(URLContext urlContext, File file, String encoding, boolean isBinary) {
-		super(urlContext, null, Verb.POST, encoding);
+	public PostServiceContext(URLContext urlContext, File file, String encoding, boolean isBinary, List<Header> inputHeaders ) {
+		super(urlContext, null, Verb.POST, encoding, inputHeaders);
 		this.contextPathElement=urlContext.getContextPath();
 		this.path=this.contextPathElement;
 		//this.httpEntity=setMessageEntity(message, encoding);

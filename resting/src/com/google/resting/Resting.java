@@ -21,6 +21,8 @@ import static com.google.resting.component.EncodingTypes.UTF8;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.http.Header;
+
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.Verb;
 import com.google.resting.component.impl.JSONAlias;
@@ -131,6 +133,23 @@ public final class Resting {
 	}//get
 	
 	/**
+	 * Executes HTTP/HTTPS GET request and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
+	 * as the response headers and the HTTP status code
+	 * 
+	 * @param baseURI Base URI of the REST endpoint
+	 * @param port Port of the REST endpoint
+	 * @param requestParams {@link RequestParams} object containing collection of parameters in key/ value pair for REST request
+	 * @param encoding Message encoding in response
+	 * @param inputHeaders Additional request headers. The default headers are Accept: text/xml and Accept: application/json
+	 * @return
+	 */
+	
+	public final static ServiceResponse get(String baseURI, int port,RequestParams requestParams, String encoding, List<Header> additionalHeaders){
+		return GetHelper.get(baseURI, port,requestParams,encoding, additionalHeaders);
+	}//get
+
+	
+	/**
 	 * Executes HTTP/HTTPS POST request for a POST request with no content in the message body and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
 	 * as the response headers and the HTTP status code
 	 * 
@@ -141,7 +160,7 @@ public final class Resting {
 	 */
 	
 	public final static ServiceResponse post(String baseURI, int port){
-		return PostHelper.post(baseURI, port, UTF8,null);
+		return PostHelper.post(baseURI, port, UTF8,null,null);
 	}//post
 	
 	/**
@@ -157,7 +176,7 @@ public final class Resting {
 	
 	public final static ServiceResponse post(String baseURI, int port, RequestParams requestParams){
 		//Post
-		return PostHelper.post(baseURI, port, UTF8,requestParams);
+		return PostHelper.post(baseURI, port, UTF8,requestParams,null);
 	}//post
 	/**
 	 * Executes HTTP/HTTPS POST request with message String in the message body and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
@@ -171,7 +190,7 @@ public final class Resting {
 	 */
 	
 	public final static ServiceResponse post(String baseURI, int port, String messageToPost, String messageEncoding){
-		return PostHelper.post(messageToPost, messageEncoding, baseURI, port);
+		return PostHelper.post(messageToPost, messageEncoding, baseURI, port,null);
 	}//post	
 	/**
 	 * Executes HTTP/HTTPS PUT request and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
@@ -183,7 +202,7 @@ public final class Resting {
 	 * @return {@link ServiceResponse} object containing the entire REST response as a String, the HTTP status code and the response headers.
 	 */
 	public final static ServiceResponse put(String baseURI, int port){
-		return PutHelper.put(baseURI,port, null, UTF8);
+		return PutHelper.put(baseURI,port, null, UTF8,null);
 	}//put
 	
 	/**
@@ -197,7 +216,7 @@ public final class Resting {
 	 * @return {@link ServiceResponse} object containing the entire REST response as a String, the HTTP status code and the response headers.
 	 */
 	public final static ServiceResponse put(String baseURI, int port, RequestParams requestParams){
-		return PutHelper.put(baseURI,UTF8,port, requestParams);
+		return PutHelper.put(baseURI,UTF8,port, requestParams,null);
 	}//put
 	
 	/**
@@ -244,7 +263,12 @@ public final class Resting {
 	
 	public final static <T> List<T> getByJSON(String baseURI, int port, RequestParams requestParams, Class<T> targetType, String alias){
 		JSONAlias jsonAlias=new JSONAlias(alias);
-		return RestingHelper.executeAndTransform(baseURI, port,requestParams, Verb.GET, TransformationType.JSON, targetType, jsonAlias,UTF8);
+		return RestingHelper.executeAndTransform(baseURI, port,requestParams, Verb.GET, TransformationType.JSON, targetType, jsonAlias,UTF8, null);
+	}//getByJSON
+
+	public final static <T> List<T> getByJSON(String baseURI, int port, RequestParams requestParams, Class<T> targetType, String alias, String encoding, List<Header> additionalHeaders){
+		JSONAlias jsonAlias=new JSONAlias(alias);
+		return RestingHelper.executeAndTransform(baseURI, port,requestParams, Verb.GET, TransformationType.JSON, targetType, jsonAlias,encoding, additionalHeaders);
 	}//getByJSON
 	
 	/**
@@ -261,7 +285,7 @@ public final class Resting {
 	
 	public final static  Map<String, List> getByJSON(String baseURI, int port, RequestParams requestParams, Map<String, Class> aliasTypeMap){	
 		JSONAlias alias=new JSONAlias(aliasTypeMap);
-		return RestingHelper.executeAndTransform(baseURI, port,requestParams, Verb.GET, TransformationType.JSON, alias,UTF8);
+		return RestingHelper.executeAndTransform(baseURI, port,requestParams, Verb.GET, TransformationType.JSON, alias,UTF8,null);
 	}//getByJSON	
 	/**
 	 * Executes HTTP/HTTPS GET request and transforms the XML response into target entity.
@@ -277,7 +301,7 @@ public final class Resting {
 	 */
 
 	public final static <T> T getByXML(String baseURI, int port, RequestParams requestParams, Class<T> rootType, XMLAlias alias){
-		return RestingHelper.executeAndTransform(baseURI, port,requestParams, Verb.GET, TransformationType.XML, rootType, alias,UTF8).get(0);
+		return RestingHelper.executeAndTransform(baseURI, port,requestParams, Verb.GET, TransformationType.XML, rootType, alias,UTF8, null).get(0);
 	}//getByXML
 	
 

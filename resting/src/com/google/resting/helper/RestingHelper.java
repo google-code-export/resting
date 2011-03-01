@@ -25,6 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.http.Header;
+
 import com.google.resting.component.Alias;
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.Verb;
@@ -43,16 +45,16 @@ import com.google.resting.transform.impl.XMLTransformer;
 
 public final class RestingHelper {
 
-	public final static<T> List<T> executeAndTransform(String url, int port, RequestParams requestParams, Verb verb, TransformationType transformationType, Class<T> targetType, Alias alias, String encoding){
+	public final static<T> List<T> executeAndTransform(String url, int port, RequestParams requestParams, Verb verb, TransformationType transformationType, Class<T> targetType, Alias alias, String encoding, List<Header> additionalHeaders){
 		ServiceResponse serviceResponse=null;
 		if(verb==Verb.GET)
-			serviceResponse=get(url, port,requestParams, encoding);
+			serviceResponse=get(url, port,requestParams, encoding, additionalHeaders);
 		else if (verb == Verb.DELETE)
-			serviceResponse=delete(url, port,requestParams, encoding);
+			serviceResponse=delete(url, port,requestParams, encoding, additionalHeaders);
 		else if (verb==Verb.POST)
-			serviceResponse=post(url, port,encoding, requestParams);
+			serviceResponse=post(url, port,encoding, requestParams,additionalHeaders);
 		else if (verb==Verb.PUT)
-			serviceResponse=put(url, encoding, port,requestParams);
+			serviceResponse=put(url, encoding, port,requestParams, additionalHeaders);
 		
 		List<T> results=new ArrayList<T>();
 		final long startTime=System.currentTimeMillis();
@@ -72,16 +74,16 @@ public final class RestingHelper {
 		return results;
 	}//executeAndTransform
 	
-	public final static Map<String, List> executeAndTransform(String url, int port, RequestParams requestParams, Verb verb, TransformationType transformationType, JSONAlias alias, String encoding){
+	public final static Map<String, List> executeAndTransform(String url, int port, RequestParams requestParams, Verb verb, TransformationType transformationType, JSONAlias alias, String encoding, List<Header> additionalHeaders){
 		ServiceResponse serviceResponse=null;
 		if(verb==Verb.GET)
-			serviceResponse=get(url, port,requestParams, encoding);
+			serviceResponse=get(url, port,requestParams, encoding, additionalHeaders);
 		else if (verb == Verb.DELETE)
-			serviceResponse=delete(url, port,requestParams, encoding);
+			serviceResponse=delete(url, port,requestParams, encoding, additionalHeaders);
 		else if (verb==Verb.POST)
-			serviceResponse=post(url, port, encoding, requestParams);
+			serviceResponse=post(url, port, encoding, requestParams, additionalHeaders);
 		else if (verb==Verb.PUT)
-			serviceResponse=put(url, encoding, port,requestParams);
+			serviceResponse=put(url, encoding, port,requestParams, additionalHeaders);
 		
 		Map<String, List> results=null;
 		

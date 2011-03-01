@@ -16,10 +16,17 @@
 
 package com.google.resting.component;
 
+import static com.google.resting.component.RequestHeaderType.ACCEPT;
+import static com.google.resting.component.ContentType.APPLICATION_JSON;
+import static com.google.resting.component.ContentType.TEXT_XML;
+
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicHeader;
 
 import com.google.resting.component.impl.URLContext;
 /**
@@ -39,13 +46,19 @@ public abstract class ServiceContext {
 	private boolean isSecureInvocation=false;
 	private Verb verb=null;
 	private String charset=null;
+	private List<Header> headers;
 	
-	protected ServiceContext(URLContext urlContext, RequestParams queryParams, Verb verb, String charset){
+	protected ServiceContext(URLContext urlContext, RequestParams queryParams, Verb verb, String charset,List<Header> inputHeaders ){
 		this.targetDomain=urlContext.getTargetDomain();
 		this.port=urlContext.getPort();
 		this.isSecureInvocation=urlContext.isSecureInvocation();
 		this.verb=verb;
 		this.charset=charset;
+		this.headers=new ArrayList<Header>();
+		this.headers.add(((new BasicHeader(ACCEPT.getName(),TEXT_XML))));
+		this.headers.add(((new BasicHeader(ACCEPT.getName(),APPLICATION_JSON))));
+		if(inputHeaders !=null)
+			this.headers.addAll(inputHeaders);
 	}//ServiceContext
 	
 	public abstract String getPath();
@@ -53,6 +66,10 @@ public abstract class ServiceContext {
 	public abstract String getContextPathElement();
 	
 	public abstract List<NameValuePair> getInputParams();
+	
+	public List<Header> getHeaders(){
+		return headers;
+	}//getHeaders
 	
 	public Verb getVerb(){
 		assert verb!=null:"HTTP operation type should not be null";

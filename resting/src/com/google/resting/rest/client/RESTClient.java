@@ -16,6 +16,9 @@
 
 package com.google.resting.rest.client;
 
+import java.util.List;
+
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpRequest;
@@ -59,9 +62,6 @@ public class RESTClient {
 	public static ServiceResponse invoke(ServiceContext serviceContext) {
 		String targetDomain=serviceContext.getTargetDomain();
 		int port=serviceContext.getPort();
-		String path=serviceContext.getPath();
-		Verb verb=serviceContext.getVerb();
-		HttpEntity httpEntity=serviceContext.getHttpEntity();
 		String charset=serviceContext.getCharset();
 
 		HttpResponse response = null;
@@ -70,15 +70,9 @@ public class RESTClient {
 
 		HttpHost targetHost = new HttpHost(targetDomain, port, RequestConstants.HTTP);
 		
-		HttpRequest request = buildHttpRequest(verb,path, httpEntity);
+		HttpRequest request = buildHttpRequest(serviceContext);
 		
 		HttpClient httpClient = new DefaultHttpClient();
-
-	//	System.out.println( "Target domain: " + targetDomain);
-	//	System.out.println( "Port: " + port);
-	//	System.out.println( "Request path: " + path);
-		// Make sure the server knows what kind of a response we will accept
-		request.addHeader("Accept", "text/xml");
 
 		try {
 			// execute is a blocking call, it's best to call this code in a
@@ -112,30 +106,44 @@ public class RESTClient {
 		return serviceResponse;
 	}// invoke
 	
-	private static HttpRequest buildHttpRequest(Verb verb, String path,  HttpEntity httpEntity) {
+	private static HttpRequest buildHttpRequest(ServiceContext serviceContext) {
+		
+		String path=serviceContext.getPath();
+		Verb verb=serviceContext.getVerb();
+		HttpEntity httpEntity=serviceContext.getHttpEntity();
+		List<Header> headers=serviceContext.getHeaders();
 		
 		if (verb == Verb.GET) {
 			HttpGet httpGet = new HttpGet(path);
+			 for(Header header:headers)
+				 httpGet.addHeader(header);
 			return httpGet;
 			
 		} else if (verb == Verb.POST) {
 			HttpPost httpPost = new HttpPost(path);
+			 for(Header header:headers)
+				 httpPost.addHeader(header);
 			if(httpEntity!=null)
 				httpPost.setEntity(httpEntity);
 			return httpPost;
 
 		} else if (verb == Verb.DELETE) {
 			HttpDelete httpDelete = new HttpDelete(path);
+			 for(Header header:headers)
+				 httpDelete.addHeader(header);
 			return httpDelete;
 
 		} else {
 			HttpPut httpPut = new HttpPut(path);
+			 for(Header header:headers)
+				 httpPut.addHeader(header);
 			if(httpEntity!=null)
 				httpPut.setEntity(httpEntity);
 			return httpPut;
 		}//if
 	}//buildHttpRequest
-	
+
+
 	/**
 	 * Executes secure SSL request using HTTPS
 	 * 
@@ -149,20 +157,12 @@ public class RESTClient {
 	public static ServiceResponse secureInvoke(ServiceContext serviceContext){
 		String targetDomain=serviceContext.getTargetDomain();
 		int port=serviceContext.getPort();
-		String path=serviceContext.getPath();
-		Verb verb=serviceContext.getVerb();
 		ServiceResponse serviceResponse=null;
-		HttpEntity httpEntity=serviceContext.getHttpEntity();
 		String charset=serviceContext.getCharset();
-		
-	//	System.out.println( "Target domain: " + targetDomain);
-	//	System.out.println( "Port: " + port);
-	//	System.out.println( "Request path: " + path);
-
 		try {
 			long ioStartTime=System.currentTimeMillis();
 			HttpHost targetHost = new HttpHost(targetDomain, port, RequestConstants.HTTPS);
-			HttpRequest request = buildHttpRequest(verb,path,httpEntity);
+			HttpRequest request = buildHttpRequest(serviceContext);
 					
 	        DefaultHttpClient httpclient = new DefaultHttpClient();
 	        httpclient.getConnectionManager().getSchemeRegistry().register(new Scheme(RequestConstants.HTTPS, new CustomSSLSocketFactory(), port));

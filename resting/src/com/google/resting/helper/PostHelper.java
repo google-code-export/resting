@@ -16,6 +16,9 @@
 package com.google.resting.helper;
 
 import java.io.File;
+import java.util.List;
+
+import org.apache.http.Header;
 
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.ServiceContext;
@@ -31,21 +34,21 @@ import com.google.resting.serviceaccessor.impl.ServiceAccessor;
  *
  */
 public class PostHelper {
-	public final static ServiceResponse post(String url, int port, String encoding, RequestParams requestParams){
+	public final static ServiceResponse post(String url, int port, String encoding, RequestParams requestParams, List<Header> additionalHeaders){
 		URLContext urlContext=new URLContext(url,port);
-		ServiceContext serviceContext= new PostServiceContext(urlContext,requestParams, encoding);
+		ServiceContext serviceContext= new PostServiceContext(urlContext,requestParams, encoding, additionalHeaders);
 		return ServiceAccessor.access(serviceContext);
 	}//post
 	
-	public final static ServiceResponse post(String messageToPost, String encoding, String url, int port){
+	public final static ServiceResponse post(String messageToPost, String encoding, String url, int port, List<Header> additionalHeaders){
 		URLContext urlContext=new URLContext(url,port);
-		ServiceContext serviceContext= new PostServiceContext(urlContext,messageToPost,encoding);
+		ServiceContext serviceContext= new PostServiceContext(urlContext,messageToPost,encoding, additionalHeaders);
 		return ServiceAccessor.access(serviceContext);
 	}//post
 
-	public final static ServiceResponse post(String url, int port, File file, String encoding, boolean isBinaryFile){
+	public final static ServiceResponse post(String url, int port, File file, String encoding, boolean isBinaryFile, List<Header> additionalHeaders){
 		URLContext urlContext=new URLContext(url,port);
-		ServiceContext serviceContext= new PostServiceContext(urlContext,file, encoding, isBinaryFile);
+		ServiceContext serviceContext= new PostServiceContext(urlContext,file, encoding, isBinaryFile, additionalHeaders);
 		return ServiceAccessor.access(serviceContext);
 	}//post
 }//PostHelper

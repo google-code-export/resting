@@ -85,7 +85,7 @@ public final class ServiceAccessor implements Accessor{
 		String path=serviceContext.getPath();
 		Verb verb=serviceContext.getVerb();
 		String contextPathElement=serviceContext.getContextPathElement();
-		String encoding=serviceContext.getCharset();
+		String encoding=serviceContext.getCharset().getName();
 		List<NameValuePair> inputParams=serviceContext.getInputParams();
 		try {
 			path=path+String.format(AMPERSAND_SEPARATED_STRING,SIGNATURE,getSignature(keyString,targetDomain,verb, isSecureInvocation, contextPathElement, inputParams, encoding));

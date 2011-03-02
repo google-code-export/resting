@@ -28,6 +28,8 @@ import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
+
+import com.google.resting.component.EncodingTypes;
 /**
  * IO utilities for resting
  * 
@@ -60,7 +62,7 @@ public class IOUtils {
      * @throws NullPointerException if the input is null
      * @throws IOException if an I/O error occurs
      */
-    public static String toString(InputStream input, String charset) throws IOException {
+    public static String toString(InputStream input, EncodingTypes charset) throws IOException {
         StringBuilderWriter sw = new StringBuilderWriter();
         copy(input, sw,charset);
         return sw.toString();
@@ -82,10 +84,10 @@ public class IOUtils {
      * @throws NullPointerException if the input or output is null
      * @throws IOException if an I/O error occurs
      */
-    public static void copy(InputStream input, Writer output, String charset)
+    public static void copy(InputStream input, Writer output, EncodingTypes charset)
     throws IOException {
     //	BufferedReader in = new BufferedReader(new InputStreamReader(input, "UTF-8"), DEFAULT_BUFFER_SIZE);
-    	InputStreamReader in=new InputStreamReader(input, charset);
+    	InputStreamReader in=new InputStreamReader(input, charset.getName());
     	copy(in, output);
     }//copy
     /**
@@ -170,7 +172,7 @@ public class IOUtils {
 		}
     }//fastChannelCopy
     
-    public static String writeToString(InputStream inputStream, String charset){
+    public static String writeToString(InputStream inputStream, EncodingTypes charset){
     	String outputString="";
     	ByteArrayOutputStream baos=new ByteArrayOutputStream();
     	final ReadableByteChannel inputChannel=Channels.newChannel(inputStream);
@@ -178,7 +180,7 @@ public class IOUtils {
     	//copy the channels
     	fastChannelCopy(inputChannel, outputChannel);
     	try {
-			outputString=new String(baos.toByteArray(), charset);
+			outputString=new String(baos.toByteArray(), charset.getName());
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		} catch(Exception e){

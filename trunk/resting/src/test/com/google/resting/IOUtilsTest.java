@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import com.google.resting.component.EncodingTypes;
 import com.google.resting.util.IOUtils;
 
 import junit.framework.TestCase;
@@ -22,7 +23,7 @@ public class IOUtilsTest extends TestCase {
 			for(int i=0;i<100;i++){
 			inputStream=new FileInputStream(file);
 			
-			result1=IOUtils.toString(inputStream, "UTF-8");
+			result1=IOUtils.toString(inputStream, EncodingTypes.UTF8);
 			
 			inputStream.close();
 			}
@@ -32,7 +33,7 @@ public class IOUtilsTest extends TestCase {
 			long startTime2=System.currentTimeMillis();
 			for(int i=0;i<100;i++){
 			inputStream2=new FileInputStream(file);
-			result2=IOUtils.writeToString(inputStream2, "UTF-8");
+			result2=IOUtils.writeToString(inputStream2, EncodingTypes.UTF8);
 			inputStream2.close();
 			}
 			long endTime2=System.currentTimeMillis();

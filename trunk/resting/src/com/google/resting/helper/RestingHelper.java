@@ -28,6 +28,7 @@ import java.util.Map;
 import org.apache.http.Header;
 
 import com.google.resting.component.Alias;
+import com.google.resting.component.EncodingTypes;
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.Verb;
 import com.google.resting.component.impl.ServiceResponse;
@@ -45,7 +46,7 @@ import com.google.resting.transform.impl.XMLTransformer;
 
 public final class RestingHelper {
 
-	public final static<T> List<T> executeAndTransform(String url, int port, RequestParams requestParams, Verb verb, TransformationType transformationType, Class<T> targetType, Alias alias, String encoding, List<Header> additionalHeaders){
+	public final static<T> List<T> executeAndTransform(String url, int port, RequestParams requestParams, Verb verb, TransformationType transformationType, Class<T> targetType, Alias alias, EncodingTypes encoding, List<Header> additionalHeaders){
 		ServiceResponse serviceResponse=null;
 		if(verb==Verb.GET)
 			serviceResponse=get(url, port,requestParams, encoding, additionalHeaders);
@@ -74,7 +75,7 @@ public final class RestingHelper {
 		return results;
 	}//executeAndTransform
 	
-	public final static Map<String, List> executeAndTransform(String url, int port, RequestParams requestParams, Verb verb, TransformationType transformationType, JSONAlias alias, String encoding, List<Header> additionalHeaders){
+	public final static Map<String, List> executeAndTransform(String url, int port, RequestParams requestParams, Verb verb, TransformationType transformationType, JSONAlias alias, EncodingTypes encoding, List<Header> additionalHeaders){
 		ServiceResponse serviceResponse=null;
 		if(verb==Verb.GET)
 			serviceResponse=get(url, port,requestParams, encoding, additionalHeaders);

@@ -32,6 +32,7 @@ import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.impl.client.DefaultHttpClient;
 
+import com.google.resting.component.EncodingTypes;
 import com.google.resting.component.ServiceContext;
 import com.google.resting.component.Verb;
 import com.google.resting.component.impl.ServiceResponse;
@@ -62,7 +63,7 @@ public class RESTClient {
 	public static ServiceResponse invoke(ServiceContext serviceContext) {
 		String targetDomain=serviceContext.getTargetDomain();
 		int port=serviceContext.getPort();
-		String charset=serviceContext.getCharset();
+		EncodingTypes charset=serviceContext.getCharset();
 
 		HttpResponse response = null;
 		ServiceResponse serviceResponse = null;
@@ -158,7 +159,7 @@ public class RESTClient {
 		String targetDomain=serviceContext.getTargetDomain();
 		int port=serviceContext.getPort();
 		ServiceResponse serviceResponse=null;
-		String charset=serviceContext.getCharset();
+		EncodingTypes charset=serviceContext.getCharset();
 		try {
 			long ioStartTime=System.currentTimeMillis();
 			HttpHost targetHost = new HttpHost(targetDomain, port, RequestConstants.HTTPS);

@@ -25,7 +25,8 @@ public enum EncodingTypes {
 	
 	UTF8("UTF-8"),
 	UTF16("UTF-16"),
-	UTF32("UTF-32");
+	UTF32("UTF-32"),
+	BINARY("BINARY"); //Binary other than printable chars
 	
 	private String name;
 	

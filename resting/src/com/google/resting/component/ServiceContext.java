@@ -19,7 +19,8 @@ package com.google.resting.component;
 import static com.google.resting.component.RequestHeaderType.ACCEPT;
 import static com.google.resting.component.ContentType.APPLICATION_JSON;
 import static com.google.resting.component.ContentType.TEXT_XML;
-
+import static com.google.resting.component.ContentType.TEXT_HTML;
+import static com.google.resting.component.ContentType.TEXT_PLAIN;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,10 +46,10 @@ public abstract class ServiceContext {
 	private int port=0;
 	private boolean isSecureInvocation=false;
 	private Verb verb=null;
-	private String charset=null;
+	private EncodingTypes charset=null;
 	private List<Header> headers;
 	
-	protected ServiceContext(URLContext urlContext, RequestParams queryParams, Verb verb, String charset,List<Header> inputHeaders ){
+	protected ServiceContext(URLContext urlContext, RequestParams queryParams, Verb verb, EncodingTypes charset,List<Header> inputHeaders ){
 		this.targetDomain=urlContext.getTargetDomain();
 		this.port=urlContext.getPort();
 		this.isSecureInvocation=urlContext.isSecureInvocation();
@@ -57,6 +58,8 @@ public abstract class ServiceContext {
 		this.headers=new ArrayList<Header>();
 		this.headers.add(((new BasicHeader(ACCEPT.getName(),TEXT_XML))));
 		this.headers.add(((new BasicHeader(ACCEPT.getName(),APPLICATION_JSON))));
+		this.headers.add(((new BasicHeader(ACCEPT.getName(),TEXT_HTML))));
+		this.headers.add(((new BasicHeader(ACCEPT.getName(),TEXT_PLAIN))));
 		if(inputHeaders !=null)
 			this.headers.addAll(inputHeaders);
 	}//ServiceContext
@@ -94,8 +97,7 @@ public abstract class ServiceContext {
 		return null;
 	}//getHttpEntity
 	
-	public String getCharset(){
-		assert charset!=null:"Charset should not be null";
+	public EncodingTypes getCharset(){
 		return charset;
 	}//getCharset
 

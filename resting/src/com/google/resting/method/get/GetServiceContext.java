@@ -24,6 +24,7 @@ import java.util.List;
 import org.apache.http.Header;
 import org.apache.http.NameValuePair;
 
+import com.google.resting.component.EncodingTypes;
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.ServiceContext;
 import com.google.resting.component.Verb;
@@ -41,7 +42,7 @@ public class GetServiceContext extends ServiceContext {
 	private String path=null;
 	private String contextPathElement=null;
 
-	public GetServiceContext(URLContext urlContext, RequestParams requestParams, String encoding, List<Header> inputHeaders ){
+	public GetServiceContext(URLContext urlContext, RequestParams requestParams, EncodingTypes encoding, List<Header> inputHeaders ){
 		super(urlContext,requestParams, Verb.GET, encoding, inputHeaders);
 		this.contextPathElement=urlContext.getContextPath();
 		if(requestParams !=null)	this.inputParams=requestParams.getRequestParams();
@@ -71,9 +72,9 @@ public class GetServiceContext extends ServiceContext {
 				
 				try {
 					if (i > 0)
-						combinedParams.append("&").append(inputParam.getName()).append("=").append(URLEncoder.encode(inputParam.getValue(), getCharset()));
+						combinedParams.append("&").append(inputParam.getName()).append("=").append(URLEncoder.encode(inputParam.getValue(), getCharset().getName()));
 					else
-						combinedParams.append(inputParam.getName()).append("=").append(URLEncoder.encode(inputParam.getValue(), getCharset()));
+						combinedParams.append(inputParam.getName()).append("=").append(URLEncoder.encode(inputParam.getValue(), getCharset().getName()));
 					
 				} catch (UnsupportedEncodingException e) {
 					e.printStackTrace();

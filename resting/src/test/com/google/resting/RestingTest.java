@@ -15,7 +15,11 @@
  */
 package test.com.google.resting;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.http.Header;
+import org.apache.http.message.BasicHeader;
 
 import junit.framework.TestCase;
 import test.com.google.resting.vo.Facets;
@@ -24,6 +28,7 @@ import test.com.google.resting.vo.Result;
 import test.com.google.resting.vo.ResultSet;
 
 import com.google.resting.Resting;
+import com.google.resting.component.EncodingTypes;
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.impl.BasicRequestParams;
 import com.google.resting.component.impl.ServiceResponse;
@@ -153,7 +158,7 @@ public class RestingTest extends TestCase {
 		
 		
 	}
-	public void testMime2(){
+	public void testMimeApplicationJSON(){
 		System.out.println("\ntestMime2\n-----------------------------");		
 		ServiceResponse response=null;
 		try {
@@ -164,5 +169,43 @@ public class RestingTest extends TestCase {
 		System.out.println("[RestingTest::testMime2] Response is" +response);
 		assertEquals(200, response.getStatusCode());
 		
-	}	
+	}
+	public void testMimeTextHtml(){
+		System.out.println("\testMimeTextHtml\n-----------------------------");		
+		ServiceResponse response=null;
+		try {
+			response = Resting.get("http://localhost/testresting/rest/hello/htmlhello",8080);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		System.out.println("[RestingTest::testMimeTextHtml] Response is" +response);
+		assertEquals(200, response.getStatusCode());
+		
+	}
+	public void testMimeAdditionalNeg(){
+		System.out.println("\ntestMimeAdditionalNeg\n-----------------------------");		
+		ServiceResponse response=null;
+		try {
+			response = Resting.get("http://localhost/testresting/rest/hello/octet",8080);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		System.out.println("[RestingTest::testMimeAdditionalNeg] Response is" +response);
+		assertEquals(406, response.getStatusCode());
+	}
+	public void testMimeAdditionalPos(){
+		System.out.println("\ntestMimeAdditionalPos\n-----------------------------");		
+		ServiceResponse response=null;
+		List<Header> headers=new ArrayList<Header>();
+		headers.add(new BasicHeader("Accept","application/octet-stream"));
+		try {
+			response = Resting.get("http://localhost/testresting/rest/hello/octet",8080, null, EncodingTypes.BINARY, headers);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		System.out.println("[RestingTest::testMimeAdditionalPos] Response is" +response);
+		assertEquals(200, response.getStatusCode());
+		
+	}
+	
 }

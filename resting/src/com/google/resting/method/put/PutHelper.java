@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.apache.http.Header;
 
+import com.google.resting.component.EncodingTypes;
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.ServiceContext;
 import com.google.resting.component.impl.ServiceResponse;
@@ -34,19 +35,19 @@ import com.google.resting.serviceaccessor.impl.ServiceAccessor;
  */
 public class PutHelper {
 	
-	public final static ServiceResponse put(String url, String encoding , int port, RequestParams requestParams,List<Header> additionalHeaders){
+	public final static ServiceResponse put(String url, EncodingTypes encoding , int port, RequestParams requestParams,List<Header> additionalHeaders){
 		URLContext urlContext=new URLContext(url,port);
 		ServiceContext serviceContext= new PutServiceContext(urlContext,requestParams, encoding, additionalHeaders);
 		return ServiceAccessor.access(serviceContext);
 	}//put
 	
-	public final static ServiceResponse put(String url, int port, String messageToPost,String encoding, List<Header> additionalHeaders){
+	public final static ServiceResponse put(String url, int port, String messageToPost,EncodingTypes encoding, List<Header> additionalHeaders){
 		URLContext urlContext=new URLContext(url,port);
 		ServiceContext serviceContext= new PutServiceContext(urlContext,messageToPost,encoding, additionalHeaders);
 		return ServiceAccessor.access(serviceContext);
 	}//put
 
-	public final static ServiceResponse put(String url, int port, File file, String encoding, boolean isBinaryFile, List<Header> additionalHeaders){
+	public final static ServiceResponse put(String url, int port, File file, EncodingTypes encoding, boolean isBinaryFile, List<Header> additionalHeaders){
 		URLContext urlContext=new URLContext(url,port);
 		ServiceContext serviceContext= new PutServiceContext(urlContext,file, encoding, isBinaryFile, additionalHeaders);
 		return ServiceAccessor.access(serviceContext);

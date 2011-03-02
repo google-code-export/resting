@@ -25,7 +25,9 @@ import org.apache.http.HttpResponse;
 import org.apache.http.util.CharArrayBuffer;
 
 import com.google.resting.Resting;
+import com.google.resting.component.EncodingTypes;
 import com.google.resting.util.IOUtils;
+import static com.google.resting.component.EncodingTypes.BINARY;
 /**
  * Wrapper object for REST response. This entity encapsulates the HTTP status code, the HTTP response body as a String and 
  * the HTTP headers of the REST response. {@link Resting} APIs like {@link Resting.get()}, {@link Resting.put()}, 
@@ -42,17 +44,27 @@ public class ServiceResponse {
 	private String responseString=null;
 	private Header[] responseHeaders=null;
 
-	public ServiceResponse(HttpResponse response, String charset) {
+	public ServiceResponse(HttpResponse response, EncodingTypes charset) {
 		assert response!=null:"HttpResponse should not be null";
 		InputStream inputStream=null;	
+		HttpEntity entity=null;
 		try {
-			if (response ==null){} 
-			HttpEntity entity = response.getEntity();
-			this.statusCode = response.getStatusLine().getStatusCode();
-			this.responseHeaders=response.getAllHeaders();
-			inputStream=entity.getContent();
-			this.responseString=IOUtils.writeToString(inputStream, charset);
-			//this.responseString=IOUtils.toString(inputStream, charset);
+			if (response !=null){ 
+				entity=response.getEntity();
+				this.statusCode = response.getStatusLine().getStatusCode();
+				this.responseHeaders=response.getAllHeaders();
+				//Data is not binary. Hence, written in the response string 
+				if(charset != BINARY){
+					 inputStream=entity.getContent();
+					 this.responseString=IOUtils.writeToString(inputStream, charset);
+				 }
+				else{
+					//Data is binary. Stored in byte[]. TBD
+					
+					//byte[] bytes=response.getEntity().getContent();
+				}
+				 
+			}
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -68,16 +80,18 @@ public class ServiceResponse {
 	}//getStatusCode
 
 	public String getResponseString() {
+		assert responseString!=null:"If response string is null, response data is binary in nature";
 		return responseString;
 	}//getResponseString
 	
 	public Header[] getResponseHeaders(){
 		return responseHeaders;
 	}//getResponseHeaders
-
 	
 	public String toString(){
-		int length=responseString.length()+3+96;
+		int length=150;
+		if(responseString!=null)
+		 length=responseString.length()+length;
 		 for(Header header:responseHeaders){
 			 length+=header.getName().length()+header.getValue().length()+3;
 		 }
@@ -92,7 +106,10 @@ public class ServiceResponse {
 			 buffer.append("\n");
 		 }		
 		buffer.append("Response body: \n");
-		buffer.append(responseString);
+		if(responseString!=null)
+			buffer.append(responseString);
+		else 
+			buffer.append("Response may be binary stream");
 		buffer.append("----------------\n");
 
 		return buffer.toString();

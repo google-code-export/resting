@@ -39,11 +39,8 @@ import com.google.resting.util.IOUtils;
 public class ServiceResponse {
 	
 	private int statusCode = 500;
-	private String responseInString=null;
-	private byte[] responseInBytes=null;
 	private Header[] responseHeaders=null;
 	private ContentData contentData=null;
-	private int responseLength=0;
 
 	public ServiceResponse(HttpResponse response, EncodingTypes charset) {
 		assert response!=null:"HttpResponse should not be null";
@@ -54,9 +51,6 @@ public class ServiceResponse {
 				this.responseHeaders=response.getAllHeaders();
 				inputStream=response.getEntity().getContent();
 				this.contentData=IOUtils.writeToContentData(inputStream, charset);
-				this.responseInBytes=contentData.getContentInBytes();
-				this.responseInString=contentData.getContentInString();
-				this.responseLength=contentData.getContentLength();
 			}//if(response)
 			else
 			{
@@ -75,42 +69,40 @@ public class ServiceResponse {
 	}//ServiceResponse
 	
 	/**
-	 * This class encapsulates the content of the http response in various forms - string and bytes. Enables
+	 * This class encapsulates the content of the http response in bytes. Enables
 	 * the builder pattern for creating an instance of ServiceResponse object.
 	 * 
 	 */
 	public static class ContentData {
-		private String contentInString=null;
-		private byte[] contentInBytes=null;
+		private byte[] byteContent=null;
 		private int contentLength=0;
-		
-		public ContentData(String responseInString, byte[] responseInBytes){
-			this.contentInBytes=responseInBytes;
-			this.contentInString=responseInString;
-			this.contentLength=responseInBytes.length;
-		}//ContentData
+		private EncodingTypes charset;
 
-		public String getContentInString() {
-			return contentInString;
-		}//getResponseInString
-		
-		public byte[] getContentInBytes() {
-			return contentInBytes;
-		}//getResponseInBytes
+		public ContentData(byte[] responseInBytes, EncodingTypes charset){
+			this.byteContent=responseInBytes;
+			this.contentLength=responseInBytes.length;
+			this.charset=charset;
+		}		
 		
 		public int getContentLength(){
 			return contentLength;
-		}//getResponseLength
+		}//getContentLength
 		
+		public byte[] getContentInBytes(){
+			return byteContent;
+		}
+		
+		public String getContentInString(){
+			return IOUtils.writeToString(byteContent, charset);
+		}
+		
+	
 		@Override
 		public String toString(){
-			if(contentInString!=null)
-				return contentInString;
-			else
-				return "Response may be binary stream. Can be retrieved using the getResponseInBytes() method.";
+			return getContentInString();	
 		}//toString
 
-	}//ResponseData
+	}//ContentData
 	
 	/**
 	 * Get status code of http response
@@ -129,8 +121,9 @@ public class ServiceResponse {
 	 * @return HTTP response content as a string 
 	 */
 
-	public String getResponseInString() {
-		assert responseInString!=null:"Response may be a binary stream. Can be retrieved using the ServiceResponse.getResponseInBytes() method.";
+	public String getResponseString() {
+		String responseInString=contentData.getContentInString();
+		assert responseInString!=null:"Response may be a binary stream. Can be retrieved using the getResponseInBytes() method.";
 		return responseInString;
 	}//getResponseInString
 	
@@ -150,6 +143,7 @@ public class ServiceResponse {
 	 * @return HTTP response content as a byte array
 	 */
 	public byte[] getResponseInBytes(){
+		byte[] responseInBytes=contentData.getContentInBytes();
 		assert responseInBytes!=null:"Response can not be null";
 		return responseInBytes;
 	}//getResponseInBytes
@@ -160,13 +154,13 @@ public class ServiceResponse {
 	 * @return Content length
 	 */
 	public int getResponseLength(){
-		return responseLength;
+		return contentData.getContentLength();
 	}//getResponseLengths
 	
 	@Override
 	public String toString(){
 		int length=150;
-		length=responseInBytes.length+length;
+		length=contentData.getContentLength()+length;
 		 for(Header header:responseHeaders){
 			 length+=header.getName().length()+header.getValue().length()+3;
 		 }

@@ -47,7 +47,7 @@ public class XMLTransformer<T> implements Transformer<T, ServiceResponse> {
 	
 	@Override
 	public List<T> getEntityList(ServiceResponse serviceResponse, Class<T> targetType, Alias alias){
-		String responseString=serviceResponse.getResponseInString();
+		String responseString=serviceResponse.getResponseString();
 		Set<Entry<String, Class>> aliasSet=alias.getAliasTypeMap().entrySet();
 		for(Map.Entry<String, Class> aliasEntry: aliasSet){
 			xstream.alias(aliasEntry.getKey(), aliasEntry.getValue());

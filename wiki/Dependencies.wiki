@@ -2,7 +2,7 @@
 
 Resting requires the following third party libraries. For reference, all are included in the resting bundles for download. Still, please refer to the links for various details like licensing etc. 
 
-===Resting for Android===
+*Resting for Android
 
 * commons-codec-1.4.jar
 * commons-lang-2.4.jar

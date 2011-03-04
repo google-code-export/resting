@@ -48,17 +48,21 @@ import com.google.resting.transform.TransformationType;
  *
  *<p> Option 1 (Easy and fast): Pass the entire URI and read the entire HTTP response as a String
  *<pre>
+ * <code>
  * ServiceResponse response=Resting.get("http://local.yahooapis.com/MapsService/V1/geocode?appid=YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--&state=CA",80);
  * System.out.println(response); //Print the entire response body.
+ * </code>
  *</pre>
  *</p>
   *<p> Option 2 (Recommended for JSON/complex encoding issue): Create a {@link RequestParams} object(&key=value params). Pass it along with the base URI (http://.././ path). You can even implement your own  {@link RequestParams}. 
  *<pre>
+ *<code>
  * RequestParams params = new BasicRequestParams(); 
  * params.add("appid", "YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--");
  * params.add("state", "CA");
  * ServiceResponse response=Resting.get("http://local.yahooapis.com/MapsService/V1/geocode",80,params); 
  * System.out.println(response); //Print the entire response body.
+ * </code>
  *</pre>
  *</p>
  *<p> Option 3: Create your custom JAVA objects from REST response. This can be done in two ways. 
@@ -84,16 +88,20 @@ import com.google.resting.transform.TransformationType;
  * 
  * You wish to retrieve the list of "product" objects. Here, "product" is the JSON alias: 
  * 
+ * <code>
  * RequestParams jsonParams = new JSONRequestParams(); //Create request params 
  * jsonParams.add("key", "your_key");
  * List<Product> products=Resting.getByJSON("http://api.zappos.com/Product/12345",80,jsonParams, Product.class, "product");//Get the list of Product objects by passing "product" as alias
+ * </code>
  * </pr>
  * </p>
  *<p> B. For XML response:
  *
  *<pre>
+ *<code>
  * XMLAlias alias=new XMLAlias().add("Result", Result.class).add("ResultSet", ResultSet.class); //Create an alias object which will help transforming each embedded object from XML to Java.
  * List<ResultSet> resultset=Resting.getByXML("http://local.yahooapis.com/MapsService/V1/geocode", 80,params,ResultSet.class, alias);
+ *</code>
  *</pre>
  *</p>
  *

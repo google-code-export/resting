@@ -20,14 +20,12 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.http.Header;
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.CharArrayBuffer;
 
 import com.google.resting.Resting;
 import com.google.resting.component.EncodingTypes;
 import com.google.resting.util.IOUtils;
-import static com.google.resting.component.EncodingTypes.BINARY;
 /**
  * Wrapper object for REST response. This entity encapsulates the HTTP status code, the HTTP response body as a String and 
  * the HTTP headers of the REST response. {@link Resting} APIs like {@link Resting.get()}, {@link Resting.put()}, 
@@ -41,33 +39,34 @@ import static com.google.resting.component.EncodingTypes.BINARY;
 public class ServiceResponse {
 	
 	private int statusCode = 500;
-	private String responseString=null;
+	private String responseInString=null;
+	private byte[] responseInBytes=null;
 	private Header[] responseHeaders=null;
+	private ContentData contentData=null;
+	private int responseLength=0;
 
 	public ServiceResponse(HttpResponse response, EncodingTypes charset) {
 		assert response!=null:"HttpResponse should not be null";
 		InputStream inputStream=null;	
-		HttpEntity entity=null;
 		try {
 			if (response !=null){ 
-				entity=response.getEntity();
 				this.statusCode = response.getStatusLine().getStatusCode();
 				this.responseHeaders=response.getAllHeaders();
-				//Data is not binary. Hence, written in the response string 
-				if(charset != BINARY){
-					 inputStream=entity.getContent();
-					 this.responseString=IOUtils.writeToString(inputStream, charset);
-				 }
-				else{
-					//Data is binary. Stored in byte[]. TBD
-					
-					//byte[] bytes=response.getEntity().getContent();
-				}
-				 
+				inputStream=response.getEntity().getContent();
+				this.contentData=IOUtils.writeToContentData(inputStream, charset);
+				this.responseInBytes=contentData.getContentInBytes();
+				this.responseInString=contentData.getContentInString();
+				this.responseLength=contentData.getContentLength();
+			}//if(response)
+			else
+			{
+				throw new NullPointerException("HTTP response is null. Please check availability of endpoint service.");
 			}
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
+			e.printStackTrace();
+		}catch(Exception e){
 			e.printStackTrace();
 		}finally{
 			IOUtils.closeQuietly(inputStream);
@@ -75,23 +74,99 @@ public class ServiceResponse {
 		
 	}//ServiceResponse
 	
+	/**
+	 * This class encapsulates the content of the http response in various forms - string and bytes. Enables
+	 * the builder pattern for creating an instance of ServiceResponse object.
+	 * 
+	 */
+	public static class ContentData {
+		private String contentInString=null;
+		private byte[] contentInBytes=null;
+		private int contentLength=0;
+		
+		public ContentData(String responseInString, byte[] responseInBytes){
+			this.contentInBytes=responseInBytes;
+			this.contentInString=responseInString;
+			this.contentLength=responseInBytes.length;
+		}//ContentData
+
+		public String getContentInString() {
+			return contentInString;
+		}//getResponseInString
+		
+		public byte[] getContentInBytes() {
+			return contentInBytes;
+		}//getResponseInBytes
+		
+		public int getContentLength(){
+			return contentLength;
+		}//getResponseLength
+		
+		@Override
+		public String toString(){
+			if(contentInString!=null)
+				return contentInString;
+			else
+				return "Response may be binary stream. Can be retrieved using the getResponseInBytes() method.";
+		}//toString
+
+	}//ResponseData
+	
+	/**
+	 * Get status code of http response
+	 * 
+	 * @return http status code
+	 */
 	public int getStatusCode() {
 		return statusCode;
 	}//getStatusCode
-
-	public String getResponseString() {
-		assert responseString!=null:"If response string is null, response data is binary in nature";
-		return responseString;
-	}//getResponseString
 	
+	/**
+	 * Get the string representation of the HTTP response content. If the content encoding type is either binary (with or without printable characters) or 
+	 * not among the other types defined in {@link com.google.resting.component.EncodingTypes}, then the string may be null. In that case, 
+	 * the content can be retrieved as a byte array using {@link getResponseInBytes()}.
+	 * 
+	 * @return HTTP response content as a string 
+	 */
+
+	public String getResponseInString() {
+		assert responseInString!=null:"Response may be a binary stream. Can be retrieved using the ServiceResponse.getResponseInBytes() method.";
+		return responseInString;
+	}//getResponseInString
+	
+	/**
+	 * Get the response headers of the HTTP response.
+	 * 
+	 * @return Array of response headers, in name-value pair in {@link org.apache.http.Header} objects.
+	 */
 	public Header[] getResponseHeaders(){
+		assert responseHeaders.length>0:"Response headers can not be null.";
 		return responseHeaders;
 	}//getResponseHeaders
 	
+	/**
+	 * Get the HTTP response content as a byte array.
+	 * 
+	 * @return HTTP response content as a byte array
+	 */
+	public byte[] getResponseInBytes(){
+		assert responseInBytes!=null:"Response can not be null";
+		return responseInBytes;
+	}//getResponseInBytes
+	
+	/**
+	 * Returns the content length of the HTTP response
+	 * 
+	 * @return Content length
+	 */
+	public int getResponseLength(){
+		return responseLength;
+	}//getResponseLengths
+	
+	@Override
 	public String toString(){
 		int length=150;
-		if(responseString!=null)
-		 length=responseString.length()+length;
+		length=responseInBytes.length+length;
 		 for(Header header:responseHeaders){
 			 length+=header.getName().length()+header.getValue().length()+3;
 		 }
@@ -105,12 +180,10 @@ public class ServiceResponse {
 			 buffer.append(header.getValue());
 			 buffer.append("\n");
 		 }		
+		
 		buffer.append("Response body: \n");
-		if(responseString!=null)
-			buffer.append(responseString);
-		else 
-			buffer.append("Response may be binary stream");
-		buffer.append("----------------\n");
+		buffer.append(contentData);
+		buffer.append("\n----------------\n");
 
 		return buffer.toString();
 	}//toString

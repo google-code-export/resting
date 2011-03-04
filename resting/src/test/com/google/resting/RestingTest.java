@@ -171,7 +171,7 @@ public class RestingTest extends TestCase {
 		
 	}
 	public void testMimeTextHtml(){
-		System.out.println("\testMimeTextHtml\n-----------------------------");		
+		System.out.println("\ntestMimeTextHtml\n-----------------------------");		
 		ServiceResponse response=null;
 		try {
 			response = Resting.get("http://localhost/testresting/rest/hello/htmlhello",8080);
@@ -207,5 +207,18 @@ public class RestingTest extends TestCase {
 		assertEquals(200, response.getStatusCode());
 		
 	}
-	
+	public void testMimeAdditionalPos2(){
+		System.out.println("\ntestMimeAdditionalPos2\n-----------------------------");		
+		ServiceResponse response=null;
+		List<Header> headers=new ArrayList<Header>();
+		headers.add(new BasicHeader("Accept","application/octet-stream"));
+		try {
+			response = Resting.get("http://localhost/testresting/rest/hello/octet",8080, null, EncodingTypes.BINARY, headers);
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		System.out.println("[RestingTest::testMimeAdditionalPos2] Length of response byte array is " +response.getResponseInBytes().length);
+		assertEquals(200, response.getStatusCode());
+		
+	}	
 }

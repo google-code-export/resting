@@ -1,0 +1,4 @@
+#summary Third Party Dependencies for resting
+= Introduction =
+
+Resting requires the following third party libraries. For reference, all are included in the resting bundles for download. Still, please refer to the links for various details like licensing etc. 

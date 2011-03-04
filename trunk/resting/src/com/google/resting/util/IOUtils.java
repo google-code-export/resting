@@ -30,6 +30,7 @@ import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
 
 import com.google.resting.component.EncodingTypes;
+import com.google.resting.component.impl.ServiceResponse.ContentData;
 /**
  * IO utilities for resting
  * 
@@ -107,7 +108,7 @@ public class IOUtils {
      * @throws NullPointerException if the input or output is null
      * @throws IOException if an I/O error occurs
      */
-    public static int copy(Reader input, Writer output) throws IOException {
+    private static int copy(Reader input, Writer output) throws IOException {
         long count = copyLarge(input, output);
         if (count > Integer.MAX_VALUE) {
             return -1;
@@ -126,7 +127,7 @@ public class IOUtils {
      * @throws NullPointerException if the input or output is null
      * @throws IOException if an I/O error occurs
      */
-    public static long copyLarge(Reader input, Writer output) throws IOException {
+    private static long copyLarge(Reader input, Writer output) throws IOException {
         char[] buffer = new char[DEFAULT_BUFFER_SIZE];
         long count = 0;
         int n = 0;
@@ -146,7 +147,14 @@ public class IOUtils {
 			}
     	
     }//closeQuietly
-    
+    /**
+     * Copies a <code>ReadableByteChannel</code> into a <code>WritableByteChannel</code> byte channel. Uses a <code>ByteBuffer</code>
+     * to write to the channel. The buffer is drained before each write.
+     * 
+     * @param src the <code>ReadableByteChannel</code> to read from
+     * @param dest the <code>ReadableByteChannel</code> to write into
+     * @throws <code>IOException</code> if there is an I/O error
+     */
     private static void fastChannelCopy(final ReadableByteChannel src, final WritableByteChannel dest){
     	final ByteBuffer buffer=ByteBuffer.allocateDirect(DEFAULT_BUFFER_SIZE);
     	try {
@@ -167,13 +175,20 @@ public class IOUtils {
 				dest.write(buffer);
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     }//fastChannelCopy
-    
+    /**
+     * Writes an <code>InputStream</code> into a String using a charset given in <code>EncodingTypes</code> in a fast and smooth manner.
+     * 
+     * @param inputStream the <code>InputStream</code> to read from
+     * @param charset the charset among the ones defined in <code>EncodingTypes</code> for encoding 
+     * @return Encoded string representation of the <code>InputStream</code>
+     * @throws <code>UnsupportedEncodingException</code> if the charset is not supported
+     * @throws <code>Exception</code> for any issue
+     */
     public static String writeToString(InputStream inputStream, EncodingTypes charset){
-    	String outputString="";
+    	String outputString=null;
     	ByteArrayOutputStream baos=new ByteArrayOutputStream();
     	final ReadableByteChannel inputChannel=Channels.newChannel(inputStream);
     	final WritableByteChannel outputChannel=Channels.newChannel(baos);
@@ -191,8 +206,44 @@ public class IOUtils {
 			closeQuietly(inputStream);
 			closeQuietly(baos);
 		}
-    	
-    	
     	return outputString;
-    }
-}
+    }//writeToString
+    
+   /**
+     * Writes an <code>InputStream</code> into a <code>ContentData</code> using a charset given in <code>EncodingTypes</code> in 
+     * a fast and smooth manner.
+     * 
+     * @param inputStream the <code>InputStream</code> to read from
+     * @param charset the charset among the ones defined in <code>EncodingTypes</code> for encoding 
+     * @return <code>ContentData</code> object 
+     * @throws <code>UnsupportedEncodingException</code> if the charset is not supported
+     * @throws <code>Exception</code> for any issue
+     */
+    public static ContentData writeToContentData(InputStream inputStream, EncodingTypes charset){
+    	ContentData output=null;
+    	byte[] outputBytes=null;
+    	String outputString=null;
+    	ByteArrayOutputStream baos=new ByteArrayOutputStream();
+    	final ReadableByteChannel inputChannel=Channels.newChannel(inputStream);
+    	final WritableByteChannel outputChannel=Channels.newChannel(baos);
+    	//copy the channels
+    	fastChannelCopy(inputChannel, outputChannel);
+    	try {
+    		outputBytes=baos.toByteArray();
+			if(charset!=EncodingTypes.BINARY) outputString=new String(outputBytes, charset.getName());
+			output=new ContentData(outputString,outputBytes);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch(Exception e){
+			e.printStackTrace();
+		}finally{
+			closeQuietly(inputChannel);
+			closeQuietly(outputChannel);
+			closeQuietly(inputStream);
+			closeQuietly(baos);
+		}
+    	
+    	
+    	return output;
+    }//writeToContentData
+}//IOUtils

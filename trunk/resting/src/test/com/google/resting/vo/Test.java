@@ -38,7 +38,7 @@ public class Test {
 		params.add("appid", "YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--");
 		params.add("state", "CA");
 		ServiceResponse serviceResponse=Resting.get("http://local.yahooapis.com/MapsService/V1/geocode?appid=YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--&state=CA",80);
-		System.out.println("[Resting]The raw HTTP response from Yahoo Map REST API is\n--------- \n"+serviceResponse.getResponseString());
+		System.out.println("[Resting]The raw HTTP response from Yahoo Map REST API is\n--------- \n"+serviceResponse.getResponseInString());
 				
 
 		XMLTransformer<ResultSet> transformer=new XMLTransformer<ResultSet>();

@@ -69,7 +69,7 @@ public class JSONTransformer<T> implements Transformer<T, ServiceResponse> {
 		JSONArray responseArray=null;
 		JSONObject jsonObject=null;
 		try {
-			responseObject=new JSONObject(serviceResponse.getResponseInString());
+			responseObject=new JSONObject(serviceResponse.getResponseString());
 			
 			if(responseObject.has(singleAlias)){
 				
@@ -110,7 +110,7 @@ public class JSONTransformer<T> implements Transformer<T, ServiceResponse> {
 		JSONObject jsonObject = null;
 		Set<Entry<String, Class>> aliasSet = alias.getAliasTypeMap().entrySet();
 		try {
-			responseObject = new JSONObject(serviceResponse.getResponseInString());
+			responseObject = new JSONObject(serviceResponse.getResponseString());
 			for (Map.Entry<String, Class> entry : aliasSet) {
 				String singleAlias = entry.getKey();
 				Class targetType = entry.getValue();

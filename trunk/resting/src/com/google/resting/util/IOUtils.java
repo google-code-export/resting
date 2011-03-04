@@ -30,6 +30,7 @@ import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
 
 import com.google.resting.component.EncodingTypes;
+import static com.google.resting.component.EncodingTypes.BINARY;
 import com.google.resting.component.impl.ServiceResponse.ContentData;
 /**
  * IO utilities for resting
@@ -222,19 +223,16 @@ public class IOUtils {
     public static ContentData writeToContentData(InputStream inputStream, EncodingTypes charset){
     	ContentData output=null;
     	byte[] outputBytes=null;
-    	String outputString=null;
     	ByteArrayOutputStream baos=new ByteArrayOutputStream();
     	final ReadableByteChannel inputChannel=Channels.newChannel(inputStream);
     	final WritableByteChannel outputChannel=Channels.newChannel(baos);
     	//copy the channels
     	fastChannelCopy(inputChannel, outputChannel);
     	try {
-    		outputBytes=baos.toByteArray();
-			if(charset!=EncodingTypes.BINARY) outputString=new String(outputBytes, charset.getName());
-			output=new ContentData(outputString,outputBytes);
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		} catch(Exception e){
+				outputBytes=baos.toByteArray();
+				output=new ContentData(outputBytes,charset);
+			
+		}  catch(Exception e){
 			e.printStackTrace();
 		}finally{
 			closeQuietly(inputChannel);
@@ -242,8 +240,18 @@ public class IOUtils {
 			closeQuietly(inputStream);
 			closeQuietly(baos);
 		}
-    	
-    	
     	return output;
     }//writeToContentData
+    
+    public static String writeToString(byte[] bytes, EncodingTypes charset){
+		String output=null;
+		try {
+			if(charset!=BINARY)
+				output=new String(bytes,charset.getName());
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		
+		return output;
+    }
 }//IOUtils

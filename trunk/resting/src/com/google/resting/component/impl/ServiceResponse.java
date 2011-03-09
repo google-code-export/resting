@@ -77,6 +77,7 @@ public class ServiceResponse {
 		private byte[] byteContent=null;
 		private int contentLength=0;
 		private EncodingTypes charset;
+		private String stringContent=null;
 
 		public ContentData(byte[] responseInBytes, EncodingTypes charset){
 			this.byteContent=responseInBytes;
@@ -93,7 +94,9 @@ public class ServiceResponse {
 		}
 		
 		public String getContentInString(){
-			return IOUtils.writeToString(byteContent, charset);
+			if(stringContent==null)
+				stringContent=IOUtils.writeToString(byteContent, charset);
+			return stringContent;
 		}
 		
 	

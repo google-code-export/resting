@@ -17,10 +17,10 @@
 package com.google.resting.component;
 
 import static com.google.resting.component.RequestHeaderType.ACCEPT;
-import static com.google.resting.component.ContentType.APPLICATION_JSON;
-import static com.google.resting.component.ContentType.TEXT_XML;
-import static com.google.resting.component.ContentType.TEXT_HTML;
-import static com.google.resting.component.ContentType.TEXT_PLAIN;
+import static com.google.resting.component.content.ContentType.APPLICATION_JSON;
+import static com.google.resting.component.content.ContentType.TEXT_XML;
+import static com.google.resting.component.content.ContentType.TEXT_HTML;
+import static com.google.resting.component.content.ContentType.TEXT_PLAIN;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,10 +56,10 @@ public abstract class ServiceContext {
 		this.verb=verb;
 		this.charset=charset;
 		this.headers=new ArrayList<Header>();
-		this.headers.add(((new BasicHeader(ACCEPT.getName(),TEXT_XML))));
-		this.headers.add(((new BasicHeader(ACCEPT.getName(),APPLICATION_JSON))));
-		this.headers.add(((new BasicHeader(ACCEPT.getName(),TEXT_HTML))));
-		this.headers.add(((new BasicHeader(ACCEPT.getName(),TEXT_PLAIN))));
+		this.headers.add(((new BasicHeader(ACCEPT.getName(),TEXT_XML.getName()))));
+		this.headers.add(((new BasicHeader(ACCEPT.getName(),APPLICATION_JSON.getName()))));
+		this.headers.add(((new BasicHeader(ACCEPT.getName(),TEXT_HTML.getName()))));
+		this.headers.add(((new BasicHeader(ACCEPT.getName(),TEXT_PLAIN.getName()))));
 		if(inputHeaders !=null)
 			this.headers.addAll(inputHeaders);
 	}//ServiceContext

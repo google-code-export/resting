@@ -68,27 +68,32 @@ public class JSONTransformer<T> implements Transformer<T, ServiceResponse> {
 		JSONObject responseObject=null;
 		JSONArray responseArray=null;
 		JSONObject jsonObject=null;
+		T entity=null;
+		Object aliasedObject=null;
+		int arrayLength=0;
 		try {
 			responseObject=new JSONObject(serviceResponse.getResponseString());
 			
 			if(responseObject.has(singleAlias)){
 				
-				Object aliasedObject=responseObject.get(singleAlias);
+				aliasedObject=responseObject.get(singleAlias);
 				
 				//If the entity is JSONArray
 				if (aliasedObject instanceof JSONArray){
 					responseArray=responseObject.getJSONArray(singleAlias);
-					int arrayLength=responseArray.length();
+					arrayLength=responseArray.length();
 					dests=new ArrayList<T>(arrayLength);
 					for(int i=0;i<arrayLength;i++){
 						jsonObject=responseArray.getJSONObject(i);
-						dests.add(createEntity(jsonObject.toString(), targetType));
+						entity=createEntity(jsonObject.toString(), targetType);
+						dests.add(entity);
 					}	
 					return dests;
 				}
 				else {
 					dests=new ArrayList<T>(1);
-					dests.add(createEntity(((JSONObject)aliasedObject).toString(),targetType));
+					entity=createEntity(((JSONObject)aliasedObject).toString(),targetType);
+					dests.add(entity);
 					return dests;
 				}
 			}
@@ -108,28 +113,35 @@ public class JSONTransformer<T> implements Transformer<T, ServiceResponse> {
 		JSONObject responseObject = null;
 		JSONArray responseArray = null;
 		JSONObject jsonObject = null;
+		T entity=null;
+		String singleAlias=null;
+		Class targetType = null;
+		Object aliasedObject = null;
+		int arrayLength = 0;
 		Set<Entry<String, Class>> aliasSet = alias.getAliasTypeMap().entrySet();
 		try {
 			responseObject = new JSONObject(serviceResponse.getResponseString());
 			for (Map.Entry<String, Class> entry : aliasSet) {
-				String singleAlias = entry.getKey();
-				Class targetType = entry.getValue();
+				singleAlias = entry.getKey();
+				targetType = entry.getValue();
 				if (responseObject.has(singleAlias)) {
 
-					Object aliasedObject = responseObject.get(singleAlias);
+					aliasedObject = responseObject.get(singleAlias);
 
 					if (aliasedObject instanceof JSONArray) {
 						responseArray = responseObject.getJSONArray(singleAlias);
-						int arrayLength = responseArray.length();
+						arrayLength = responseArray.length();
 						dests = new ArrayList<T>(arrayLength);
 						for (int i = 0; i < arrayLength; i++) {
 							jsonObject = responseArray.getJSONObject(i);
-							dests.add(createEntity(jsonObject.toString(), targetType));
+							entity=createEntity(jsonObject.toString(), targetType);
+							dests.add(entity);
 						}
 						destMap.put(singleAlias, dests);
 					} else {
 						dests = new ArrayList(1);
-						dests.add(createEntity(((JSONObject) aliasedObject).toString(), targetType));
+						entity=createEntity(((JSONObject) aliasedObject).toString(), targetType);
+						dests.add(entity);
 						destMap.put(singleAlias, dests);
 					}// if
 				}// if

@@ -30,8 +30,11 @@ import java.nio.channels.ReadableByteChannel;
 import java.nio.channels.WritableByteChannel;
 
 import com.google.resting.component.EncodingTypes;
+import com.google.resting.component.content.IContentData;
+import com.google.resting.component.content.contentdecorator.ByteContentData;
+import com.google.resting.component.content.contentdecorator.StringContentData;
+
 import static com.google.resting.component.EncodingTypes.BINARY;
-import com.google.resting.component.impl.ServiceResponse.ContentData;
 /**
  * IO utilities for resting
  * 
@@ -220,8 +223,8 @@ public class IOUtils {
      * @throws <code>UnsupportedEncodingException</code> if the charset is not supported
      * @throws <code>Exception</code> for any issue
      */
-    public static ContentData writeToContentData(InputStream inputStream, EncodingTypes charset){
-    	ContentData output=null;
+    public static IContentData writeToContentData(InputStream inputStream, EncodingTypes charset){
+    	IContentData output=null;
     	byte[] outputBytes=null;
     	ByteArrayOutputStream baos=new ByteArrayOutputStream();
     	final ReadableByteChannel inputChannel=Channels.newChannel(inputStream);
@@ -230,7 +233,19 @@ public class IOUtils {
     	fastChannelCopy(inputChannel, outputChannel);
     	try {
 				outputBytes=baos.toByteArray();
-				output=new ContentData(outputBytes,charset);
+				switch(charset){
+					case UTF8: 
+						      	output=new StringContentData(outputBytes,charset);
+						      	break;
+					case UTF16: 
+					      		output=new StringContentData(outputBytes,charset);
+					      		break;
+					case BINARY:
+					      		output=new ByteContentData(outputBytes,charset);
+					      		break;
+						 
+				
+				}
 			
 		}  catch(Exception e){
 			e.printStackTrace();

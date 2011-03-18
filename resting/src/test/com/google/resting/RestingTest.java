@@ -217,7 +217,7 @@ public class RestingTest extends TestCase {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
-		System.out.println("[RestingTest::testMimeAdditionalPos2] Length of response byte array is " +response.getResponseInBytes().length);
+		System.out.println("[RestingTest::testMimeAdditionalPos2] Length of response byte array is " +response.getResponseLength());
 		assertEquals(200, response.getStatusCode());
 		
 	}	

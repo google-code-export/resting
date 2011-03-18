@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.google.resting.component;
+package com.google.resting.component.content;
 /**
  * Values of content type in request header.
  * 
@@ -21,9 +21,20 @@ package com.google.resting.component;
  * @since resting 0.5
  *
  */
-public class ContentType {
-	public static final String TEXT_XML="text/xml";
-	public static final String TEXT_HTML="text/html";
-	public static final String TEXT_PLAIN="text/plain";
-	public static final String APPLICATION_JSON="application/json";
+public enum ContentType {
+	TEXT_XML("text/xml"),
+	TEXT_HTML("text/html"),
+	TEXT_PLAIN("text/plain"),
+	APPLICATION_JSON("application/json");
+	
+	private String name;
+	
+	private ContentType(String name){
+		this.name=name;
+	}
+	
+	public String getName(){
+		return name;
+	}
+	
 }//ContentType

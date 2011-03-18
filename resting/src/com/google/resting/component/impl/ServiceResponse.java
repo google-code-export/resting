@@ -25,6 +25,7 @@ import org.apache.http.util.CharArrayBuffer;
 
 import com.google.resting.Resting;
 import com.google.resting.component.EncodingTypes;
+import com.google.resting.component.content.IContentData;
 import com.google.resting.util.IOUtils;
 /**
  * Wrapper object for REST response. This entity encapsulates the HTTP status code, the HTTP response body as a String and 
@@ -40,7 +41,7 @@ public class ServiceResponse {
 	
 	private int statusCode = 500;
 	private Header[] responseHeaders=null;
-	private ContentData contentData=null;
+	private IContentData contentData=null;
 
 	public ServiceResponse(HttpResponse response, EncodingTypes charset) {
 		assert response!=null:"HttpResponse should not be null";
@@ -73,39 +74,7 @@ public class ServiceResponse {
 	 * the builder pattern for creating an instance of ServiceResponse object.
 	 * 
 	 */
-	public static class ContentData {
-		private byte[] byteContent=null;
-		private int contentLength=0;
-		private EncodingTypes charset;
-		private String stringContent=null;
 
-		public ContentData(byte[] responseInBytes, EncodingTypes charset){
-			this.byteContent=responseInBytes;
-			this.contentLength=responseInBytes.length;
-			this.charset=charset;
-		}		
-		
-		public int getContentLength(){
-			return contentLength;
-		}//getContentLength
-		
-		public byte[] getContentInBytes(){
-			return byteContent;
-		}
-		
-		public String getContentInString(){
-			if(stringContent==null)
-				stringContent=IOUtils.writeToString(byteContent, charset);
-			return stringContent;
-		}
-		
-	
-		@Override
-		public String toString(){
-			return getContentInString();	
-		}//toString
-
-	}//ContentData
 	
 	/**
 	 * Get status code of http response
@@ -139,17 +108,6 @@ public class ServiceResponse {
 		assert responseHeaders.length>0:"Response headers can not be null.";
 		return responseHeaders;
 	}//getResponseHeaders
-	
-	/**
-	 * Get the HTTP response content as a byte array.
-	 * 
-	 * @return HTTP response content as a byte array
-	 */
-	public byte[] getResponseInBytes(){
-		byte[] responseInBytes=contentData.getContentInBytes();
-		assert responseInBytes!=null:"Response can not be null";
-		return responseInBytes;
-	}//getResponseInBytes
 	
 	/**
 	 * Returns the content length of the HTTP response

@@ -1,11 +1,12 @@
 package com.google.resting.component.content;
 
-import com.google.resting.component.content.ContentType;
+import java.util.List;
+
 
 public interface IContentData {
 	
 	public Object getContent();
-	public ContentType getContentType();
+	public List<ContentType> getContentTypes();
 	public int getContentLength();
 	public String getContentInString();
 

@@ -1,37 +1,50 @@
 package com.google.resting.component.content.contentdecorator;
 
-import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 
 import com.google.resting.component.EncodingTypes;
 import com.google.resting.component.content.ContentType;
 import com.google.resting.component.content.IContentData;
 
 public class ByteContentData implements IContentData {
+	
+	private byte[] content=null;
+	private int contentLength=0;
+	private String contentInString=null;
+	
 
-	public ByteContentData(byte[] bytes, EncodingTypes charset) {
-		// TODO Auto-generated constructor stub
+	public ByteContentData(byte[] bytes) {
+		this.contentLength=bytes.length;
+		this.content=bytes;
 	}
 
 	public byte[] getContent() {
-		// TODO Auto-generated method stub
-		return null;
+		return content;
 	}
 
 	public ContentType getContentType() {
-		// TODO Auto-generated method stub
-		return null;
+		return ContentType.APPLICATION_OCTET_STREAM;
 	}
 
 	@Override
 	public int getContentLength() {
-		// TODO Auto-generated method stub
-		return 0;
+		return contentLength;
 	}
 
 	@Override
 	public String getContentInString() {
-		// TODO Auto-generated method stub
-		return null;
+		if(contentInString==null)
+			try {
+				contentInString=new String(content, EncodingTypes.UTF8.getName());
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		return contentInString;
+	}
+	
+	@Override
+	public String toString(){
+		return getContentInString();
 	}
 
 }

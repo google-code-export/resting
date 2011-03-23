@@ -26,7 +26,7 @@ public class StringContentData implements IContentData {
 	}
 
 	public ContentType getContentType() {
-		return ContentType.TEXT_PLAIN;
+		return ContentType.TEXT_HTML;
 	}
 
 	public int getContentLength() {
@@ -35,7 +35,12 @@ public class StringContentData implements IContentData {
 
 	@Override
 	public String getContentInString() {
-		return getContent();
+		return content;
+	}
+	
+	@Override
+	public String toString(){
+		return content;
 	}
 
 }

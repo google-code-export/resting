@@ -1,6 +1,8 @@
 package com.google.resting.component.content.contentdecorator;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.google.resting.component.EncodingTypes;
 import com.google.resting.component.content.ContentType;
@@ -10,6 +12,7 @@ public class StringContentData implements IContentData {
 	
 	private String content=null;
 	private int contentLength=0;
+	private List<ContentType> contentTypes=null;
 	
 
 	public StringContentData(byte[] bytes, EncodingTypes charset) {
@@ -25,8 +28,14 @@ public class StringContentData implements IContentData {
 		return content;
 	}
 
-	public ContentType getContentType() {
-		return ContentType.TEXT_HTML;
+	public List<ContentType> getContentTypes() {
+		if(contentTypes==null){
+			contentTypes=new ArrayList<ContentType>();
+			contentTypes.add(ContentType.TEXT_PLAIN);
+			contentTypes.add(ContentType.TEXT_HTML);
+			contentTypes.add(ContentType.TEXT_XML);
+		}
+		return contentTypes;
 	}
 
 	public int getContentLength() {

@@ -1,6 +1,7 @@
 package com.google.resting.component.content.contentdecorator;
 
 import java.io.InputStream;
+import java.util.List;
 
 import com.google.resting.component.EncodingTypes;
 import com.google.resting.component.content.ContentType;
@@ -17,7 +18,7 @@ public class FileContentData implements IContentData{
 		return null;
 	}
 
-	public ContentType getContentType() {
+	public List<ContentType> getContentTypes() {
 		// TODO Auto-generated method stub
 		return null;
 	}

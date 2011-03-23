@@ -45,7 +45,7 @@ public class PostServiceContext extends ServiceContext {
 	private HttpEntity httpEntity=null;
 	
 	public PostServiceContext(URLContext urlContext, RequestParams requestParams, EncodingTypes encoding, List<Header> inputHeaders ) {
-		super(urlContext, requestParams, Verb.POST, encoding, inputHeaders);
+		super(urlContext, requestParams, Verb.POST, encoding, inputHeaders, null);
 		this.contextPathElement=urlContext.getContextPath();
 		this.path=this.contextPathElement;
 		if(requestParams !=null){
@@ -56,7 +56,7 @@ public class PostServiceContext extends ServiceContext {
 	}//PostServiceContext
 	
 	public PostServiceContext(URLContext urlContext, String message, EncodingTypes encoding, List<Header> inputHeaders ) {
-		super(urlContext, null, Verb.POST, encoding,inputHeaders);
+		super(urlContext, null, Verb.POST, encoding,inputHeaders, null);
 		this.contextPathElement=urlContext.getContextPath();
 		this.path=this.contextPathElement;
 		this.httpEntity=setMessageEntity(message, encoding.getName());
@@ -65,7 +65,7 @@ public class PostServiceContext extends ServiceContext {
 	}//PostServiceContext	
 
 	public PostServiceContext(URLContext urlContext, File file, EncodingTypes encoding, boolean isBinary, List<Header> inputHeaders ) {
-		super(urlContext, null, Verb.POST, encoding, inputHeaders);
+		super(urlContext, null, Verb.POST, encoding, inputHeaders, null);
 		this.contextPathElement=urlContext.getContextPath();
 		this.path=this.contextPathElement;
 		//this.httpEntity=setMessageEntity(message, encoding);

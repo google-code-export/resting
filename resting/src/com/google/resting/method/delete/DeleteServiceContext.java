@@ -42,7 +42,7 @@ public class DeleteServiceContext extends ServiceContext {
 	private String contextPathElement=null;
 
 	public DeleteServiceContext(URLContext urlContext, RequestParams requestParams, EncodingTypes encoding,  List<Header> inputHeaders){
-		super(urlContext,requestParams, Verb.DELETE, encoding, inputHeaders);
+		super(urlContext,requestParams, Verb.DELETE, encoding, inputHeaders, null);
 		this.contextPathElement=urlContext.getContextPath();
 		if(requestParams !=null)	this.inputParams=requestParams.getRequestParams();
 		this.path=this.contextPathElement+getParamPathElement();

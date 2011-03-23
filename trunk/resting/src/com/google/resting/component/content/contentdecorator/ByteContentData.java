@@ -34,11 +34,7 @@ public class ByteContentData implements IContentData {
 	@Override
 	public String getContentInString() {
 		if(contentInString==null)
-			try {
-				contentInString=new String(content, EncodingTypes.UTF8.getName());
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
+			contentInString=new String(content);
 		return contentInString;
 	}
 	

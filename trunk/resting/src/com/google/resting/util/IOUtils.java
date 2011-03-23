@@ -241,7 +241,7 @@ public class IOUtils {
 					      		output=new StringContentData(outputBytes,charset);
 					      		break;
 					case BINARY:
-					      		output=new ByteContentData(outputBytes,charset);
+					      		output=new ByteContentData(outputBytes);
 					      		break;
 						 
 				

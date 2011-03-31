@@ -86,7 +86,7 @@ Suppose your XML response is of the format:
 The resting code will be similar to the following:
 {{{
 //Create an alias object which will help transforming each embedded object from XML to Java.
-Alias alias=new XMLAlias().add("Result", Result.class).add("ResultSet", ResultSet.class); 
+XMLAlias alias=new XMLAlias().add("Result", Result.class).add("ResultSet", ResultSet.class); 
 
 ResultSet resultset=Resting.getByXML("http://local.yahooapis.com/MapsService/V1/geocode", 80,params,ResultSet.class, alias);
 }}}

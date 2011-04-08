@@ -22,11 +22,15 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
+import test.com.google.resting.vo.Collections;
+
 import com.google.resting.component.Alias;
 import com.google.resting.component.impl.ServiceResponse;
+import com.google.resting.component.impl.xml.XMLAlias;
 import com.google.resting.transform.Transformer;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+import com.google.resting.component.impl.xml.XMLAlias;
 /**
  * Base transformer for transforming XML response
  * 
@@ -48,10 +52,17 @@ public class XMLTransformer<T> implements Transformer<T, ServiceResponse> {
 	@Override
 	public List<T> getEntityList(ServiceResponse serviceResponse, Class<T> targetType, Alias alias){
 		String responseString=serviceResponse.getResponseString();
-		Set<Entry<String, Class>> aliasSet=alias.getAliasTypeMap().entrySet();
+		XMLAlias xmlAlias=null;
+		if (alias instanceof XMLAlias)
+			 xmlAlias = (XMLAlias)alias;
+		Set<Entry<String, Class>> aliasSet=xmlAlias.getAliasTypeMap().entrySet();
+		Set<Entry<String, Class>> implicitAliasSet=xmlAlias.getImplicitCollectionAlias().entrySet();
 		for(Map.Entry<String, Class> aliasEntry: aliasSet){
 			xstream.alias(aliasEntry.getKey(), aliasEntry.getValue());
 		}
+		for(Map.Entry<String, Class> aliasEntry: implicitAliasSet){
+			xstream.addImplicitCollection(aliasEntry.getValue(),aliasEntry.getKey() );
+		}		
 		List<T> dests=new ArrayList<T>();
 		dests.add(createEntity(responseString, targetType));
 		//TODO XSD is not yet handled. Need to bring in XMLBeans.

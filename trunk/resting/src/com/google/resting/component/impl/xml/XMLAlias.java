@@ -29,6 +29,7 @@ import com.google.resting.component.Alias;
  */
 public class XMLAlias<T> implements Alias{
 	private Map<String,Class> aliasTypeMap=null;
+	private Map<String, Class> implicitCollectionAlias=null;
 	
 	public XMLAlias(){
 		aliasTypeMap= new HashMap<String, Class>();
@@ -46,6 +47,14 @@ public class XMLAlias<T> implements Alias{
 		return this;
 	}//add
 	
+	public XMLAlias addImplicitCollection(String alias, Class aliasClass){
+		if(implicitCollectionAlias==null)
+			implicitCollectionAlias= new HashMap<String, Class>();
+		implicitCollectionAlias.put(alias, aliasClass);
+		return this;
+	}//add
+		
+	
 	
 	@Override
 	public Map<String,Class> getAliasTypeMap(){
@@ -58,6 +67,17 @@ public class XMLAlias<T> implements Alias{
 	public void setAliasTypeMap(Map<String, Class> aliasTypeMap) {
 		this.aliasTypeMap=aliasTypeMap;
 	}//setAliasTypeMap
+
+
+	public Map<String, Class> getImplicitCollectionAlias() {
+		return implicitCollectionAlias;
+	}
+
+
+	public void setImplicitCollectionAlias(
+			Map<String, Class> implicitCollectionAlias) {
+		this.implicitCollectionAlias = implicitCollectionAlias;
+	}
 	
 
 }//XMLAlias

@@ -22,6 +22,8 @@ import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
 
 import junit.framework.TestCase;
+import test.com.google.resting.vo.Collection;
+import test.com.google.resting.vo.Collections;
 import test.com.google.resting.vo.Facets;
 import test.com.google.resting.vo.Product;
 import test.com.google.resting.vo.Result;
@@ -126,7 +128,8 @@ public class RestingTest extends TestCase {
 		XMLAlias alias=new XMLAlias().add("Result", Result.class).add("ResultSet", ResultSet.class);   
 		try {
 			ResultSet resultset=Resting.getByXML("http://local.yahooapis.com/MapsService/V1/geocode", 80,params,ResultSet.class, alias);	
-			System.out.println("[RestingTest::getByXML] The response detail is "+resultset.getResult().toString());
+			System.out.println(Resting.getByXML("http://local.yahooapis.com/MapsService/V1/geocode", 80,params,ResultSet.class, alias));
+			//System.out.println("[RestingTest::getByXML] The response detail is "+resultset.getResult().toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -221,4 +224,14 @@ public class RestingTest extends TestCase {
 		assertEquals(200, response.getStatusCode());
 		
 	}	
+	
+	public void testLocal(){
+		XMLAlias alias=new XMLAlias().add("collection", Collection.class).add("collections", Collections.class); 
+		alias.addImplicitCollection("entries",Collections.class);
+        String entireResponseString= Resting.get("http://172.16.22.52/Mediator/ssbt/api/collections", 8088).getResponseString();
+        System.out.println("entireResponseString : "+entireResponseString);
+Collections collections=Resting.getByXML("http://172.16.22.52/Mediator/ssbt/api/collections", 8088,null,Collections.class, alias);	
+System.out.println("The length of collections is "+collections.getEntries().size());
+
+	}
 }

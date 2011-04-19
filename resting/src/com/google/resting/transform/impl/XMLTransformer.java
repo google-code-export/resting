@@ -107,6 +107,12 @@ public class XMLTransformer<T> implements Transformer<T, ServiceResponse> {
 			}
 		}		
 		
+		//Process annotations
+		List<Class> annotatedClassList=xmlAlias.getAnnotatedTypeList();
+		if(annotatedClassList!=null){
+			for(Class type:annotatedClassList)
+				xstream.processAnnotations(type);
+		}
 		
 	}//constructXStreamObject
 

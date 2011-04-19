@@ -18,13 +18,13 @@ package test.com.google.resting;
 import java.util.ArrayList;
 import java.util.List;
 
+import junit.framework.TestCase;
+
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
 
-import junit.framework.TestCase;
 import test.com.google.resting.vo.Facets;
-import test.com.google.resting.vo.OFCollection;
-import test.com.google.resting.vo.OFCollections;
+import test.com.google.resting.vo.House;
 import test.com.google.resting.vo.Product;
 import test.com.google.resting.vo.Result;
 import test.com.google.resting.vo.ResultSet;
@@ -246,5 +246,18 @@ public class RestingTest extends TestCase {
 		xstream.alias("message", StatusMessage.class);
 		StatusMessage message=(StatusMessage)xstream.fromXML(xml);
 		System.out.println(message.toString());
+	}
+	
+	public void testGetByYAML() {
+		System.out.println("\ntestGetByYAML\n-----------------------------");
+		try {
+			List<House> l = Resting.getByYAML(
+					"http://localhost/RestWebService/rest/yaml", 8080, null,
+					House.class);
+			assertNotNull(l);
+			assertEquals(1, l.size());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }

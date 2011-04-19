@@ -328,6 +328,30 @@ public final class Resting {
 		return RestingHelper.executeAndTransform(baseURI, port,requestParams, Verb.GET, TransformationType.XML, rootType, alias,UTF8, null).get(0);
 	}//getByXML
 	
+		/**
+	 * Executes HTTP/HTTPS GET request and transforms the YAML response into
+	 * target entity.
+	 * 
+	 * @param <T>
+	 *            Target type of the YAML
+	 * @param baseURI
+	 *            Base URI of the REST endpoint
+	 * @param port
+	 *            Port of the REST endpoint
+	 * @param requestParams
+	 *            {@link RequestParams} object containing collection of request
+	 *            parameters in key/ value pair
+	 * @param targetType
+	 *            Class of the target type
+	 * 
+	 * @return List of entities of target type T
+	 */
 
+	public final static <T> List<T> getByYAML(String baseURI, int port,
+			RequestParams requestParams, Class<T> targetType) {
+		return RestingHelper
+				.executeAndTransform(baseURI, port, requestParams, Verb.GET,
+						TransformationType.YAML, targetType, null, UTF8, null);
+	}// getByYAML
 
 }//Resting

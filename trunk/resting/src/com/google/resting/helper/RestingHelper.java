@@ -36,6 +36,7 @@ import com.google.resting.component.impl.json.JSONAlias;
 import com.google.resting.transform.TransformationType;
 import com.google.resting.transform.impl.JSONTransformer;
 import com.google.resting.transform.impl.XMLTransformer;
+import com.google.resting.transform.impl.YAMLTransformer;
 /**
  * Helper class for Resting.
  * 
@@ -69,6 +70,11 @@ public final class RestingHelper {
 			results=transformer.getEntityList(serviceResponse, targetType, alias);
 			
 		}//XML
+		if (transformationType == TransformationType.YAML) {
+			YAMLTransformer<T> transformer = new YAMLTransformer<T>();
+			results = transformer.getEntityList(serviceResponse, targetType,
+					alias);
+		}// YAML
 		final long endTime=System.currentTimeMillis();
 		System.out.println( "Time taken in transformation : "+ (endTime - startTime) + " ms.");
 		

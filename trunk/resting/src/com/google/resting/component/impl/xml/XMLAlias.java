@@ -16,7 +16,9 @@
 
 package com.google.resting.component.impl.xml;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.google.resting.component.Alias;
@@ -42,6 +44,7 @@ public class XMLAlias<T> implements Alias{
 	private ReferenceMode referenceMode=ReferenceMode.XPATH_RELATIVE_REFERENCES;
 	private Map<Converter,Priority> converters=null;
 	private Map<SingleValueConverter,Priority> singleValueConverters=null;
+	private List<Class> annotatedTypeList=null;
 	
 	/**
 	 * Constructor
@@ -146,6 +149,13 @@ public class XMLAlias<T> implements Alias{
 		return this;	
 	}//addConverter
 	
+	public XMLAlias processAnnotation(Class clazz){
+		if(annotatedTypeList == null)
+			annotatedTypeList=new ArrayList<Class>();
+		annotatedTypeList.add(clazz);
+		return this;
+	}
+	
 	/**
 	 * Get the map of aliasing information 
 	 * 
@@ -243,5 +253,24 @@ public class XMLAlias<T> implements Alias{
 	public void setSingleValueConverters(Map<SingleValueConverter, Priority> singleValueConverters) {
 		this.singleValueConverters = singleValueConverters;
 	}//setSingleValueConverters
+	
+	/**
+	 * Get the list of annotated classes for aliasing annotations
+	 * 
+	 * @return List of annotated types
+	 */
+
+	public List<Class> getAnnotatedTypeList() {
+		return annotatedTypeList;
+	}
+
+	/**
+	 * Set the list of annotated classes for aliasing annotations
+	 * 
+	 * @param annotatedTypeList List of annotated classes
+	 */
+	public void setAnnotatedTypeList(List<Class> annotatedTypeList) {
+		this.annotatedTypeList = annotatedTypeList;
+	}
 
 }//XMLAlias

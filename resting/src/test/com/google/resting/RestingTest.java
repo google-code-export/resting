@@ -22,12 +22,14 @@ import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
 
 import junit.framework.TestCase;
-import test.com.google.resting.vo.Collection;
-import test.com.google.resting.vo.Collections;
 import test.com.google.resting.vo.Facets;
+import test.com.google.resting.vo.OFCollection;
+import test.com.google.resting.vo.OFCollections;
 import test.com.google.resting.vo.Product;
 import test.com.google.resting.vo.Result;
 import test.com.google.resting.vo.ResultSet;
+import test.com.google.resting.vo.StatusMessage;
+import test.com.google.resting.vo.StatusMessageConverter;
 
 import com.google.resting.Resting;
 import com.google.resting.component.EncodingTypes;
@@ -36,6 +38,8 @@ import com.google.resting.component.impl.BasicRequestParams;
 import com.google.resting.component.impl.ServiceResponse;
 import com.google.resting.component.impl.json.JSONRequestParams;
 import com.google.resting.component.impl.xml.XMLAlias;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 /**
  * Test case for main Resting API
  * 
@@ -225,13 +229,22 @@ public class RestingTest extends TestCase {
 		
 	}	
 	
-	public void testLocal(){
-		XMLAlias alias=new XMLAlias().add("collection", Collection.class).add("collections", Collections.class); 
-		alias.addImplicitCollection("entries",Collections.class);
-        String entireResponseString= Resting.get("http://172.16.22.52/Mediator/ssbt/api/collections", 8088).getResponseString();
+	public void testLocal2(){
+		XMLAlias alias=new XMLAlias().add("message", StatusMessage.class);
+		alias.addConverter(new StatusMessageConverter());
+        String entireResponseString= Resting.get("http://172.16.21.134/Mediator18042011/ssbt/api/collections?method=create&name=013Collection&output=xml&api_username=esadmin&api_password=Ssbt123", 8088).getResponseString();
         System.out.println("entireResponseString : "+entireResponseString);
-Collections collections=Resting.getByXML("http://172.16.22.52/Mediator/ssbt/api/collections", 8088,null,Collections.class, alias);	
-System.out.println("The length of collections is "+collections.getEntries().size());
+        StatusMessage message=Resting.getByXML("http://172.16.21.134/Mediator18042011/ssbt/api/collections?method=create&name=014Collection&output=xml&api_username=esadmin&api_password=Ssbt123", 8088,null,StatusMessage.class, alias);	
+        System.out.println(message.toString());
 
+	}	
+	
+	public void testLocal3(){
+		String xml="<?xml version=\"1.0\" encoding=\"utf-8\"?><message>FFQW0141I Collection 005Collection was created successfully.</message>";
+		XStream xstream=new XStream(new DomDriver());
+		xstream.registerConverter(new StatusMessageConverter());
+		xstream.alias("message", StatusMessage.class);
+		StatusMessage message=(StatusMessage)xstream.fromXML(xml);
+		System.out.println(message.toString());
 	}
 }

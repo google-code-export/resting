@@ -22,15 +22,15 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import test.com.google.resting.vo.Collections;
-
 import com.google.resting.component.Alias;
 import com.google.resting.component.impl.ServiceResponse;
+import com.google.resting.component.impl.xml.Priority;
 import com.google.resting.component.impl.xml.XMLAlias;
 import com.google.resting.transform.Transformer;
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.converters.Converter;
+import com.thoughtworks.xstream.converters.SingleValueConverter;
 import com.thoughtworks.xstream.io.xml.DomDriver;
-import com.google.resting.component.impl.xml.XMLAlias;
 /**
  * Base transformer for transforming XML response
  * 
@@ -53,20 +53,62 @@ public class XMLTransformer<T> implements Transformer<T, ServiceResponse> {
 	public List<T> getEntityList(ServiceResponse serviceResponse, Class<T> targetType, Alias alias){
 		String responseString=serviceResponse.getResponseString();
 		XMLAlias xmlAlias=null;
-		if (alias instanceof XMLAlias)
-			 xmlAlias = (XMLAlias)alias;
-		Set<Entry<String, Class>> aliasSet=xmlAlias.getAliasTypeMap().entrySet();
-		Set<Entry<String, Class>> implicitAliasSet=xmlAlias.getImplicitCollectionAlias().entrySet();
-		for(Map.Entry<String, Class> aliasEntry: aliasSet){
-			xstream.alias(aliasEntry.getKey(), aliasEntry.getValue());
+		if (alias instanceof XMLAlias) {
+			xmlAlias = (XMLAlias) alias;
+			constructXStreamObject(xmlAlias);	
 		}
-		for(Map.Entry<String, Class> aliasEntry: implicitAliasSet){
-			xstream.addImplicitCollection(aliasEntry.getValue(),aliasEntry.getKey() );
-		}		
 		List<T> dests=new ArrayList<T>();
 		dests.add(createEntity(responseString, targetType));
 		//TODO XSD is not yet handled. Need to bring in XMLBeans.
 		return dests;
 	}//getEntityList
+	
+	private void constructXStreamObject(XMLAlias xmlAlias){
+		
+		//Set alias
+		Map<String, Class> aliasTypeMap = xmlAlias.getAliasTypeMap();
+		Set<Entry<String, Class>> aliasSet=null;
+		if (aliasTypeMap != null) {
+			aliasSet = aliasTypeMap.entrySet();
+			for (Map.Entry<String, Class> aliasEntry : aliasSet) {
+				xstream.alias(aliasEntry.getKey(), aliasEntry.getValue());
+			}
+		}
+		
+		//Set implicit collection
+		Map<String, Class> implicitAliasMap = xmlAlias.getImplicitCollectionMap();
+		Set<Entry<String, Class>> implicitAliasSet=null;
+		if (implicitAliasMap != null) {
+			implicitAliasSet = implicitAliasMap.entrySet();
+			for (Map.Entry<String, Class> aliasEntry : implicitAliasSet) {
+				xstream.addImplicitCollection(aliasEntry.getValue(),aliasEntry.getKey());
+			}
+		}
+		
+		//Set mode
+		xstream.setMode(xmlAlias.getReferenceMode().getXStreamMode());
+		
+		//Set converters
+		Map<Converter,Priority> converters = xmlAlias.getConverters();
+		Set<Entry<Converter,Priority>> converterSet=null;
+		if(converters !=null){
+			converterSet=converters.entrySet();
+			for(Entry<Converter, Priority> converterEntry : converterSet){
+				xstream.registerConverter(converterEntry.getKey(), converterEntry.getValue().getXStreamPriority());
+			}
+		}
+
+		Map<SingleValueConverter,Priority> singleValueConverters = xmlAlias.getSingleValueConverters();
+		Set<Entry<SingleValueConverter,Priority>> sconverterSet=null;
+		if(singleValueConverters !=null){
+			sconverterSet=singleValueConverters.entrySet();
+			for(Entry<SingleValueConverter, Priority> converterEntry : sconverterSet){
+				xstream.registerConverter(converterEntry.getKey(), converterEntry.getValue().getXStreamPriority());
+			}
+		}		
+		
+		
+	}//constructXStreamObject
+
 
 }//XMLTransformer

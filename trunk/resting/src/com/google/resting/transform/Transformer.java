@@ -32,5 +32,7 @@ import com.google.resting.component.Alias;
 public interface Transformer<T,U> {
 	public T createEntity(String singleEntityStream, Class<T> targetType);
 	public List<T> getEntityList(U source, Class<T> targetType, Alias alias);
+	List<T> getEntityList(String responseString, Class<T> targetType,
+			Alias alias);
 	
 }

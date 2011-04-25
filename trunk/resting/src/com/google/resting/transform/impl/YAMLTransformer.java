@@ -39,11 +39,11 @@ public class YAMLTransformer<T> implements Transformer<T, ServiceResponse> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<T> getEntityList(ServiceResponse source, Class<T> targetType,
+	public List<T> getEntityList(String responseString, Class<T> targetType,
 			Alias alias) {
 		List<T> list = new ArrayList<T>();
 		Yaml yaml = new Yaml(new Constructor(targetType));
-		Iterable<Object> objects = yaml.loadAll(source.getResponseString());
+		Iterable<Object> objects = yaml.loadAll(responseString);
 		for (Object unknown : objects) {
 			if (unknown != null && unknown.getClass().equals(targetType)) {
 				list.add((T) unknown);
@@ -52,5 +52,11 @@ public class YAMLTransformer<T> implements Transformer<T, ServiceResponse> {
 			}
 		}
 		return list;
+	}
+
+	@Override
+	public List<T> getEntityList(ServiceResponse response, Class<T> targetType,
+			Alias alias) {
+		return this.getEntityList(response.getResponseString(), targetType, alias);
 	}
 }

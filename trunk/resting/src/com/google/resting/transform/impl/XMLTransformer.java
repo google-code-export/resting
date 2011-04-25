@@ -49,9 +49,13 @@ public class XMLTransformer<T> implements Transformer<T, ServiceResponse> {
 		return dest;
 	}//createEntity
 	
-	@Override
 	public List<T> getEntityList(ServiceResponse serviceResponse, Class<T> targetType, Alias alias){
-		String responseString=serviceResponse.getResponseString();
+		return this.getEntityList(serviceResponse.getResponseString(), targetType, alias);
+	}
+	
+	@Override
+	public List<T> getEntityList(String responseString, Class<T> targetType, Alias alias){
+		//String responseString=serviceResponse.getResponseString();
 		XMLAlias xmlAlias=null;
 		if (alias instanceof XMLAlias) {
 			xmlAlias = (XMLAlias) alias;

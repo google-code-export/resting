@@ -57,7 +57,7 @@ public class JSONTransformer<T> implements Transformer<T, ServiceResponse> {
 		return dest;
 	}//createEntity
 	
-	public List<T> getEntityList(ServiceResponse serviceResponse, Class<T> targetType, Alias alias){
+	public List<T> getEntityList(String responseString, Class<T> targetType, Alias alias){
 		List<T> dests=null;
 		String singleAlias=null;
 		if (alias instanceof JSONAlias)
@@ -72,7 +72,7 @@ public class JSONTransformer<T> implements Transformer<T, ServiceResponse> {
 		Object aliasedObject=null;
 		int arrayLength=0;
 		try {
-			responseObject=new JSONObject(serviceResponse.getResponseString());
+			responseObject=new JSONObject(responseString);
 			
 			if(responseObject.has(singleAlias)){
 				
@@ -153,6 +153,12 @@ public class JSONTransformer<T> implements Transformer<T, ServiceResponse> {
 
 		return destMap;
 	}// getEntityLists
+
+	@Override
+	public List<T> getEntityList(ServiceResponse serviceResponse, Class<T> targetType,
+			Alias alias) {
+		return this.getEntityList(serviceResponse.getResponseString(), targetType, alias);
+	}
 	
 
 }//JSONTransformer

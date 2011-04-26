@@ -22,6 +22,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
+import javax.xml.namespace.QName;
+
 import com.google.resting.component.Alias;
 import com.google.resting.component.impl.ServiceResponse;
 import com.google.resting.component.impl.xml.Priority;
@@ -31,6 +33,8 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.Converter;
 import com.thoughtworks.xstream.converters.SingleValueConverter;
 import com.thoughtworks.xstream.io.xml.DomDriver;
+import com.thoughtworks.xstream.io.xml.QNameMap;
+import com.thoughtworks.xstream.io.xml.StaxDriver;
 /**
  * Base transformer for transforming XML response
  * 
@@ -40,11 +44,17 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
  * @param <T> Target type
  */
 public class XMLTransformer<T> implements Transformer<T, ServiceResponse> {
-	private XStream xstream=new XStream(new DomDriver());
+	private XStream xstream = new XStream(new DomDriver());
+	private boolean namespaceAware = false;
+	
+	public XMLTransformer() {}
+	
+	public XMLTransformer(boolean flag) {
+		this.namespaceAware = flag;
+	}
 
 	@Override
 	public T createEntity(String source, Class<T> targetType) {
-		
 		T dest=(T)xstream.fromXML(source);
 		return dest;
 	}//createEntity
@@ -68,6 +78,16 @@ public class XMLTransformer<T> implements Transformer<T, ServiceResponse> {
 	}//getEntityList
 	
 	private void constructXStreamObject(XMLAlias xmlAlias){
+		// Enable StAX driver if transformer is namespace aware
+		Map<QName, Class> map = xmlAlias.getQNameMap();
+		if (namespaceAware && map != null) {
+			QNameMap qnameMap = new QNameMap();
+			Set<QName> qnameSet = map.keySet();
+			for (QName aQname : qnameSet) {
+				qnameMap.registerMapping(aQname, map.get(aQname));
+				xstream = new XStream(new StaxDriver(qnameMap));
+			}
+		}
 		
 		//Set alias
 		Map<String, Class> aliasTypeMap = xmlAlias.getAliasTypeMap();
@@ -121,4 +141,6 @@ public class XMLTransformer<T> implements Transformer<T, ServiceResponse> {
 	}//constructXStreamObject
 
 
+	
+	
 }//XMLTransformer

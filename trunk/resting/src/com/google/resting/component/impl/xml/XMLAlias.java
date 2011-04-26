@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.namespace.QName;
+
 import com.google.resting.component.Alias;
 import com.thoughtworks.xstream.converters.Converter;
 import com.thoughtworks.xstream.converters.SingleValueConverter;
@@ -45,6 +47,7 @@ public class XMLAlias<T> implements Alias{
 	private Map<Converter,Priority> converters=null;
 	private Map<SingleValueConverter,Priority> singleValueConverters=null;
 	private List<Class> annotatedTypeList=null;
+	private Map<QName, Class> qualifiedNameMap = null;
 	
 	/**
 	 * Constructor
@@ -271,6 +274,22 @@ public class XMLAlias<T> implements Alias{
 	 */
 	public void setAnnotatedTypeList(List<Class> annotatedTypeList) {
 		this.annotatedTypeList = annotatedTypeList;
+	}
+	
+	public void setQNameMap(Map m) {
+		this.qualifiedNameMap = m;
+	}
+	
+	public XMLAlias addQName(QName name, Class z) {
+		if(qualifiedNameMap == null) {
+			qualifiedNameMap = new HashMap<QName, Class>();
+		}
+		this.qualifiedNameMap.put(name, z);
+		return this;
+	}
+	
+	public Map<QName, Class> getQNameMap() {
+		return this.qualifiedNameMap;
 	}
 
 }//XMLAlias

@@ -8,13 +8,13 @@ package com.google.resting.transform.impl.atom;
 public class AtomAuthor extends AtomElement {
 	
 	  private String name;
-	  private String emailAddress;
+	  private String email;
 	  private String uri;
 	  
-	  public AtomAuthor(String name, String emailAddress, String uri) {
+	  public AtomAuthor(String name, String email, String uri) {
 		  super("author");
 		  this.name = name;
-		  this.emailAddress = emailAddress;
+		  this.email = email;
 		  this.uri = uri;
 	  }
 
@@ -22,8 +22,8 @@ public class AtomAuthor extends AtomElement {
 		return name;
 	}
 
-	public String getEmailAddress() {
-		return emailAddress;
+	public String getEmail() {
+		return email;
 	}
 
 	public String getUri() {

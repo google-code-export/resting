@@ -1,6 +1,7 @@
 package com.google.resting.transform.impl.atom;
 
-import java.lang.annotation.Annotation;
+import java.util.List;
+
 
 @XmlInfo(tag = "feed", namespace = "http://www.w3.org/2005/Atom")
 public class AtomFeed extends AtomElement {
@@ -8,14 +9,15 @@ public class AtomFeed extends AtomElement {
 	// atom meta data
 	private String title;
 	private String id;
+	private String category;
 	private AtomAuthor author;
 	private String updated;
 
 	// link
-	private AtomLink link;
+	private List<AtomLink> links;
 
 	// Atom Entries
-	private AtomEntry entry;
+	private List<AtomEntry> entries;
 
 	/**
 	 * Avoid the construction without mandatory meta data
@@ -52,28 +54,16 @@ public class AtomFeed extends AtomElement {
 		return this;
 	}
 
-	/**
-	 * Recommended meta data per 1.0 spec
-	 * 
-	 * @param link
-	 * @return
-	 */
-	public AtomFeed addLink(AtomLink link) {
-		this.link = link;
-		return this;
-	}
-
-	public AtomFeed addEntry(AtomEntry e) {
-		this.entry = e;
-		return this;
-	}
-
 	public String getTitle() {
 		return title;
 	}
 
 	public String getId() {
 		return id;
+	}
+	
+	public String getCategory() {
+		return category;
 	}
 
 	public AtomAuthor getAuthor() {
@@ -84,12 +74,12 @@ public class AtomFeed extends AtomElement {
 		return updated;
 	}
 
-	public AtomLink getLink() {
-		return link;
+	public List<AtomLink> getLinks() {
+		return links;
 	}
 
-	public AtomEntry getEntry() {
-		return entry;
+	public List<AtomEntry> getEntries() {
+		return entries;
 	}
 	
 }

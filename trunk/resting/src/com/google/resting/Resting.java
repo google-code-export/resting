@@ -347,11 +347,31 @@ public final class Resting {
 	 * @return List of entities of target type T
 	 */
 
-	public final static <T> List<T> getByYAML(String baseURI, int port,
-			RequestParams requestParams, Class<T> targetType) {
-		return RestingHelper
-				.executeAndTransform(baseURI, port, requestParams, Verb.GET,
-						TransformationType.YAML, targetType, null, UTF8, null);
+	public final static <T> List<T> getByYAML(String baseURI, int port,	RequestParams requestParams, Class<T> targetType) {
+		return RestingHelper.executeAndTransform(baseURI, port, requestParams, Verb.GET,TransformationType.YAML, targetType, null, UTF8, null);
 	}// getByYAML
 
+	/**
+	 * Executes HTTP/HTTPS GET request and transforms the ATOM response into
+	 * target entity.
+	 * 
+	 * @param <T>
+	 *            Target type of the ATOM response 
+	 * @param baseURI
+	 *            Base URI of the REST endpoint
+	 * @param port
+	 *            Port of the REST endpoint
+	 * @param requestParams
+	 *            {@link RequestParams} object containing collection of request
+	 *            parameters in key/ value pair
+	 * @param targetType
+	 *            Class of the target type
+	 * 
+	 * @return List of entities of target type T
+	 */
+
+	public final static <T> List<T> getByATOM(String baseURI, int port,	RequestParams requestParams, Class<T> targetType) {
+		return RestingHelper.executeAndTransform(baseURI, port, requestParams, Verb.GET,TransformationType.ATOM, targetType, null, UTF8, null);
+	}// getByATOM	
+	
 }//Resting

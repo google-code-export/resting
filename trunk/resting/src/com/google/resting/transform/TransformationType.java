@@ -24,6 +24,7 @@ package com.google.resting.transform;
 public enum TransformationType {
 	JSON,
 	XML,
-	YAML;
+	YAML,
+	ATOM;
 
 }//TransformationType

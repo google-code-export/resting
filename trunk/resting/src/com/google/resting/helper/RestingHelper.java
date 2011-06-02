@@ -37,6 +37,7 @@ import com.google.resting.transform.TransformationType;
 import com.google.resting.transform.impl.JSONTransformer;
 import com.google.resting.transform.impl.XMLTransformer;
 import com.google.resting.transform.impl.YAMLTransformer;
+import com.google.resting.transform.impl.atom.AtomTransformer;
 /**
  * Helper class for Resting.
  * 
@@ -48,15 +49,7 @@ import com.google.resting.transform.impl.YAMLTransformer;
 public final class RestingHelper {
 
 	public final static<T> List<T> executeAndTransform(String url, int port, RequestParams requestParams, Verb verb, TransformationType transformationType, Class<T> targetType, Alias alias, EncodingTypes encoding, List<Header> additionalHeaders){
-		ServiceResponse serviceResponse=null;
-		if(verb==Verb.GET)
-			serviceResponse=get(url, port,requestParams, encoding, additionalHeaders);
-		else if (verb == Verb.DELETE)
-			serviceResponse=delete(url, port,requestParams, encoding, additionalHeaders);
-		else if (verb==Verb.POST)
-			serviceResponse=post(url, port,encoding, requestParams,additionalHeaders);
-		else if (verb==Verb.PUT)
-			serviceResponse=put(url, encoding, port,requestParams, additionalHeaders);
+		ServiceResponse serviceResponse=getServiceResponse(url, port, requestParams, verb, encoding, additionalHeaders);
 		
 		List<T> results=new ArrayList<T>();
 		final long startTime=System.currentTimeMillis();
@@ -75,6 +68,11 @@ public final class RestingHelper {
 			results = transformer.getEntityList(serviceResponse, targetType,
 					alias);
 		}// YAML
+		if (transformationType == TransformationType.ATOM) {
+			AtomTransformer<T> transformer = new AtomTransformer<T>();
+			results = transformer.getEntityList(serviceResponse, targetType,
+					alias);
+		}// ATOM		
 		final long endTime=System.currentTimeMillis();
 		System.out.println( "Time taken in transformation : "+ (endTime - startTime) + " ms.");
 		
@@ -82,15 +80,7 @@ public final class RestingHelper {
 	}//executeAndTransform
 	
 	public final static Map<String, List> executeAndTransform(String url, int port, RequestParams requestParams, Verb verb, TransformationType transformationType, JSONAlias alias, EncodingTypes encoding, List<Header> additionalHeaders){
-		ServiceResponse serviceResponse=null;
-		if(verb==Verb.GET)
-			serviceResponse=get(url, port,requestParams, encoding, additionalHeaders);
-		else if (verb == Verb.DELETE)
-			serviceResponse=delete(url, port,requestParams, encoding, additionalHeaders);
-		else if (verb==Verb.POST)
-			serviceResponse=post(url, port, encoding, requestParams, additionalHeaders);
-		else if (verb==Verb.PUT)
-			serviceResponse=put(url, encoding, port,requestParams, additionalHeaders);
+		ServiceResponse serviceResponse=getServiceResponse(url, port, requestParams, verb, encoding, additionalHeaders);
 		
 		Map<String, List> results=null;
 		
@@ -107,4 +97,17 @@ public final class RestingHelper {
 		
 		return results;
 	}//executeAndTransform
+	
+	private static ServiceResponse getServiceResponse(String url, int port, RequestParams requestParams, Verb verb, EncodingTypes encoding, List<Header> additionalHeaders){
+		ServiceResponse serviceResponse=null;
+		if(verb==Verb.GET)
+			serviceResponse=get(url, port,requestParams, encoding, additionalHeaders);
+		else if (verb == Verb.DELETE)
+			serviceResponse=delete(url, port,requestParams, encoding, additionalHeaders);
+		else if (verb==Verb.POST)
+			serviceResponse=post(url, port, encoding, requestParams, additionalHeaders);
+		else if (verb==Verb.PUT)
+			serviceResponse=put(url, encoding, port,requestParams, additionalHeaders);
+		return serviceResponse;
+	}//getServiceResponse
 }

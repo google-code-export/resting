@@ -25,9 +25,14 @@ import org.apache.http.message.BasicHeader;
 
 import test.com.google.resting.vo.Facets;
 import test.com.google.resting.vo.House;
+import test.com.google.resting.vo.MyStringConverter;
+import test.com.google.resting.vo.OFCollection;
+import test.com.google.resting.vo.OFCollections;
 import test.com.google.resting.vo.Product;
 import test.com.google.resting.vo.Result;
 import test.com.google.resting.vo.ResultSet;
+import test.com.google.resting.vo.Standard;
+import test.com.google.resting.vo.Standards;
 import test.com.google.resting.vo.StatusMessage;
 import test.com.google.resting.vo.StatusMessageConverter;
 
@@ -38,7 +43,10 @@ import com.google.resting.component.impl.BasicRequestParams;
 import com.google.resting.component.impl.ServiceResponse;
 import com.google.resting.component.impl.json.JSONRequestParams;
 import com.google.resting.component.impl.xml.XMLAlias;
+import com.google.resting.transform.impl.XMLTransformer;
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.converters.basic.LongConverter;
+import com.thoughtworks.xstream.converters.basic.NullConverter;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 /**
  * Test case for main Resting API
@@ -260,4 +268,28 @@ public class RestingTest extends TestCase {
 			e.printStackTrace();
 		}
 	}
+	
+	public void testGetByATOM() {
+		System.out.println("\ntestGetByATOM\n-----------------------------");
+		try {
+			System.out.println(Resting.get("http://websphere1.ssbt.com/api/v10/search?collection=246246&query=license", 8394));
+			List<OFCollections> l = Resting.getByATOM(
+					"http://websphere1.ssbt.com/api/v10/search?collection=246246&query=license", 8394, null,
+					OFCollections.class);
+			System.out.println("The length of OFCollection list is "+l.size());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void testTrans(){
+		String text="<?xml version=\"1.0\" encoding=\"UTF-8\"?><standards> <standard>  <id>1</id>  <title>Safety</title> <parentId></parentId>  <parentTitle></parentTitle>  <level>0</level> </standard></standards>";
+		XMLAlias alias=new XMLAlias().add("standard", Standard.class).add("standards", Standards.class); 
+		//alias.addConverter(new MyStringConverter());
+		XMLTransformer trans=new XMLTransformer();
+		List<Standards> list=trans.getEntityList(text, Standards.class, alias);
+		System.out.println(list.toString());
+		
+	}
+	
 }

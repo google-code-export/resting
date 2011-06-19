@@ -17,47 +17,26 @@ package com.google.resting.transform.impl.atom;
 
 import java.util.List;
 
-
 @XmlInfo(tag = "feed", namespace = "http://www.w3.org/2005/Atom")
-public class AtomFeed extends AtomElement {
+public class AtomFeed {
 
 	// atom meta data
-	private String title;
-	private String id;
-	private String category;
-	private AtomAuthor author;
-	private String updated;
+	protected String title;
+	protected String id;
+	protected AtomCategory category;
+	protected AtomAuthor author;
+	protected String updated;
 
 	// link
-	private List<AtomLink> links;
+	protected AtomLink link;
 
 	// Atom Entries
-	private List<AtomEntry> entries;
-
-	/**
-	 * Avoid the construction without mandatory meta data
-	 */
-	@SuppressWarnings("unused")
-	private AtomFeed() {
-		super(null);
-	}
-
-	/**
-	 * Constructs an Atom Feed object 
-	 * Id, title and timestamp are mandatory
-	 * metadata as per Atom 1.0 specification
-	 * 
-	 * @param id
-	 * @param title
-	 * @param ts
-	 */
-	public AtomFeed(String id, String title, String ts) {
-		super("feed", "http://www.w3.org/2005/Atom");
-		this.id = id;
-		this.title = title;
-		this.updated = ts;
-	}
-
+	protected List<AtomEntry> entries;
+	
+	protected String queryEvaluationTime;
+	protected String totalResults;
+	protected OpenSearchQuery Query;
+	
 	/**
 	 * Recommended meta data per 1.0 Spec
 	 * 
@@ -77,7 +56,7 @@ public class AtomFeed extends AtomElement {
 		return id;
 	}
 	
-	public String getCategory() {
+	public AtomCategory getCategory() {
 		return category;
 	}
 
@@ -89,12 +68,51 @@ public class AtomFeed extends AtomElement {
 		return updated;
 	}
 
-	public List<AtomLink> getLinks() {
-		return links;
+	public AtomLink getLink() {
+		return link;
+	}
+	
+	public void setEntries(List<AtomEntry> l) {
+		this.entries = l;
 	}
 
 	public List<AtomEntry> getEntries() {
 		return entries;
 	}
 	
+	public String getQueryEvaluationTime() {
+		return queryEvaluationTime;
+	}
+
+	public void setQueryEvaluationTime(String queryEvaluationTime) {
+		this.queryEvaluationTime = queryEvaluationTime;
+	}
+
+	public String getTotalResults() {
+		return totalResults;
+	}
+
+	public void setTotalResults(String totalResults) {
+		this.totalResults = totalResults;
+	}
+
+	public OpenSearchQuery getSearchQuery() {
+		return Query;
+	}
+
+	public void setSearchQuery(OpenSearchQuery searchQuery) {
+		this.Query = searchQuery;
+	}
+	
+	public String toString() {
+		StringBuffer out = new StringBuffer();
+		out.append("title=").append(title).append(",id=").append(id).append(
+				",category=").append(category.toString()).append(",updated=")
+				.append(updated).append(",link=").append(link.toString())
+				.append(",query evaluation time=").append(queryEvaluationTime)
+				.append(",total results=").append(totalResults).append(
+						",query=").append(Query.toString());
+		return out.toString();
+	}
+
 }

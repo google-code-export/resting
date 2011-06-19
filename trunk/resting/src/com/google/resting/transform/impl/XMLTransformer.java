@@ -30,6 +30,8 @@ import com.google.resting.component.impl.xml.Priority;
 import com.google.resting.component.impl.xml.XMLAlias;
 import com.google.resting.transform.Transformer;
 import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.XStreamException;
+import com.thoughtworks.xstream.converters.ConversionException;
 import com.thoughtworks.xstream.converters.Converter;
 import com.thoughtworks.xstream.converters.SingleValueConverter;
 import com.thoughtworks.xstream.io.xml.DomDriver;
@@ -55,7 +57,18 @@ public class XMLTransformer<T> implements Transformer<T, ServiceResponse> {
 
 	@Override
 	public T createEntity(String source, Class<T> targetType) {
-		T dest=(T)xstream.fromXML(source);
+		T dest = null;
+		try {
+			dest = (T)xstream.fromXML(source);
+		} catch (ConversionException e) {
+			System.out
+					.println("The target type class attributes do not match the service response. Check class definition");
+			e.printStackTrace();
+		} catch (XStreamException e) {
+			System.out
+					.println("Tranformer failed to parse the response. Check error logs");
+			e.printStackTrace();
+		}
 		return dest;
 	}//createEntity
 	
@@ -85,8 +98,8 @@ public class XMLTransformer<T> implements Transformer<T, ServiceResponse> {
 			Set<QName> qnameSet = map.keySet();
 			for (QName aQname : qnameSet) {
 				qnameMap.registerMapping(aQname, map.get(aQname));
-				xstream = new XStream(new StaxDriver(qnameMap));
 			}
+			xstream = new XStream(new StaxDriver(qnameMap));
 		}
 		
 		//Set alias

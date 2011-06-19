@@ -18,32 +18,21 @@ package com.google.resting.transform.impl.atom;
 import java.util.List;
 
 @XmlInfo(tag="entry")
-public class AtomEntry extends AtomElement {
+public class AtomEntry {
 	
 	private String title;
 	private List<AtomLink> links;
-	private List<AtomAuthor> authors;
+	private AtomAuthor author;
 	private String id;
 	private String updated;
 	private String summary;
-	
-	public AtomEntry(String title, List<AtomLink> links, List<AtomAuthor> authors, String id, String updated,
-			String summary) {
-		super("entry");
-		this.title = title;
-		this.links = links;
-		this.authors = authors;
-		this.id = id;
-		this.updated = updated;
-		this.summary = summary;
-	}
 	
 	public List<AtomLink> getLinks() {
 		return links;
 	}
 	
-	public List<AtomAuthor> getAuthors() {
-		return authors;
+	public AtomAuthor getAuthor() {
+		return author;
 	}
 	
 	public String getId() {
@@ -55,5 +44,35 @@ public class AtomEntry extends AtomElement {
 	public String getSummary() {
 		return summary;
 	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public void setLink(List<AtomLink> l) {
+		this.links = l;
+	}
+
+	public void setAuthor(AtomAuthor author) {
+		this.author = author;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setUpdated(String updated) {
+		this.updated = updated;
+	}
+
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
+	
+	
 	
 }

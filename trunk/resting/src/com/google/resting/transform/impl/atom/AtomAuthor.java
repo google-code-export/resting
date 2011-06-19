@@ -17,21 +17,14 @@ package com.google.resting.transform.impl.atom;
 
 /**
  * @author lakshmipriya-p
- *
+ * 
  */
-@XmlInfo(tag="entry")
-public class AtomAuthor extends AtomElement {
-	
-	  private String name;
-	  private String email;
-	  private String uri;
-	  
-	  public AtomAuthor(String name, String email, String uri) {
-		  super("author");
-		  this.name = name;
-		  this.email = email;
-		  this.uri = uri;
-	  }
+@XmlInfo(tag = "entry")
+public class AtomAuthor {
+
+	private String name;
+	private String email;
+	private String uri;
 
 	public String getName() {
 		return name;
@@ -44,4 +37,17 @@ public class AtomAuthor extends AtomElement {
 	public String getUri() {
 		return uri;
 	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setUri(String uri) {
+		this.uri = uri;
+	}
+
 }

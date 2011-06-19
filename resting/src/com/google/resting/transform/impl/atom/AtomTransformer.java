@@ -15,13 +15,12 @@
  */
 package com.google.resting.transform.impl.atom;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.namespace.QName;
 
 import com.google.resting.component.Alias;
+import com.google.resting.component.impl.ServiceResponse;
 import com.google.resting.component.impl.xml.XMLAlias;
 import com.google.resting.transform.Transformer;
 import com.google.resting.transform.impl.XMLTransformer;
@@ -31,11 +30,10 @@ import com.google.resting.transform.impl.XMLTransformer;
  * @author lakshmipriya-p
  *
  */
-public class AtomTransformer<T> implements Transformer {
+public class AtomTransformer<T> implements Transformer<T, ServiceResponse> {
 	private boolean addDefaultNamespace = true;
 	private static final String NAMESPACE = "http://www.w3.org/2005/Atom";
 	private static final String PREFIX = "atom";
-	
 	
 	public AtomTransformer() {}
 	
@@ -44,35 +42,41 @@ public class AtomTransformer<T> implements Transformer {
 	}
 	
 	@Override
-	//TODO
-	public T createEntity(String singleEntityStream, Class targetType) {
-		return null;
+	public T createEntity(String singleEntityStream, Class<T> targetType) {
+		return new XMLTransformer<T>().createEntity(
+				singleEntityStream, targetType);
 	}
 
 	@Override
-	//TODO
-	public List getEntityList(Object source, Class targetType, Alias alias) {
-		return null;
+	public List<T> getEntityList(ServiceResponse source, Class<T> targetType, Alias alias) {
+		if(addDefaultNamespace && alias instanceof XMLAlias) {
+			handleDefaultNS((XMLAlias)alias); 
+		}
+		return new XMLTransformer<T>(true).getEntityList(
+				source, targetType, alias);
 	}
 
 	@Override
-	public List getEntityList(String responseString, Class targetType,
+	public List<T> getEntityList(String responseString, Class<T> targetType,
 			Alias alias) {
 		if(addDefaultNamespace && alias instanceof XMLAlias) {
-			Map<QName, Class> m = new HashMap<QName, Class>();
-			m.put(new QName(NAMESPACE, "feed", PREFIX), AtomFeed.class);
-			m.put(new QName(NAMESPACE, "link", PREFIX), AtomLink.class);
-			m.put(new QName(NAMESPACE, "author", PREFIX), AtomAuthor.class);
-			m.put(new QName(NAMESPACE, "entry", PREFIX), AtomEntry.class);
-			((XMLAlias)alias).setQNameMap(m);
-			Map<String, Class> implicitCollectionMap = new HashMap<String, Class>();
-			implicitCollectionMap.put("links", AtomFeed.class);
-			implicitCollectionMap.put("entries", AtomFeed.class);
-			implicitCollectionMap.put("links", AtomEntry.class);
-			((XMLAlias)alias).setImplicitCollectionMap(implicitCollectionMap);
+			handleDefaultNS((XMLAlias)alias); 
 		}
-		List<T> l = new XMLTransformer<T>(true).getEntityList(
+		return new XMLTransformer<T>(true).getEntityList(
 				responseString, targetType, alias);
-		return l;
+	}
+	
+	private void handleDefaultNS(XMLAlias xmlAlias) {
+		xmlAlias.add("feed", AtomFeed.class).add("author", AtomAuthor.class)
+				.add("category", AtomCategory.class)
+				.add("link", AtomLink.class)
+				.add("Query", OpenSearchQuery.class).add("entry",
+						AtomEntry.class);
+		xmlAlias.addQName(new QName(NAMESPACE, "feed", PREFIX), AtomFeed.class);
+		xmlAlias.addConverter(new AtomCategoryConverter());
+		xmlAlias.addConverter(new AtomLinkConverter());
+		xmlAlias.addConverter(new OpenSearchQueryConverter());
+		xmlAlias.addImplicitCollection("entries", AtomFeed.class);
+		xmlAlias.addImplicitCollection("links", AtomEntry.class);
 	}
 }

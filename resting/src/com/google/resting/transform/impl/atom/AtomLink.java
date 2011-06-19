@@ -19,17 +19,11 @@ package com.google.resting.transform.impl.atom;
  * @author lakshmipriya-p
  */
 @XmlInfo(tag="link")
-public class AtomLink extends AtomElement {
+public class AtomLink {
 
 	private String rel;
 	private String href;
 	private String type;
-	
-	public AtomLink(String rel, String href) {
-		super("link");
-		this.rel = rel;
-		this.href = href;
-	}
 	
 	public String getType() {
 		return type;
@@ -46,5 +40,16 @@ public class AtomLink extends AtomElement {
 	public String getHref() {
 		return href;
 	}
+
+	public void setRel(String rel) {
+		this.rel = rel;
+	}
+
+	public void setHref(String href) {
+		this.href = href;
+	}
 	
+	public String toString() {
+		return "type=" + type + "rel=" + rel + "href" + href;
+	}
 }

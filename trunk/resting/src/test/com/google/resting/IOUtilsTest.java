@@ -13,7 +13,7 @@ import junit.framework.TestCase;
 public class IOUtilsTest extends TestCase {
 	
 	public void testToString(){
-		File file=new File("D:\\domain_driven_design.pdf");
+		File file=new File("/domain_driven_design.pdf");
 		String result1="";
 		String result2="";
 		FileInputStream inputStream=null;

@@ -1,8 +1,8 @@
 package test.com.google.resting.vo;
 
 public class Door {
-    private String id;
-    private int height;
+    protected String id;
+    protected int height;
 
     public Door(String id, int height) {
         this.id = id;

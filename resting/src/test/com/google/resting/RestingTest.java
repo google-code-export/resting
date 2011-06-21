@@ -39,6 +39,7 @@ import test.com.google.resting.vo.StatusMessageConverter;
 import com.google.resting.Resting;
 import com.google.resting.component.EncodingTypes;
 import com.google.resting.component.RequestParams;
+import com.google.resting.component.Verb;
 import com.google.resting.component.impl.BasicRequestParams;
 import com.google.resting.component.impl.ServiceResponse;
 import com.google.resting.component.impl.json.JSONRequestParams;
@@ -258,12 +259,15 @@ public class RestingTest extends TestCase {
 	
 	public void testGetByYAML() {
 		System.out.println("\ntestGetByYAML\n-----------------------------");
+		List<Header> headers=new ArrayList<Header>();
+		headers.add(new BasicHeader("Accept","application/octet-stream"));
 		try {
-			List<House> l = Resting.getByYAML(
-					"http://localhost/RestWebService/rest/yaml", 8080, null,
-					House.class);
+			List<House> l = Resting.restByYAML(
+					"http://localhost/testresting/rest/hello/yaml", 8080, null,Verb.GET,
+					House.class, EncodingTypes.UTF8,headers);
 			assertNotNull(l);
 			assertEquals(1, l.size());
+			System.out.println("The house details are: "+l.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

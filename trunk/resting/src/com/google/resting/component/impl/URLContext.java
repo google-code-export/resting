@@ -36,8 +36,7 @@ public class URLContext{
 	private boolean isSecureInvocation=false;
 
 	public URLContext(String restUrl){
-		constructContextPath(restUrl);
-		this.port=80;
+		new URLContext(restUrl,80);
 	}//URLContext
 	
 	public URLContext(String restUrl, int port){

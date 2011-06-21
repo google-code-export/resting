@@ -55,7 +55,6 @@ public class XMLTransformer<T> implements Transformer<T, ServiceResponse> {
 		this.namespaceAware = flag;
 	}
 
-	@Override
 	public T createEntity(String source, Class<T> targetType) {
 		T dest = null;
 		try {
@@ -76,7 +75,6 @@ public class XMLTransformer<T> implements Transformer<T, ServiceResponse> {
 		return this.getEntityList(serviceResponse.getResponseString(), targetType, alias);
 	}
 	
-	@Override
 	public List<T> getEntityList(String responseString, Class<T> targetType, Alias alias){
 		//String responseString=serviceResponse.getResponseString();
 		XMLAlias xmlAlias=null;

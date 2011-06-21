@@ -44,7 +44,6 @@ import com.google.resting.transform.Transformer;
  */
 public class JSONTransformer<T> implements Transformer<T, ServiceResponse> {
 
-	@Override
 	public T createEntity(String source, Class<T> targetType) {
 		Gson gson=new Gson();
 		T dest=null;
@@ -154,7 +153,6 @@ public class JSONTransformer<T> implements Transformer<T, ServiceResponse> {
 		return destMap;
 	}// getEntityLists
 
-	@Override
 	public List<T> getEntityList(ServiceResponse serviceResponse, Class<T> targetType,
 			Alias alias) {
 		return this.getEntityList(serviceResponse.getResponseString(), targetType, alias);

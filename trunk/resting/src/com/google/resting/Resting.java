@@ -463,6 +463,7 @@ public final class Resting {
 	}// restByYAML
 	
 	/**
+	 * This API is deprecated at present.
 	 * Executes HTTP/HTTPS GET request and transforms the ATOM response into
 	 * target entity.
 	 * 
@@ -481,9 +482,37 @@ public final class Resting {
 	 * @return List of entities of target type T
 	 */
 
+	@Deprecated
 	public final static <T> List<T> getByATOM(String baseURI, int port,	RequestParams requestParams, Class<T> targetType) {
 		return RestingHelper.executeAndTransform(baseURI, port, requestParams, Verb.GET,TransformationType.ATOM, targetType, null, UTF8, null);
 	}// getByATOM	
+	/**
+	 * This API is deprecated at present. 
+	 * 
+	 * Executes HTTP/HTTPS REST request and transforms the ATOM response into
+	 * target entity.
+	 * 
+	 * @param <T>
+	 *            Target type of the ATOM response 
+	 * @param baseURI
+	 *            Base URI of the REST endpoint
+	 * @param port
+	 *            Port of the REST endpoint
+	 * @param requestParams
+	 *            {@link RequestParams} object containing collection of request
+	 *            parameters in key/ value pair
+	 * @param verb	
+	 * 			REST method
+	 * @param targetType
+	 *            Class of the target type
+	 * @param encoding 
+	 * 				Encoding type of the response message
+	 * @param additionalHeaders 
+	 * 				Additional request headers. The default headers are Accept: text/xml, Accept: text/html and Accept:application/json 
+
+	 * @return List of entities of target type T
+	 */
+	@Deprecated
 	public final static <T> List<T> restByATOM(String baseURI, int port, RequestParams requestParams, Verb verb, Class<T> targetType, EncodingTypes encodingType, List<Header> additionalHeaders) {
 		return RestingHelper.executeAndTransform(baseURI, port, requestParams, verb,TransformationType.ATOM, targetType, null, encodingType, additionalHeaders);
 	}// restByATOM		

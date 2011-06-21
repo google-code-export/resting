@@ -37,7 +37,6 @@ import com.google.resting.transform.Transformer;
 public class YAMLTransformer<T> implements Transformer<T, ServiceResponse> {
 
 	@SuppressWarnings("unchecked")
-	@Override
 	public T createEntity(String source, Class<T> targetType) {
 		Object unknown = null;
 		try {
@@ -53,7 +52,6 @@ public class YAMLTransformer<T> implements Transformer<T, ServiceResponse> {
 	}
 
 	@SuppressWarnings("unchecked")
-	@Override
 	public List<T> getEntityList(String responseString, Class<T> targetType,
 			Alias alias) {
 		List<T> list = new ArrayList<T>();
@@ -69,7 +67,6 @@ public class YAMLTransformer<T> implements Transformer<T, ServiceResponse> {
 		return list;
 	}
 
-	@Override
 	public List<T> getEntityList(ServiceResponse response, Class<T> targetType,
 			Alias alias) {
 		return this.getEntityList(response.getResponseString(), targetType, alias);

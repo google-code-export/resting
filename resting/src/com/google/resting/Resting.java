@@ -463,7 +463,8 @@ public final class Resting {
 	}// restByYAML
 	
 	/**
-	 * This API is deprecated at present.
+	 * This API is deprecated for the current release.
+	 * 
 	 * Executes HTTP/HTTPS GET request and transforms the ATOM response into
 	 * target entity.
 	 * 
@@ -484,10 +485,11 @@ public final class Resting {
 
 	@Deprecated
 	public final static <T> List<T> getByATOM(String baseURI, int port,	RequestParams requestParams, Class<T> targetType) {
-		return RestingHelper.executeAndTransform(baseURI, port, requestParams, Verb.GET,TransformationType.ATOM, targetType, null, UTF8, null);
+		XMLAlias xmlAlias = new XMLAlias();
+		return RestingHelper.executeAndTransform(baseURI, port, requestParams, Verb.GET,TransformationType.ATOM, targetType, xmlAlias, UTF8, null);
 	}// getByATOM	
 	/**
-	 * This API is deprecated at present. 
+	 * This API is deprecated for the current release. 
 	 * 
 	 * Executes HTTP/HTTPS REST request and transforms the ATOM response into
 	 * target entity.
@@ -514,6 +516,7 @@ public final class Resting {
 	 */
 	@Deprecated
 	public final static <T> List<T> restByATOM(String baseURI, int port, RequestParams requestParams, Verb verb, Class<T> targetType, EncodingTypes encodingType, List<Header> additionalHeaders) {
-		return RestingHelper.executeAndTransform(baseURI, port, requestParams, verb,TransformationType.ATOM, targetType, null, encodingType, additionalHeaders);
+		XMLAlias xmlAlias = new XMLAlias();
+		return RestingHelper.executeAndTransform(baseURI, port, requestParams, verb,TransformationType.ATOM, targetType, xmlAlias, encodingType, additionalHeaders);
 	}// restByATOM		
 }//Resting

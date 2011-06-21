@@ -69,7 +69,7 @@ public final class RestingHelper {
 					alias);
 		}// YAML
 		if (transformationType == TransformationType.ATOM) {
-			AtomTransformer<T> transformer = new AtomTransformer<T>();
+			AtomTransformer<T> transformer = new AtomTransformer<T>(true);
 			results = transformer.getEntityList(serviceResponse, targetType,
 					alias);
 		}// ATOM		

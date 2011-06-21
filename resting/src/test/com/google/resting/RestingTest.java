@@ -45,6 +45,7 @@ import com.google.resting.component.impl.ServiceResponse;
 import com.google.resting.component.impl.json.JSONRequestParams;
 import com.google.resting.component.impl.xml.XMLAlias;
 import com.google.resting.transform.impl.XMLTransformer;
+import com.google.resting.transform.impl.atom.AtomFeed;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.basic.LongConverter;
 import com.thoughtworks.xstream.converters.basic.NullConverter;
@@ -133,29 +134,16 @@ public class RestingTest extends TestCase {
 		}
 	}
 
+
 	public void testGetByXML() {
-		System.out.println("\ntestGetByXML\n-----------------------------");
-		RequestParams params = new BasicRequestParams();   
-		params.add("appid", "YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--");  
-		params.add("state", "CA");  
-		XMLAlias alias=new XMLAlias().add("Result", Result.class).add("ResultSet", ResultSet.class);   
-		try {
-			ResultSet resultset=Resting.getByXML("http://local.yahooapis.com/MapsService/V1/geocode", 80,params,ResultSet.class, alias);	
-			System.out.println(Resting.getByXML("http://local.yahooapis.com/MapsService/V1/geocode", 80,params,ResultSet.class, alias));
-			//System.out.println("[RestingTest::getByXML] The response detail is "+resultset.getResult().toString());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	public void testGetByXML2() {
-		System.out.println("\ntestGetByXML2\n-----------------------------");		
+		System.out.println("\ntestGetByXML\n-----------------------------");		
 		RequestParams params = new BasicRequestParams();   
 		params.add("appid", "YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--");  
 		params.add("state", "CA");  
 		XMLAlias alias=new XMLAlias().add("Result", Result.class).add("ResultSet", ResultSet.class);   
 	    try {
 			ResultSet results=Resting.getByXML("http://local.yahooapis.com/MapsService/V1/geocode", 80,params,ResultSet.class, alias);	
-			System.out.println("[RestingTest::getByXML2] The response detail is "+results.getResult().toString());
+			System.out.println("[RestingTest::getByXML] The response detail is "+results.getResult().toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -174,43 +162,43 @@ public class RestingTest extends TestCase {
 		
 		
 	}
-	public void testMimeApplicationJSON(){
-		System.out.println("\ntestMime2\n-----------------------------");		
+	public void testAcceptApplicationJSON(){
+		System.out.println("\ntestAcceptApplicationJSON\n-----------------------------");		
 		ServiceResponse response=null;
 		try {
 			response = Resting.get("http://localhost/testresting/rest/hello/vo",8080);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
-		System.out.println("[RestingTest::testMime2] Response is" +response);
+		System.out.println("[RestingTest::testAcceptApplicationJSON] Response is" +response);
 		assertEquals(200, response.getStatusCode());
 		
 	}
-	public void testMimeTextHtml(){
-		System.out.println("\ntestMimeTextHtml\n-----------------------------");		
+	public void testAcceptTextHtml(){
+		System.out.println("\ntestAcceptTextHtml\n-----------------------------");		
 		ServiceResponse response=null;
 		try {
 			response = Resting.get("http://localhost/testresting/rest/hello/htmlhello",8080);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
-		System.out.println("[RestingTest::testMimeTextHtml] Response is" +response);
+		System.out.println("[RestingTest::testAcceptTextHtml] Response is" +response);
 		assertEquals(200, response.getStatusCode());
 		
 	}
-	public void testMimeAdditionalNeg(){
-		System.out.println("\ntestMimeAdditionalNeg\n-----------------------------");		
+	public void testAcceptOctectNeg(){
+		System.out.println("\ntestAcceptOctectNeg\n-----------------------------");		
 		ServiceResponse response=null;
 		try {
 			response = Resting.get("http://localhost/testresting/rest/hello/octet",8080);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
-		System.out.println("[RestingTest::testMimeAdditionalNeg] Response is" +response);
+		System.out.println("[RestingTest::testAcceptOctectNeg] Response is" +response);
 		assertEquals(406, response.getStatusCode());
 	}
-	public void testMimeAdditionalPos(){
-		System.out.println("\ntestMimeAdditionalPos\n-----------------------------");		
+	public void testConvertOctetStream(){
+		System.out.println("\ntestConvertOctetStream\n-----------------------------");		
 		ServiceResponse response=null;
 		List<Header> headers=new ArrayList<Header>();
 		headers.add(new BasicHeader("Accept","application/octet-stream"));
@@ -219,12 +207,12 @@ public class RestingTest extends TestCase {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
-		System.out.println("[RestingTest::testMimeAdditionalPos] Response is" +response);
+		System.out.println("[RestingTest::testConvertOctetStream] Response is" +response);
 		assertEquals(200, response.getStatusCode());
 		
 	}
-	public void testMimeAdditionalPos2(){
-		System.out.println("\ntestMimeAdditionalPos2\n-----------------------------");		
+	public void testAcceptOctetStream(){
+		System.out.println("\ntestAcceptOctetStream\n-----------------------------");		
 		ServiceResponse response=null;
 		List<Header> headers=new ArrayList<Header>();
 		headers.add(new BasicHeader("Accept","application/octet-stream"));
@@ -233,13 +221,13 @@ public class RestingTest extends TestCase {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} 
-		System.out.println("[RestingTest::testMimeAdditionalPos2] Length of response byte array is " +response.getResponseLength());
+		System.out.println("[RestingTest::testAcceptOctetStream] Length of response byte array is " +response.getResponseLength());
 		assertEquals(200, response.getStatusCode());
 		
 	}	
 	
-	public void testLocal2(){
-		System.out.println("\ntestLocal2\n-----------------------------");				
+	public void testAddCustomConverter(){
+		System.out.println("\ntestAddCustomConverter\n-----------------------------");				
 		XMLAlias alias=new XMLAlias().add("message", StatusMessage.class);
 		alias.addConverter(new StatusMessageConverter());
         String entireResponseString= Resting.get("http://172.16.21.134/Mediator18042011/ssbt/api/collections?method=create&name=013Collection&output=xml&api_username=esadmin&api_password=Ssbt123", 8088).getResponseString();
@@ -259,7 +247,7 @@ public class RestingTest extends TestCase {
 		System.out.println(message.toString());
 	}
 	
-	public void testGetByYAML() {
+	public void testRestByYAML() {
 		System.out.println("\ntestGetByYAML\n-----------------------------");
 		List<Header> headers=new ArrayList<Header>();
 		headers.add(new BasicHeader("Accept","application/octet-stream"));
@@ -275,15 +263,16 @@ public class RestingTest extends TestCase {
 		}
 	}
 	
-	public void testGetByATOM() {
+
+	public void testRestByATOM() {
 		System.out.println("\ntestGetByATOM\n-----------------------------");
 		List<Header> headers=new ArrayList<Header>();
 		headers.add(new BasicHeader("Accept","application/octet-stream"));
 		try {
-			List<OFCollections> l = Resting.restByATOM(
+			List<AtomFeed> l = Resting.restByATOM(
 					"http://localhost/testresting/rest/hello/atom", 8080, null,Verb.GET,
-					OFCollections.class,EncodingTypes.UTF8,headers );
-			System.out.println("The length of OFCollection list is "+l.size());
+					AtomFeed.class,EncodingTypes.UTF8,headers );
+			System.out.println("The length of AtomFeed list is "+l.size());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

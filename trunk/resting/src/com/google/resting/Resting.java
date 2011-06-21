@@ -285,7 +285,7 @@ public final class Resting {
 	 * @param targetType Class of the target type T
 	 * @param alias JSON alias for reading the entity from JSON response.
 	 * @param encoding Encoding type of the response message
-	 * @param additionalHeaders Additional request headers. The default headers are Accept: text/xml and Accept:application/json
+	 * @param additionalHeaders Additional request headers. The default headers are Accept: text/xml, Accept: text/html and Accept:application/json 
 	 * 
 	 * @return List of entities of target type T
 	 */
@@ -294,7 +294,25 @@ public final class Resting {
 		JSONAlias jsonAlias=new JSONAlias(alias);
 		return RestingHelper.executeAndTransform(baseURI, port,requestParams, Verb.GET, TransformationType.JSON, targetType, jsonAlias,encoding, additionalHeaders);
 	}//getByJSON
-	
+	/**
+	 * Executes HTTP/HTTPS REST request and transforms the JSON response into list of target entity.
+	 * 
+	 * @param <T> Target entity type
+	 * @param url Base URI of the REST endpoint
+	 * @param port Port of the REST endpoint
+	 * @param requestParams {@link RequestParams} object containing collection of parameters in key/ value pair for REST request
+	 * @param targetType Class of the target type T
+	 * @param alias JSON alias for reading the entity from JSON response.
+	 * @param encoding Encoding type of the response message
+	 * @param additionalHeaders Additional request headers. The default headers are Accept: text/xml, Accept: text/html and Accept:application/json 
+	 * 
+	 * @return List of entities of target type T
+	 */
+
+	public final static <T> List<T> restByJSON(String baseURI, int port, RequestParams requestParams, Verb verb, Class<T> targetType, String alias, EncodingTypes encoding, List<Header> additionalHeaders){
+		JSONAlias jsonAlias=new JSONAlias(alias);
+		return RestingHelper.executeAndTransform(baseURI, port,requestParams, verb, TransformationType.JSON, targetType, jsonAlias,encoding, additionalHeaders);
+	}//getByJSON	
 	/**
 	 * Executes HTTP/HTTPS GET request and transforms the JSON response into lists of target entities.
 	 * 
@@ -311,6 +329,34 @@ public final class Resting {
 		JSONAlias alias=new JSONAlias(aliasTypeMap);
 		return RestingHelper.executeAndTransform(baseURI, port,requestParams, Verb.GET, TransformationType.JSON, alias,UTF8,null);
 	}//getByJSON	
+	
+	/**
+	 * Executes HTTP/HTTPS REST request and transforms the JSON response into lists of target entities.
+	 * 
+	 * @param url 
+	 * 			Base URI of the REST endpoint
+	 * @param port 
+	 * 			Port of the REST endpoint
+	 * @param verb	
+	 * 			REST method
+	 * @param requestParams 
+	 * 			{@link RequestParams} object containing collection of parameters in key/ value pair for REST request
+	 * @param aliasTypeMap 
+	 * 			Map of aliases and corresponding types for marshalling data from JSON response. Only the aliases/types for which the data
+	 * 			should be retrieved are to be added in this map.
+	 * @param encoding 
+	 * 			Encoding type of the response message
+	 * @param additionalHeaders 
+	 * 			Additional request headers. The default headers are Accept: text/xml, Accept: text/html and Accept:application/json 
+	 *
+	 * @return Map containing alias (@link String) and (@ List)s of objects corresponding to that token
+	 */
+	
+	public final static  Map<String, List> restByJSON(String baseURI, int port, Verb verb, RequestParams requestParams, Map<String, Class> aliasTypeMap, EncodingTypes encoding, List<Header> additionalHeaders){	
+		JSONAlias alias=new JSONAlias(aliasTypeMap);
+		return RestingHelper.executeAndTransform(baseURI, port,requestParams, verb, TransformationType.JSON, alias,encoding,additionalHeaders);
+	}//getByJSON	
+	
 	/**
 	 * Executes HTTP/HTTPS GET request and transforms the XML response into target entity.
 	 * 
@@ -327,7 +373,26 @@ public final class Resting {
 	public final static <T> T getByXML(String baseURI, int port, RequestParams requestParams, Class<T> rootType, XMLAlias alias){
 		return RestingHelper.executeAndTransform(baseURI, port,requestParams, Verb.GET, TransformationType.XML, rootType, alias,UTF8, null).get(0);
 	}//getByXML
-	
+	/**
+	 * Executes HTTP/HTTPS REST request and transforms the XML response into target entity.
+	 * 
+	 * @param <T> Root entity type of the XML
+	 * @param baseURI Base URI of the REST endpoint
+	 * @param port Port of the REST endpoint
+	 * @param requestParams {@link RequestParams} object containing collection of request parameters in key/ value pair
+	 * @param rootType Class of the root entity
+	 * @param alias XMLAlias object 
+	 * @param encoding 
+	 * 			Encoding type of the response message
+	 * @param additionalHeaders 
+	 * 			Additional request headers. The default headers are Accept: text/xml, Accept: text/html and Accept:application/json 
+	 *
+	 * @return Root entity
+	 */
+
+	public final static <T> T restByXML(String baseURI, int port, Verb verb, RequestParams requestParams, Class<T> rootType, XMLAlias alias, EncodingTypes encoding, List<Header> additionalHeaders){
+		return RestingHelper.executeAndTransform(baseURI, port,requestParams, verb, TransformationType.XML, rootType, alias,encoding, additionalHeaders).get(0);
+	}//getByXML	
 		/**
 	 * Executes HTTP/HTTPS GET request and transforms the YAML response into
 	 * target entity.
@@ -351,6 +416,32 @@ public final class Resting {
 		return RestingHelper.executeAndTransform(baseURI, port, requestParams, Verb.GET,TransformationType.YAML, targetType, null, UTF8, null);
 	}// getByYAML
 
+	/**
+	 * Executes HTTP/HTTPS REST request and transforms the YAML response into
+	 * target entity.
+	 * 
+	 * @param <T>
+	 *            Target type of the YAML
+	 * @param baseURI
+	 *            Base URI of the REST endpoint
+	 * @param port
+	 *            Port of the REST endpoint
+	 * @param requestParams
+	 *            {@link RequestParams} object containing collection of request
+	 *            parameters in key/ value pair
+	 * @param verb	REST method
+	 * @param targetType
+	 *            Class of the target type
+	 * @param EncodingTypes Encoding type of the response message
+	 * 
+	 * @param additionalHeaders Additional request headers. The default headers are Accept: text/xml, Accept: text/html and Accept:application/json 
+	 * 
+	 * @return List of entities of target type T
+	 */
+	public final static <T> List<T> restByYAML(String baseURI, int port, RequestParams requestParams, Verb verb, Class<T> targetType, EncodingTypes encodingType, List<Header> additionalHeaders) {
+		return RestingHelper.executeAndTransform(baseURI, port, requestParams, verb,TransformationType.YAML, targetType, null, encodingType, additionalHeaders);
+	}// restByYAML
+	
 	/**
 	 * Executes HTTP/HTTPS GET request and transforms the ATOM response into
 	 * target entity.

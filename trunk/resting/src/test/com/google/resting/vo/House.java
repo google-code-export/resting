@@ -50,4 +50,8 @@ public class House {
         this.reminders = reminders;
     }
 
+    public String toString(){
+    	return "Street = "+street+"| Number = "+number+"| Front door: "+frontDoor
+    	+"| Reminder: "+reminders+"| Rooms: "+rooms;
+    }
 }

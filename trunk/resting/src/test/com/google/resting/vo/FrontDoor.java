@@ -18,5 +18,9 @@ public class FrontDoor extends Door {
     public void setKeytype(String keytype) {
         this.keytype = keytype;
     }
+    
+    public String toString(){
+    	return "door id = "+id+"| door height: "+height+"| door keytype= "+keytype;
+    }
 
 }

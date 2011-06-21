@@ -239,6 +239,7 @@ public class RestingTest extends TestCase {
 	}	
 	
 	public void testLocal2(){
+		System.out.println("\ntestLocal2\n-----------------------------");				
 		XMLAlias alias=new XMLAlias().add("message", StatusMessage.class);
 		alias.addConverter(new StatusMessageConverter());
         String entireResponseString= Resting.get("http://172.16.21.134/Mediator18042011/ssbt/api/collections?method=create&name=013Collection&output=xml&api_username=esadmin&api_password=Ssbt123", 8088).getResponseString();
@@ -249,6 +250,7 @@ public class RestingTest extends TestCase {
 	}	
 	
 	public void testLocal3(){
+		System.out.println("\ntestLocal3\n-----------------------------");				
 		String xml="<?xml version=\"1.0\" encoding=\"utf-8\"?><message>FFQW0141I Collection 005Collection was created successfully.</message>";
 		XStream xstream=new XStream(new DomDriver());
 		xstream.registerConverter(new StatusMessageConverter());
@@ -275,11 +277,12 @@ public class RestingTest extends TestCase {
 	
 	public void testGetByATOM() {
 		System.out.println("\ntestGetByATOM\n-----------------------------");
+		List<Header> headers=new ArrayList<Header>();
+		headers.add(new BasicHeader("Accept","application/octet-stream"));
 		try {
-			System.out.println(Resting.get("http://websphere1.ssbt.com/api/v10/search?collection=246246&query=license", 8394));
-			List<OFCollections> l = Resting.getByATOM(
-					"http://websphere1.ssbt.com/api/v10/search?collection=246246&query=license", 8394, null,
-					OFCollections.class);
+			List<OFCollections> l = Resting.restByATOM(
+					"http://localhost/testresting/rest/hello/atom", 8080, null,Verb.GET,
+					OFCollections.class,EncodingTypes.UTF8,headers );
 			System.out.println("The length of OFCollection list is "+l.size());
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -287,6 +290,7 @@ public class RestingTest extends TestCase {
 	}
 	
 	public void testTrans(){
+		System.out.println("\ntestTrans\n-----------------------------");				
 		String text="<?xml version=\"1.0\" encoding=\"UTF-8\"?><standards> <standard>  <id>1</id>  <title>Safety</title> <parentId></parentId>  <parentTitle></parentTitle>  <level>0</level> </standard></standards>";
 		XMLAlias alias=new XMLAlias().add("standard", Standard.class).add("standards", Standards.class); 
 		//alias.addConverter(new MyStringConverter());

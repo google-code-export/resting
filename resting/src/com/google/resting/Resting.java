@@ -297,14 +297,24 @@ public final class Resting {
 	/**
 	 * Executes HTTP/HTTPS REST request and transforms the JSON response into list of target entity.
 	 * 
-	 * @param <T> Target entity type
-	 * @param url Base URI of the REST endpoint
-	 * @param port Port of the REST endpoint
-	 * @param requestParams {@link RequestParams} object containing collection of parameters in key/ value pair for REST request
-	 * @param targetType Class of the target type T
-	 * @param alias JSON alias for reading the entity from JSON response.
-	 * @param encoding Encoding type of the response message
-	 * @param additionalHeaders Additional request headers. The default headers are Accept: text/xml, Accept: text/html and Accept:application/json 
+	 * @param <T> 
+	 * 			Target entity type
+	 * @param url 
+	 * 			Base URI of the REST endpoint
+	 * @param port 
+	 * 			Port of the REST endpoint
+	 * @param requestParams 
+	 * 			{@link RequestParams} object containing collection of parameters in key/ value pair for REST request
+	 * @param verb	
+	 * 			REST method
+	 * @param targetType 
+	 * 			Class of the target type T
+	 * @param alias 
+	 * 			JSON alias for reading the entity from JSON response.
+	 * @param encoding 
+	 * 			Encoding type of the response message
+	 * @param additionalHeaders 
+	 * 			Additional request headers. The default headers are Accept: text/xml, Accept: text/html and Accept:application/json 
 	 * 
 	 * @return List of entities of target type T
 	 */
@@ -337,10 +347,10 @@ public final class Resting {
 	 * 			Base URI of the REST endpoint
 	 * @param port 
 	 * 			Port of the REST endpoint
-	 * @param verb	
-	 * 			REST method
 	 * @param requestParams 
 	 * 			{@link RequestParams} object containing collection of parameters in key/ value pair for REST request
+	 * @param verb	
+	 * 			REST method
 	 * @param aliasTypeMap 
 	 * 			Map of aliases and corresponding types for marshalling data from JSON response. Only the aliases/types for which the data
 	 * 			should be retrieved are to be added in this map.
@@ -352,7 +362,7 @@ public final class Resting {
 	 * @return Map containing alias (@link String) and (@ List)s of objects corresponding to that token
 	 */
 	
-	public final static  Map<String, List> restByJSON(String baseURI, int port, Verb verb, RequestParams requestParams, Map<String, Class> aliasTypeMap, EncodingTypes encoding, List<Header> additionalHeaders){	
+	public final static  Map<String, List> restByJSON(String baseURI, int port, RequestParams requestParams, Verb verb, Map<String, Class> aliasTypeMap, EncodingTypes encoding, List<Header> additionalHeaders){	
 		JSONAlias alias=new JSONAlias(aliasTypeMap);
 		return RestingHelper.executeAndTransform(baseURI, port,requestParams, verb, TransformationType.JSON, alias,encoding,additionalHeaders);
 	}//getByJSON	
@@ -376,12 +386,20 @@ public final class Resting {
 	/**
 	 * Executes HTTP/HTTPS REST request and transforms the XML response into target entity.
 	 * 
-	 * @param <T> Root entity type of the XML
-	 * @param baseURI Base URI of the REST endpoint
-	 * @param port Port of the REST endpoint
-	 * @param requestParams {@link RequestParams} object containing collection of request parameters in key/ value pair
-	 * @param rootType Class of the root entity
-	 * @param alias XMLAlias object 
+	 * @param <T> 
+	 * 			Root entity type of the XML
+	 * @param baseURI 
+	 * 			Base URI of the REST endpoint
+	 * @param port 
+	 * 			Port of the REST endpoint
+	 * @param requestParams 
+	 * 			{@link RequestParams} object containing collection of request parameters in key/ value pair
+	 * @param verb	
+	 * 			REST method
+	 * @param rootType 
+	 * 			Class of the root entity
+	 * @param alias 
+	 * 			XMLAlias object 
 	 * @param encoding 
 	 * 			Encoding type of the response message
 	 * @param additionalHeaders 
@@ -390,7 +408,7 @@ public final class Resting {
 	 * @return Root entity
 	 */
 
-	public final static <T> T restByXML(String baseURI, int port, Verb verb, RequestParams requestParams, Class<T> rootType, XMLAlias alias, EncodingTypes encoding, List<Header> additionalHeaders){
+	public final static <T> T restByXML(String baseURI, int port, RequestParams requestParams, Verb verb, Class<T> rootType, XMLAlias alias, EncodingTypes encoding, List<Header> additionalHeaders){
 		return RestingHelper.executeAndTransform(baseURI, port,requestParams, verb, TransformationType.XML, rootType, alias,encoding, additionalHeaders).get(0);
 	}//getByXML	
 		/**
@@ -429,12 +447,14 @@ public final class Resting {
 	 * @param requestParams
 	 *            {@link RequestParams} object containing collection of request
 	 *            parameters in key/ value pair
-	 * @param verb	REST method
+	 * @param verb	
+	 * 				REST method
 	 * @param targetType
 	 *            Class of the target type
-	 * @param EncodingTypes Encoding type of the response message
-	 * 
-	 * @param additionalHeaders Additional request headers. The default headers are Accept: text/xml, Accept: text/html and Accept:application/json 
+	 * @param encoding 
+	 * 				Encoding type of the response message
+	 * @param additionalHeaders 
+	 * 				Additional request headers. The default headers are Accept: text/xml, Accept: text/html and Accept:application/json 
 	 * 
 	 * @return List of entities of target type T
 	 */
@@ -464,5 +484,7 @@ public final class Resting {
 	public final static <T> List<T> getByATOM(String baseURI, int port,	RequestParams requestParams, Class<T> targetType) {
 		return RestingHelper.executeAndTransform(baseURI, port, requestParams, Verb.GET,TransformationType.ATOM, targetType, null, UTF8, null);
 	}// getByATOM	
-	
+	public final static <T> List<T> restByATOM(String baseURI, int port, RequestParams requestParams, Verb verb, Class<T> targetType, EncodingTypes encodingType, List<Header> additionalHeaders) {
+		return RestingHelper.executeAndTransform(baseURI, port, requestParams, verb,TransformationType.ATOM, targetType, null, encodingType, additionalHeaders);
+	}// restByATOM		
 }//Resting

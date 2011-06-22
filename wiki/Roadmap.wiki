@@ -6,7 +6,7 @@
 
 == Planned Releases ==
 
-*Version 0.8: Targetted on September, 2011*
+*Version 0.9: Targetted on September, 2011*
 
    * Support for Kerberos and NTLM authentication
    * Performance benchmarking of resting APIs

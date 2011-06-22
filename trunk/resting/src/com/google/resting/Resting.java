@@ -35,6 +35,7 @@ import com.google.resting.method.get.GetHelper;
 import com.google.resting.method.post.PostHelper;
 import com.google.resting.method.put.PutHelper;
 import com.google.resting.transform.TransformationType;
+import com.google.resting.transform.impl.atom.AtomFeed;
 
 
 /**
@@ -484,7 +485,7 @@ public final class Resting {
 	 */
 
 	@Deprecated
-	public final static <T> List<T> getByATOM(String baseURI, int port,	RequestParams requestParams, Class<T> targetType) {
+	public final static <T extends AtomFeed> List<T> getByATOM(String baseURI, int port,	RequestParams requestParams, Class<T> targetType) {
 		XMLAlias xmlAlias = new XMLAlias();
 		return RestingHelper.executeAndTransform(baseURI, port, requestParams, Verb.GET,TransformationType.ATOM, targetType, xmlAlias, UTF8, null);
 	}// getByATOM	
@@ -515,7 +516,7 @@ public final class Resting {
 	 * @return List of entities of target type T
 	 */
 	@Deprecated
-	public final static <T> List<T> restByATOM(String baseURI, int port, RequestParams requestParams, Verb verb, Class<T> targetType, EncodingTypes encodingType, List<Header> additionalHeaders) {
+	public final static <T extends AtomFeed> List<T> restByATOM(String baseURI, int port, RequestParams requestParams, Verb verb, Class<T> targetType, EncodingTypes encodingType, List<Header> additionalHeaders) {
 		XMLAlias xmlAlias = new XMLAlias();
 		return RestingHelper.executeAndTransform(baseURI, port, requestParams, verb,TransformationType.ATOM, targetType, xmlAlias, encodingType, additionalHeaders);
 	}// restByATOM		

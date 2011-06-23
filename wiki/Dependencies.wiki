@@ -9,6 +9,8 @@ Resting requires the following third party libraries. For reference, all are inc
  * commons-logging-1.1.1.jar
  * google-gson-1.5.jar
  * xstream-1.3.1.jar
+ * snakeyaml-1.8.jar
+
 
 *Resting for Java
 
@@ -19,3 +21,4 @@ Resting requires the following third party libraries. For reference, all are inc
  * xstream-1.3.1.jar
  * httpclient-4.1.beta1.jar
  * httpcore-4.1.jar
+ * snakeyaml-1.8.jar

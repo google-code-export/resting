@@ -6,9 +6,10 @@
 
 == Planned Releases ==
 
+
 *Version 0.9: Targetted on September, 2011*
 
-   * Support for Kerberos and NTLM authentication
+   * Support for Kerberos and NTLM authentication for Java version. Need to find out about MIT Kerberos specifications for mobile devices.
    * Performance benchmarking of resting APIs
 
 *Version 0.8: Targetted on August, 2011*

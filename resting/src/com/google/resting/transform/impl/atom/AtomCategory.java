@@ -1,9 +1,10 @@
 package com.google.resting.transform.impl.atom;
 
-public class AtomCategory {
+public class AtomCategory extends AtomElement {
 
 	private String term;
 	private String label;
+	private String scheme;
 	
 	public String getTerm() {
 		return term;
@@ -18,7 +19,10 @@ public class AtomCategory {
 		this.label = label;
 	}
 	
-	public String toString() {
-		return "term=" + term + "label=" + label;
+	public String getScheme() {
+		return scheme;
+	}
+	public void setScheme(String scheme) {
+		this.scheme = scheme;
 	}
 }

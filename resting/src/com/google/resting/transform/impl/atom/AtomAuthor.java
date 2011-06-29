@@ -19,8 +19,7 @@ package com.google.resting.transform.impl.atom;
  * @author lakshmipriya-p
  * 
  */
-@XmlInfo(tag = "entry")
-public class AtomAuthor {
+public class AtomAuthor extends AtomElement {
 
 	private String name;
 	private String email;

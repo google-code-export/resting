@@ -15,68 +15,67 @@
  */
 package com.google.resting.transform.impl.atom;
 
+import java.util.ArrayList;
 import java.util.List;
-
-import javax.xml.namespace.QName;
 
 import com.google.resting.component.Alias;
 import com.google.resting.component.impl.ServiceResponse;
 import com.google.resting.component.impl.xml.XMLAlias;
 import com.google.resting.transform.Transformer;
-import com.google.resting.transform.impl.XMLTransformer;
+import com.google.resting.transform.impl.JdomXMLTransformer;
 
 /**
  * A transformer implementation to parse ATOM feeds
+ * 
  * @author lakshmipriya-p
  *
  */
 public class AtomTransformer<T> implements Transformer<T, ServiceResponse> {
-	private boolean addDefaultNamespace = true;
-	private static final String NAMESPACE = "http://www.w3.org/2005/Atom";
-	private static final String PREFIX = "atom";
 	
 	public AtomTransformer() {}
 	
-	public AtomTransformer(boolean addDefaultNamespace) {
-		this.addDefaultNamespace = addDefaultNamespace;
-	}
-	
 	@Override
 	public T createEntity(String singleEntityStream, Class<T> targetType) {
-		return new XMLTransformer<T>().createEntity(
-				singleEntityStream, targetType);
+		return null;
 	}
 
 	@Override
-	public List<T> getEntityList(ServiceResponse source, Class<T> targetType, Alias alias) {
-		if(addDefaultNamespace && alias instanceof XMLAlias) {
-			handleDefaultNS((XMLAlias)alias); 
-		}
-		return new XMLTransformer<T>(true).getEntityList(
-				source, targetType, alias);
+	public List<T> getEntityList(ServiceResponse source, Class<T> targetType,
+			Alias alias) {
+		return this
+				.getEntityList(source.getResponseString(), targetType, alias);
 	}
 
 	@Override
 	public List<T> getEntityList(String responseString, Class<T> targetType,
 			Alias alias) {
-		if(addDefaultNamespace && alias instanceof XMLAlias) {
-			handleDefaultNS((XMLAlias)alias); 
+		List<T> l = new ArrayList<T>(0);
+		if (alias instanceof XMLAlias) {
+			XMLAlias xmlAlias = (XMLAlias) alias;
+			handleDefaultNS(xmlAlias);
+			T entity = (T) new JdomXMLTransformer<T>().createEntity(
+					responseString, targetType, xmlAlias);
+			l.add(entity);
 		}
-		return new XMLTransformer<T>(true).getEntityList(
-				responseString, targetType, alias);
+		return l;
 	}
 	
 	private void handleDefaultNS(XMLAlias xmlAlias) {
-		xmlAlias.add("feed", AtomFeed.class).add("author", AtomAuthor.class)
-				.add("category", AtomCategory.class)
-				.add("link", AtomLink.class)
-				.add("Query", OpenSearchQuery.class).add("entry",
-						AtomEntry.class);
-		xmlAlias.addQName(new QName(NAMESPACE, "feed", PREFIX), AtomFeed.class);
-		xmlAlias.addConverter(new AtomCategoryConverter());
-		xmlAlias.addConverter(new AtomLinkConverter());
-		xmlAlias.addConverter(new OpenSearchQueryConverter());
-		xmlAlias.addImplicitCollection("entries", AtomFeed.class);
-		xmlAlias.addImplicitCollection("links", AtomEntry.class);
+		xmlAlias.add("author", AtomAuthor.class).add("category",
+				AtomCategory.class).add("link", AtomLink.class).add("entry",
+				AtomEntry.class).add("source", AtomFeed.class).add("generator",
+				AtomGenerator.class).add("contributor", AtomAuthor.class);
+	}
+
+	@Override
+	public T createEntity(String singleEntityStream, Class<T> targetType,
+			Alias alias) {
+		if (alias instanceof XMLAlias) {
+			XMLAlias xmlAlias = (XMLAlias) alias;
+			handleDefaultNS(xmlAlias);
+			return (T) new JdomXMLTransformer<T>().createEntity(
+					singleEntityStream, targetType, xmlAlias);
+		}
+		return null;
 	}
 }

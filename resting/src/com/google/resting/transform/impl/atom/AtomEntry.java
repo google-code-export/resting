@@ -17,62 +17,93 @@ package com.google.resting.transform.impl.atom;
 
 import java.util.List;
 
-@XmlInfo(tag="entry")
-public class AtomEntry {
-	
-	private String title;
-	private List<AtomLink> links;
-	private AtomAuthor author;
+public class AtomEntry extends AtomElement {
+
+	private List<AtomAuthor> author;
+	private List<AtomCategory> category;
+	//TODO
+	private String content;
+	private AtomAuthor contributor;
 	private String id;
-	private String updated;
+	private List<AtomLink> link;
+	private String published;
+	private String rights;
+	private AtomFeed source;
 	private String summary;
+	private String title;
+	private String updated;
 	
-	public List<AtomLink> getLinks() {
-		return links;
-	}
-	
-	public AtomAuthor getAuthor() {
+	public List<AtomAuthor> getAuthor() {
 		return author;
 	}
-	
+	public void setAuthor(List<AtomAuthor> l) {
+		this.author = l;
+	}
+	public List<AtomCategory> getCategory() {
+		return category;
+	}
+	public void setCategory(List<AtomCategory> l) {
+		this.category = l;
+	}
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
+	}
+	public AtomAuthor getContributor() {
+		return contributor;
+	}
+	public void setContributor(AtomAuthor contributor) {
+		this.contributor = contributor;
+	}
 	public String getId() {
 		return id;
 	}
-	public String getUpdated() {
-		return updated;
+	public void setId(String id) {
+		this.id = id;
+	}
+	public List<AtomLink> getLink() {
+		return link;
+	}
+	public void setLink(List<AtomLink> l) {
+		this.link = l;
+	}
+	public String getPublished() {
+		return published;
+	}
+	public void setPublished(String published) {
+		this.published = published;
+	}
+	public String getRights() {
+		return rights;
+	}
+	public void setRights(String rights) {
+		this.rights = rights;
+	}
+	public AtomFeed getSource() {
+		return source;
+	}
+	public void setSource(AtomFeed source) {
+		this.source = source;
 	}
 	public String getSummary() {
 		return summary;
 	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public void setLink(List<AtomLink> l) {
-		this.links = l;
-	}
-
-	public void setAuthor(AtomAuthor author) {
-		this.author = author;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	public void setUpdated(String updated) {
-		this.updated = updated;
-	}
-
 	public void setSummary(String summary) {
 		this.summary = summary;
 	}
-	
-	
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+	public String getUpdated() {
+		return updated;
+	}
+	public void setUpdated(String updated) {
+		this.updated = updated;
+	}
 	
 }

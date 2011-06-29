@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:atom="http://www.w3.org/2005/Atom" xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:es="http://www.ibm.com/discovery/es/rest/1.0" xmlns:ibmsc="http://www.ibm.com/search/content/2010" xmlns:ibmbf="http://www.ibm.com/browse/facets/2010" xmlns:ibmsa="http://www.ibm.com/search/capabilities/2010" xmlns="http://www.w3.org/2005/Atom">
+  <atom:title>Search results for query &apos;license&apos; on collection 111111</atom:title>
+  <atom:link href="http://websphere1.example.com:8080/search?c=111111&amp;query=license" rel="self" type="application/atom+xml"/>
+  <atom:author>
+    <atom:name>Search REST API</atom:name>
+  </atom:author>
+  <atom:id>http://websphere1.example.com:8080/search?c=111111&amp;query=license</atom:id>
+  <atom:category term="A" label=""/>
+  <atom:updated>2011-06-03T08:18:27Z</atom:updated>
+  <es:queryEvaluationTime>8</es:queryEvaluationTime>
+  <opensearch:totalResults>17</opensearch:totalResults>
+  <opensearch:Query role="request" searchTerms="license"/>
+  <es:query role="full" searchTerms="license"/>
+  <es:spellCorrection querySubstring="license">
+    <es:suggestion>licenser</es:suggestion>
+    <es:suggestion>licence</es:suggestion>
+    <es:suggestion>licensee</es:suggestion>
+    <es:suggestion>licens</es:suggestion>
+  </es:spellCorrection>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <opensearch:itemsPerPage>10</opensearch:itemsPerPage>
+  <atom:entry>
+    <atom:title/>
+    <atom:link rel="alternate" href="/document/content?c=111111&amp;uri=http://collaborate.example.com/sites/A/LICENSE" hreflang="en"/>
+    <atom:link rel="via" href="/search/preview?query=license&amp;c=111111" hreflang="en"/>
+    <opensearch:relevance>31.235897541046143</opensearch:relevance>
+    <atom:updated>2011-05-16T10:29:50Z</atom:updated>
+    <atom:id>http://collaborate.example.com/sites/A//LICENSE</atom:id>
+    <es:thumbnail href="/api/v10/document/thumbnail?c=111111" rel="via" type="image/jpeg"/>
+    <es:documentSource>sharepoint</es:documentSource>
+    <es:firstOfASite>true</es:firstOfASite>
+    <atom:author>
+      <atom:name/>
+      <atom:uri/>
+      <atom:email/>
+    </atom:author>
+    <ibmsc:field id="date" type="date" contentSearchable="false" fieldSearchable="false" parametric="true" returnable="true" sortable="false">1305541790000</ibmsc:field>
+    <atom:summary></atom:summary>
+  </atom:entry>
+</feed>

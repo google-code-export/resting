@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: feed contains multiple author uris
+-->
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <author>
+    <uri>http://one.com/</uri>
+  </author>
+  <author>
+    <uri>http://two.com/</uri>
+  </author>
+</feed>

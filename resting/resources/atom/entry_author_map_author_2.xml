@@ -1,0 +1,11 @@
+<!--
+Description: entry author name maps to author if no email present
+-->
+<feed xmlns="http://www.w3.org/2005/Atom">
+<entry>
+  <author>
+    <name>Example author</name>
+    <uri>http://example.com/</uri>
+  </author>
+</entry>
+</feed>

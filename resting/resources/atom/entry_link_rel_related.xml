@@ -1,0 +1,8 @@
+<!--
+Description: entry link rel='related'
+-->
+<feed xmlns="http://www.w3.org/2005/Atom">
+<entry>
+  <link rel="related" type="text/html" href="http://www.example.com/"/>
+</entry>
+</feed>

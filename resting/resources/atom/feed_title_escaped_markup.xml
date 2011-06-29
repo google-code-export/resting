@@ -1,0 +1,6 @@
+<!--
+Description: feed title escaped HTML
+-->
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title type="html">Example &lt;b&gt;Atom&lt;/b&gt;</title>
+</feed>

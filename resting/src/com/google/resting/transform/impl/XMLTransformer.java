@@ -151,6 +151,12 @@ public class XMLTransformer<T> implements Transformer<T, ServiceResponse> {
 		
 	}//constructXStreamObject
 
+	@Override
+	public T createEntity(String singleEntityStream, Class<T> targetType,
+			Alias alias) {
+		return null;
+	}
+
 
 	
 	

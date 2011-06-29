@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Description: feed contains multiple author emails
+-->
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <author>
+    <email>one@one.com</email>
+  </author>
+  <author>
+    <email>two@two.com</email>
+  </author>
+</feed>

@@ -1,0 +1,6 @@
+<!--
+Description: feed subtitle type='text'
+-->
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <subtitle type="text">Example Atom</subtitle>
+</feed>

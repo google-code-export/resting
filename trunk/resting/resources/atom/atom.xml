@@ -1,0 +1,41 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<feed xmlns:atom="http://www.w3.org/2005/Atom" xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:es="http://www.ibm.com/discovery/es/rest/1.0" xmlns:ibmsc="http://www.ibm.com/search/content/2010" xmlns:ibmbf="http://www.ibm.com/browse/facets/2010" xmlns="http://www.w3.org/2005/Atom">
+  <atom:title>Search results for query &apos;cust&apos; on collection col_70025</atom:title>
+  <atom:link href="http://sen-pc:8394/api/v10/search?collection=col_70025&amp;query=cust" rel="self" type="application/atom+xml"/>
+ <atom:author>
+    <atom:name>Discovery Search REST API</atom:name>
+  </atom:author>
+  <atom:id>http://sen-pc:8394/api/v10/search?collection=col_70025&amp;query=cust</atom:id>
+  <atom:category term="col_70025" label="col_70025"/>
+  <atom:updated>2011-04-21T10:54:55Z</atom:updated>
+  <es:queryEvaluationTime>17</es:queryEvaluationTime>
+  <opensearch:totalResults>1</opensearch:totalResults>
+  <opensearch:Query role="request" searchTerms="cust"/>
+  <es:query role="full" searchTerms="cust"/>
+  <opensearch:startIndex>0</opensearch:startIndex>
+  <opensearch:itemsPerPage>1</opensearch:itemsPerPage>
+  <atom:entry>
+    <atom:title>&lt;SPAN class=&quot;OFHighlightTerm1&quot;&gt;Cust&lt;/SPAN&gt; Id.txt</atom:title>
+    <atom:link rel="alternate" href="/api/v10/document/content?collection=col_70025&amp;uri=file%3A%2F%2F%2Fd%3A%2FSenthil%2FCust%2BId.txt" type="text/plain" hreflang="en"/>
+    <atom:link rel="via" href="/api/v10/search/preview?collection=col_70025&amp;uri=file%3A%2F%2F%2Fd%3A%2FSenthil%2FCust%2BId.txt&amp;query=cust" hreflang="en"/>
+    <opensearch:relevance>100.0</opensearch:relevance>
+    <atom:updated>2010-10-05T12:01:58Z</atom:updated>
+    <atom:id>file:///d:/Senthil/Cust+Id.txt</atom:id>
+    <es:thumbnail href="/api/v10/document/thumbnail?collection=col_70025&amp;uri=file%3A%2F%2F%2Fd%3A%2FSenthil%2FCust%2BId.txt" rel="via" type="image/jpeg"/>
+    <es:documentSource>winfs</es:documentSource>
+    <es:firstOfASite>true</es:firstOfASite>
+    <atom:author>
+      <atom:name/>
+      <atom:uri/>
+      <atom:email/>
+    </atom:author>
+    <ibmsc:field id="modifieddate" type="date" contentSearchable="false" fieldSearchable="false" parametric="true" returnable="true" sortable="false">1286280118000</ibmsc:field>
+    <ibmsc:field id="filesize" type="double" contentSearchable="false" fieldSearchable="false" parametric="true" returnable="true" sortable="false">33</ibmsc:field>
+    <ibmsc:field id="directory" type="string" contentSearchable="false" fieldSearchable="true" parametric="false" returnable="true" sortable="false" supportExactMatch="false">d:&#x5C;Senthil</ibmsc:field>
+    <ibmsc:field id="date">1286280118000</ibmsc:field>
+    <ibmsc:field id="extension" type="string" contentSearchable="false" fieldSearchable="true" parametric="false" returnable="true" sortable="false" supportExactMatch="false">.txt</ibmsc:field>
+    <ibmsc:field id="title">&lt;SPAN class=&quot;OFHighlightTerm1&quot;&gt;Cust&lt;/SPAN&gt; Id.txt</ibmsc:field>
+    <ibmsc:field id="filename" type="string" contentSearchable="false" fieldSearchable="true" parametric="false" returnable="true" sortable="false" supportExactMatch="false">Cust Id.txt</ibmsc:field>
+    <atom:summary>&lt;SPAN class=&quot;ellipsis&quot;&gt;...&lt;/SPAN&gt; &lt;SPAN class=&quot;OFHighlightTerm1&quot;&gt;Cust&lt;/SPAN&gt; ID: 5503577 confident@123</atom:summary>
+  </atom:entry>
+</feed>

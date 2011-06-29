@@ -157,6 +157,12 @@ public class JSONTransformer<T> implements Transformer<T, ServiceResponse> {
 			Alias alias) {
 		return this.getEntityList(serviceResponse.getResponseString(), targetType, alias);
 	}
+
+	@Override
+	public T createEntity(String singleEntityStream, Class<T> targetType,
+			Alias alias) {
+		return null;
+	}
 	
 
 }//JSONTransformer

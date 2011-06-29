@@ -1,0 +1,10 @@
+<!--
+Description: multiple media:category tags - default scheme
+-->
+<rss version="2.0" xmlns:media="http://search.yahoo.com/mrss">
+   <channel>
+        <item>
+            <media:category>cat1</media:category>
+        </item>
+    </channel>
+</rss>

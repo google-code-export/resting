@@ -71,4 +71,10 @@ public class YAMLTransformer<T> implements Transformer<T, ServiceResponse> {
 			Alias alias) {
 		return this.getEntityList(response.getResponseString(), targetType, alias);
 	}
+
+	@Override
+	public T createEntity(String singleEntityStream, Class<T> targetType,
+			Alias alias) {
+		return null;
+	}
 }

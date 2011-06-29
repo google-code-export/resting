@@ -291,5 +291,9 @@ public class XMLAlias<T> implements Alias{
 	public Map<QName, Class> getQNameMap() {
 		return this.qualifiedNameMap;
 	}
+	
+	public Class getClassForAlias(String aliasKey) {
+		return aliasTypeMap.get(aliasKey);
+	}
 
 }//XMLAlias

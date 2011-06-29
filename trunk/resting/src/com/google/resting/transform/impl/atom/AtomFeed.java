@@ -17,102 +17,157 @@ package com.google.resting.transform.impl.atom;
 
 import java.util.List;
 
-@XmlInfo(tag = "feed", namespace = "http://www.w3.org/2005/Atom")
-public class AtomFeed {
+public class AtomFeed extends AtomElement {
 
 	// atom meta data
-	protected String title;
+	protected List<AtomCategory> category;
+	protected List<AtomAuthor> author;
+	protected List<AtomAuthor> contributor;
+	protected AtomGenerator generator;
+	protected String icon;
 	protected String id;
-	protected AtomCategory category;
-	protected AtomAuthor author;
+	protected List<AtomLink> link;
+	protected String logo;
+	protected String published;
+	protected String rights;
+	protected AtomFeed source;
+	protected String subTitle;
+	protected String summary;
+	protected String title;
 	protected String updated;
 
-	// link
-	protected AtomLink link;
-
 	// Atom Entries
-	protected List<AtomEntry> entries;
-	
-	protected String queryEvaluationTime;
+	protected List<AtomEntry> entry;
+
+	/*protected String queryEvaluationTime;
 	protected String totalResults;
-	protected OpenSearchQuery Query;
-	
-	/**
-	 * Recommended meta data per 1.0 Spec
-	 * 
-	 * @param author
-	 * @return
-	 */
-	public AtomFeed addAuthor(AtomAuthor author) {
-		this.author = author;
-		return this;
+	protected OpenSearchQuery Query;*/
+
+	public List<AtomCategory> getCategory() {
+		return category;
+	}
+
+	public void setCategories(List<AtomCategory> l) {
+		this.category = l;
+	}
+
+	public List<AtomAuthor> getAuthor() {
+		return author;
+	}
+
+	public void setAuthors(List<AtomAuthor> l) {
+		this.author = l;
+	}
+
+	public List<AtomAuthor> getContributor() {
+		return contributor;
+	}
+
+	public void setContributor(List<AtomAuthor> l) {
+		this.contributor = l;
+	}
+
+	public AtomGenerator getGenerator() {
+		return generator;
+	}
+
+	public void setGenerator(AtomGenerator generator) {
+		this.generator = generator;
+	}
+
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public List<AtomLink> getLink() {
+		return link;
+	}
+
+	public void setLink(List<AtomLink> l) {
+		this.link = l;
+	}
+
+	public String getLogo() {
+		return logo;
+	}
+
+	public void setLogo(String logo) {
+		this.logo = logo;
+	}
+
+	public String getPublished() {
+		return published;
+	}
+
+	public void setPublished(String published) {
+		this.published = published;
+	}
+
+	public String getRights() {
+		return rights;
+	}
+
+	public void setRights(String rights) {
+		this.rights = rights;
+	}
+
+	public AtomFeed getSource() {
+		return source;
+	}
+
+	public void setSource(AtomFeed source) {
+		this.source = source;
+	}
+
+	public String getSubTitle() {
+		return subTitle;
+	}
+
+	public void setSubTitle(String subTitle) {
+		this.subTitle = subTitle;
+	}
+
+	public String getSummary() {
+		return summary;
+	}
+
+	public void setSummary(String summary) {
+		this.summary = summary;
 	}
 
 	public String getTitle() {
 		return title;
 	}
 
-	public String getId() {
-		return id;
-	}
-	
-	public AtomCategory getCategory() {
-		return category;
-	}
-
-	public AtomAuthor getAuthor() {
-		return author;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public String getUpdated() {
 		return updated;
 	}
 
-	public AtomLink getLink() {
-		return link;
-	}
-	
-	public void setEntries(List<AtomEntry> l) {
-		this.entries = l;
+	public void setUpdated(String updated) {
+		this.updated = updated;
 	}
 
 	public List<AtomEntry> getEntries() {
-		return entries;
-	}
-	
-	public String getQueryEvaluationTime() {
-		return queryEvaluationTime;
+		return entry;
 	}
 
-	public void setQueryEvaluationTime(String queryEvaluationTime) {
-		this.queryEvaluationTime = queryEvaluationTime;
+	public void setEntries(List<AtomEntry> l) {
+		this.entry = l;
 	}
-
-	public String getTotalResults() {
-		return totalResults;
-	}
-
-	public void setTotalResults(String totalResults) {
-		this.totalResults = totalResults;
-	}
-
-	public OpenSearchQuery getSearchQuery() {
-		return Query;
-	}
-
-	public void setSearchQuery(OpenSearchQuery searchQuery) {
-		this.Query = searchQuery;
-	}
-	
-	public String toString() {
-		StringBuffer out = new StringBuffer();
-		out.append("title=").append(title).append(",id=").append(id).append(
-				",category=").append(category.toString()).append(",updated=")
-				.append(updated).append(",link=").append(link.toString())
-				.append(",query evaluation time=").append(queryEvaluationTime)
-				.append(",total results=").append(totalResults).append(
-						",query=").append(Query.toString());
-		return out.toString();
-	}
-
 }

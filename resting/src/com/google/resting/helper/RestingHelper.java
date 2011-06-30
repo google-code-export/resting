@@ -27,6 +27,8 @@ import java.util.Map;
 
 import org.apache.http.Header;
 
+import test.com.google.resting.vo.SampleFeed;
+
 import com.google.resting.component.Alias;
 import com.google.resting.component.EncodingTypes;
 import com.google.resting.component.RequestParams;
@@ -68,11 +70,12 @@ public final class RestingHelper {
 			results = transformer.getEntityList(serviceResponse, targetType,
 					alias);
 		}// YAML
+		
 		if (transformationType == TransformationType.ATOM) {
-			AtomTransformer<T> transformer = new AtomTransformer<T>(true);
-			results = transformer.getEntityList(serviceResponse, targetType,
+			AtomTransformer<T> transformer = new AtomTransformer<T>();
+			results = transformer.getEntityList(serviceResponse.getResponseString(), targetType,
 					alias);
-		}// ATOM		
+		}// ATOM	
 		final long endTime=System.currentTimeMillis();
 		System.out.println( "Time taken in transformation : "+ (endTime - startTime) + " ms.");
 		

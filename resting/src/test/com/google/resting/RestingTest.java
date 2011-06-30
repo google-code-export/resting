@@ -46,6 +46,7 @@ import com.google.resting.component.impl.json.JSONRequestParams;
 import com.google.resting.component.impl.xml.XMLAlias;
 import com.google.resting.transform.impl.XMLTransformer;
 import com.google.resting.transform.impl.atom.AtomFeed;
+import com.google.resting.util.ReflectionUtil;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.basic.LongConverter;
 import com.thoughtworks.xstream.converters.basic.NullConverter;
@@ -254,7 +255,7 @@ public class RestingTest extends TestCase {
 		try {
 			List<House> l = Resting.restByYAML(
 					"http://localhost/testresting/rest/hello/yaml", 8080, null,Verb.GET,
-					House.class, EncodingTypes.UTF8,headers);
+					House.class, EncodingTypes.UTF16,headers);
 			assertNotNull(l);
 			assertEquals(1, l.size());
 			System.out.println("The house details are: "+l.toString());
@@ -262,17 +263,28 @@ public class RestingTest extends TestCase {
 			e.printStackTrace();
 		}
 	}
-	
 
 	public void testRestByATOM() {
 		System.out.println("\ntestGetByATOM\n-----------------------------");
-		List<Header> headers=new ArrayList<Header>();
-		headers.add(new BasicHeader("Accept","application/octet-stream"));
 		try {
 			List<AtomFeed> l = Resting.restByATOM(
-					"http://localhost/testresting/rest/hello/atom", 8080, null,Verb.GET,
-					AtomFeed.class,EncodingTypes.UTF8,headers );
-			System.out.println("The length of AtomFeed list is "+l.size());
+					"http://books.google.com/books/feeds/volumes?q=php", 80, null,
+					Verb.GET, AtomFeed.class,new XMLAlias(),EncodingTypes.UTF8 , null);
+			assert l.size() == 0 : "Atom parser failed to parse the response. Check error logs";
+			System.out.println(ReflectionUtil.describe(l.get(0), AtomFeed.class, new StringBuffer()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void testGetByATOM() {
+		System.out.println("\ntestGetByATOM\n-----------------------------");
+		try {
+			List<AtomFeed> l = Resting.getByATOM(
+					"http://books.google.com/books/feeds/volumes?q=php", 80, null,
+					AtomFeed.class,new XMLAlias());
+			assert l.size() == 0 : "Atom parser failed to parse the response. Check error logs";
+			System.out.println(ReflectionUtil.describe(l.get(0), AtomFeed.class, new StringBuffer()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -484,11 +484,10 @@ public final class Resting {
 	 * @return List of entities of target type T
 	 */
 
-	@Deprecated
-	public final static <T extends AtomFeed> List<T> getByATOM(String baseURI, int port,	RequestParams requestParams, Class<T> targetType) {
-		XMLAlias xmlAlias = new XMLAlias();
-		return RestingHelper.executeAndTransform(baseURI, port, requestParams, Verb.GET,TransformationType.ATOM, targetType, xmlAlias, UTF8, null);
-	}// getByATOM	
+	public final static <T extends AtomFeed> List<T> getByATOM(String baseURI, int port,	RequestParams requestParams, Class<T> targetType, XMLAlias alias) {
+		return RestingHelper.executeAndTransform(baseURI, port, requestParams, Verb.GET,TransformationType.ATOM, targetType, alias, UTF8, null);
+	}// getByATOM
+	
 	/**
 	 * This API is deprecated for the current release. 
 	 * 
@@ -515,9 +514,7 @@ public final class Resting {
 
 	 * @return List of entities of target type T
 	 */
-	@Deprecated
-	public final static <T extends AtomFeed> List<T> restByATOM(String baseURI, int port, RequestParams requestParams, Verb verb, Class<T> targetType, EncodingTypes encodingType, List<Header> additionalHeaders) {
-		XMLAlias xmlAlias = new XMLAlias();
-		return RestingHelper.executeAndTransform(baseURI, port, requestParams, verb,TransformationType.ATOM, targetType, xmlAlias, encodingType, additionalHeaders);
-	}// restByATOM		
+	public final static <T extends AtomFeed> List<T> restByATOM(String baseURI, int port, RequestParams requestParams, Verb verb, Class<T> targetType, XMLAlias alias, EncodingTypes encodingType, List<Header> additionalHeaders) {
+		return RestingHelper.executeAndTransform(baseURI, port, requestParams, verb,TransformationType.ATOM, targetType, alias, encodingType, additionalHeaders);
+	}// restByATOM
 }//Resting

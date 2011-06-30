@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?><apiResponse xmlns:esadmin="http://www.ibm.com/discovery/es/rest/1.0/admin">
+   <esadmin:collectionConfig>
+      <esadmin:collectionDataDir>/example/col_xxxx</esadmin:collectionDataDir>
+      <esadmin:collectionId>col_xxxx</esadmin:collectionId>
+      <esadmin:configFile>col_xxxx_config</esadmin:configFile>
+      <esadmin:description/>
+      <esadmin:displayId>013Collection [col_xxxx]</esadmin:displayId>
+      <esadmin:displayName>0xxCollection</esadmin:displayName>
+      <esadmin:externalCollection>false</esadmin:externalCollection>
+      <esadmin:flags>0</esadmin:flags>
+      <esadmin:indexDataDir>/example/col_xxxx/indexbuild</esadmin:indexDataDir>
+      <esadmin:indexType>3</esadmin:indexType>
+      <esadmin:isPartitioned>false</esadmin:isPartitioned>
+      <esadmin:numPartitions>-1</esadmin:numPartitions>
+      <esadmin:security>false</esadmin:security>
+   </esadmin:collectionConfig>
+   <esadmin:collectionConfig>
+      <esadmin:collectionDataDir>/example/col_xxxxx</esadmin:collectionDataDir>
+      <esadmin:collectionId>col_xxxxx</esadmin:collectionId>
+      <esadmin:configFile>col_x_config</esadmin:configFile>
+      <esadmin:description/>
+      <esadmin:displayId>015Collection [col_x]</esadmin:displayId>
+      <esadmin:displayName>015Collection</esadmin:displayName>
+      <esadmin:externalCollection>false</esadmin:externalCollection>
+      <esadmin:flags>0</esadmin:flags>
+      <esadmin:indexDataDir>/example/col_x/indexbuild</esadmin:indexDataDir>
+      <esadmin:indexType>3</esadmin:indexType>
+      <esadmin:isPartitioned>false</esadmin:isPartitioned>
+      <esadmin:numPartitions>-1</esadmin:numPartitions>
+      <esadmin:security>false</esadmin:security>
+   </esadmin:collectionConfig>
+   <esadmin:collectionConfig>
+      <esadmin:collectionDataDir>/example/col_18002</esadmin:collectionDataDir>
+      <esadmin:collectionId>col_x</esadmin:collectionId>
+      <esadmin:configFile>col_x_config</esadmin:configFile>
+      <esadmin:description/>
+      <esadmin:displayId>010Collection [col_x]</esadmin:displayId>
+      <esadmin:displayName>010Collection</esadmin:displayName>
+      <esadmin:externalCollection>false</esadmin:externalCollection>
+      <esadmin:flags>0</esadmin:flags>
+      <esadmin:indexDataDir>/example/col_x/indexbuild</esadmin:indexDataDir>
+      <esadmin:indexType>3</esadmin:indexType>
+      <esadmin:isPartitioned>false</esadmin:isPartitioned>
+      <esadmin:numPartitions>-1</esadmin:numPartitions>
+      <esadmin:security>false</esadmin:security>
+   </esadmin:collectionConfig>
+   <esadmin:collectionConfig>
+      <esadmin:collectionDataDir>/example/data/col_x</esadmin:collectionDataDir>
+      <esadmin:collectionId>col_x</esadmin:collectionId>
+      <esadmin:configFile>col_x_config</esadmin:configFile>
+      <esadmin:description/>
+      <esadmin:displayId>016Collection [col_x]</esadmin:displayId>
+      <esadmin:displayName>016Collection</esadmin:displayName>
+      <esadmin:externalCollection>false</esadmin:externalCollection>
+      <esadmin:flags>0</esadmin:flags>
+      <esadmin:indexDataDir>/example/col_x/indexbuild</esadmin:indexDataDir>
+      <esadmin:indexType>3</esadmin:indexType>
+      <esadmin:isPartitioned>false</esadmin:isPartitioned>
+      <esadmin:numPartitions>-1</esadmin:numPartitions>
+      <esadmin:security>false</esadmin:security>
+   </esadmin:collectionConfig>
+   <esadmin:collectionConfig>
+      <esadmin:collectionDataDir>/example/data/col_x</esadmin:collectionDataDir>
+      <esadmin:collectionId>col_x</esadmin:collectionId>
+      <esadmin:configFile>col_x_config</esadmin:configFile>
+      <esadmin:description/>
+      <esadmin:displayId>022Collection [col_x]</esadmin:displayId>
+      <esadmin:displayName>022Collection</esadmin:displayName>
+      <esadmin:externalCollection>false</esadmin:externalCollection>
+      <esadmin:flags>0</esadmin:flags>
+      <esadmin:indexDataDir>/example/col_x/indexbuild</esadmin:indexDataDir>
+      <esadmin:indexType>3</esadmin:indexType>
+      <esadmin:isPartitioned>false</esadmin:isPartitioned>
+      <esadmin:numPartitions>-1</esadmin:numPartitions>
+      <esadmin:security>false</esadmin:security>
+   </esadmin:collectionConfig>
+   <esadmin:collectionConfig>
+      <esadmin:collectionDataDir>/example/data/col_x</esadmin:collectionDataDir>
+      <esadmin:collectionId>col_x</esadmin:collectionId>
+      <esadmin:configFile>col_x_config</esadmin:configFile>
+      <esadmin:description/>
+      <esadmin:displayId>017Collection [col_x]</esadmin:displayId>
+      <esadmin:displayName>017Collection</esadmin:displayName>
+      <esadmin:externalCollection>false</esadmin:externalCollection>
+      <esadmin:flags>0</esadmin:flags>
+      <esadmin:indexDataDir>/example/data/col_x/indexbuild</esadmin:indexDataDir>
+      <esadmin:indexType>3</esadmin:indexType>
+      <esadmin:isPartitioned>false</esadmin:isPartitioned>
+      <esadmin:numPartitions>-1</esadmin:numPartitions>
+      <esadmin:security>false</esadmin:security>
+   </esadmin:collectionConfig>
+</apiResponse>

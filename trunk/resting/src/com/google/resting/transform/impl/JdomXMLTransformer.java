@@ -67,7 +67,8 @@ public class JdomXMLTransformer<T> implements Transformer<T, ServiceResponse> {
 				Field f = ReflectionUtil.getField(target, name);
 				f.setAccessible(true);
 				Class definedClass = alias.getClassForAlias(name);
-				if (f.getType().equals(List.class)) {
+				Class type = f.getType();
+				if (type.equals(List.class)) {
 					Object c = f.get(targetInstance);
 
 					if (c == null) {
@@ -82,7 +83,29 @@ public class JdomXMLTransformer<T> implements Transformer<T, ServiceResponse> {
 				} else if (definedClass != null) {
 					f.set(targetInstance, parseElement(e, definedClass, alias));
 				} else {
-					f.set(targetInstance, value);
+					if (type.isPrimitive()) {
+						if (type.equals(int.class)) {
+							f.set(targetInstance, Integer.valueOf(value)
+									.intValue());
+						} else if (type.equals(boolean.class)) {
+							f.set(targetInstance, Boolean.valueOf(value)
+									.booleanValue());
+						} else if (type.equals(short.class)) {
+							f.set(targetInstance, Short.valueOf(value)
+									.shortValue());
+						} else if (type.equals(long.class)) {
+							f.set(targetInstance, Long.valueOf(value)
+									.longValue());
+						} else if (type.equals(char.class)) {
+							if (value.length() > 1)
+								throw new IllegalArgumentException(
+										"Can not convert " + value
+												+ " into character");
+							f.set(targetInstance, value.indexOf(0));
+						}
+					} else {
+						f.set(targetInstance, value);
+					}
 				}
 			} catch (NoSuchFieldException ne) {
 				//ne.printStackTrace();

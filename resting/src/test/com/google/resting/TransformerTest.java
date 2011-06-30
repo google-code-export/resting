@@ -10,6 +10,8 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 import junit.framework.TestCase;
+import test.com.google.resting.vo.APIResponse;
+import test.com.google.resting.vo.OFCollection;
 import test.com.google.resting.vo.OpenSearchQuery;
 import test.com.google.resting.vo.SampleFeed;
 import test.com.google.resting.vo.SampleFeedWithObjectRef;
@@ -107,6 +109,33 @@ public class TransformerTest extends TestCase {
 			System.out.println("Response Feed details "
 					+ ReflectionUtil.describe(feedObject,
 							SampleFeedWithObjectRef.class, new StringBuffer())
+							.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void testAtomCreateEntity4() {
+		System.out.println("\ntestAtomCreateEntity4\n");
+		String aLine = null;
+		try {
+			InputStream is = TransformerTest.class
+					.getResourceAsStream("/atom/collection.xml");
+			BufferedReader reader = new BufferedReader(
+					new InputStreamReader(is));
+			StringBuffer contentData = new StringBuffer("");
+			while ((aLine = reader.readLine()) != null) {
+				contentData.append(aLine);
+			}
+			XMLAlias xmlAlias = new XMLAlias();
+			xmlAlias.add("apiResponse", APIResponse.class);
+			xmlAlias.add("collectionConfig", OFCollection.class);
+			APIResponse feedObject = new AtomTransformer<APIResponse>()
+					.createEntity(contentData.toString(),
+							APIResponse.class, xmlAlias);
+			System.out.println("Response Feed details "
+					+ ReflectionUtil.describe(feedObject,
+							APIResponse.class, new StringBuffer())
 							.toString());
 		} catch (IOException e) {
 			e.printStackTrace();

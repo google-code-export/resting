@@ -46,7 +46,7 @@ public class ReflectionUtil {
 							describe(aObject, aObject.getClass(), desc.append(
 									aField.getName()).append(" attributes: "));
 						}
-					} else if (cls.equals(String.class)) {
+					} else if (cls.equals(String.class) || cls.isPrimitive()) {
 						desc.append(aField.getName()).append("=").append(value)
 								.append(",");
 					} else {

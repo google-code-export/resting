@@ -1,0 +1,5 @@
+Resting user guide
+
+Authors: Sujata De, Priya Packrisamy
+
+* Parsing ATOM XML content

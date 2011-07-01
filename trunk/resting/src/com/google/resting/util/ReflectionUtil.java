@@ -6,8 +6,24 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Reflection util for resting
+ * 
+ * @author lakshmipriya-p
+ *
+ */
 public class ReflectionUtil {
 
+	/**
+	 * A recursive function to get declared field for specified field name. The
+	 * function checks the entire class hierarchy recursively before throwing
+	 * the NoSuchFieldException
+	 * 
+	 * @param c
+	 * @param fieldName
+	 * @return
+	 * @throws NoSuchFieldException
+	 */
 	public static Field getField(Class c, String fieldName)
 			throws NoSuchFieldException {
 		try {
@@ -21,7 +37,15 @@ public class ReflectionUtil {
 			}
 		}
 	}
-	
+
+	/**
+	 * Return all the declared fields of a class. The function recursively
+	 * checks entire class hierarchy
+	 * 
+	 * @param type
+	 * @param toFill
+	 * @return
+	 */
 	public static List<Field> getAllFields(Class type, List<Field> toFill) {
 		toFill.addAll(Arrays.asList(type.getDeclaredFields()));
 		Class superCls = type.getSuperclass();
@@ -30,7 +54,17 @@ public class ReflectionUtil {
 		}
 		return toFill;
 	}
-	
+
+	/**
+	 * A recursive function to print all the attribute values of specified
+	 * object. The function prints attributes from all super classes in the
+	 * class hierarchy
+	 * 
+	 * @param o
+	 * @param type
+	 * @param desc
+	 * @return
+	 */
 	public static StringBuffer describe(Object o, Class type, StringBuffer desc) {
 		List<Field> fields = new ArrayList<Field>();
 		getAllFields(type, fields);

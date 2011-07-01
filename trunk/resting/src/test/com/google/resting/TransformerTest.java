@@ -23,6 +23,9 @@ import com.google.resting.util.ReflectionUtil;
 
 public class TransformerTest extends TestCase {
 
+	/**
+	 * Parse sample atom xml files from the resources/atom folder 
+	 */
 	public void testAtomCreateEntity1() {
 		System.out.println("\ntestAtomCreateEntity1\n");
 		try {
@@ -67,6 +70,9 @@ public class TransformerTest extends TestCase {
 		}
 	}
 
+	/**
+	 * Parse xml file with custom namespace and custom attributes  
+	 */
 	public void testAtomCreateEntity2() {
 		System.out.println("\ntestAtomCreateEntity2\n");
 		String aLine = null;
@@ -89,6 +95,9 @@ public class TransformerTest extends TestCase {
 		}
 	}
 
+	/**
+	 * Parse xml with custom namespace, attributes and object reference
+	 */
 	public void testAtomCreateEntity3() {
 		System.out.println("\ntestAtomCreateEntity3\n");
 		String aLine = null;
@@ -115,6 +124,9 @@ public class TransformerTest extends TestCase {
 		}
 	}
 	
+	/**
+	 * Parse atom collection xml
+	 */
 	public void testAtomCreateEntity4() {
 		System.out.println("\ntestAtomCreateEntity4\n");
 		String aLine = null;

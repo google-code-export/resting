@@ -1,5 +1,9 @@
 package com.google.resting.transform.impl.atom;
 
+/**
+ * @author lakshmipriya-p
+ *
+ */
 public class AtomCategory extends AtomElement {
 
 	private String term;

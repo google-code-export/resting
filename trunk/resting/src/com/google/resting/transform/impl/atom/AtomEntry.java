@@ -17,11 +17,14 @@ package com.google.resting.transform.impl.atom;
 
 import java.util.List;
 
+/**
+ * @author lakshmipriya-p
+ *
+ */
 public class AtomEntry extends AtomElement {
 
 	private List<AtomAuthor> author;
 	private List<AtomCategory> category;
-	//TODO
 	private String content;
 	private AtomAuthor contributor;
 	private String id;

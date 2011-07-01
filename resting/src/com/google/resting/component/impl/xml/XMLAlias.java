@@ -292,6 +292,11 @@ public class XMLAlias<T> implements Alias{
 		return this.qualifiedNameMap;
 	}
 	
+	/**
+	 * Return class name for specified alias name
+	 * @param aliasKey
+	 * @return
+	 */
 	public Class getClassForAlias(String aliasKey) {
 		return aliasTypeMap.get(aliasKey);
 	}

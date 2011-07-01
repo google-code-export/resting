@@ -464,8 +464,6 @@ public final class Resting {
 	}// restByYAML
 	
 	/**
-	 * This API is deprecated for the current release.
-	 * 
 	 * Executes HTTP/HTTPS GET request and transforms the ATOM response into
 	 * target entity.
 	 * 
@@ -489,7 +487,6 @@ public final class Resting {
 	}// getByATOM
 	
 	/**
-	 * This API is deprecated for the current release. 
 	 * 
 	 * Executes HTTP/HTTPS REST request and transforms the ATOM response into
 	 * target entity.

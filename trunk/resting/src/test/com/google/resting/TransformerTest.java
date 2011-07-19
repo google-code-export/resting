@@ -8,20 +8,66 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.List;
 
 import junit.framework.TestCase;
+
 import test.com.google.resting.vo.APIResponse;
 import test.com.google.resting.vo.OFCollection;
 import test.com.google.resting.vo.OpenSearchQuery;
 import test.com.google.resting.vo.SampleFeed;
 import test.com.google.resting.vo.SampleFeedWithObjectRef;
 
+import com.google.resting.atom.AtomFeed;
 import com.google.resting.component.impl.xml.XMLAlias;
-import com.google.resting.transform.impl.atom.AtomFeed;
 import com.google.resting.transform.impl.atom.AtomTransformer;
 import com.google.resting.util.ReflectionUtil;
 
 public class TransformerTest extends TestCase {
+	
+	private String getResource(String resourcePath) throws Exception {
+		String aLine = null;
+		StringBuffer contentData = new StringBuffer("");
+		InputStream is = TransformerTest.class
+				.getResourceAsStream(resourcePath);
+		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+
+		while ((aLine = reader.readLine()) != null) {
+			contentData.append(aLine);
+		}
+		return contentData.toString();
+	}
+	
+	public String getLocalResource(String theName) {
+        try {
+            InputStream input;
+            input = TransformerTest.class.getResourceAsStream(theName);
+            if (input == null) {
+                throw new RuntimeException("Can not find " + theName);
+            }
+            BufferedInputStream is = new BufferedInputStream(input);
+            StringBuilder buf = new StringBuilder(3000);
+            int i;
+            try {
+                while ((i = is.read()) != -1) {
+                    buf.append((char) i);
+                }
+            } finally {
+                is.close();
+            }
+            String resource = buf.toString();
+            // convert EOLs
+            String[] lines = resource.split("\\r?\\n");
+            StringBuilder buffer = new StringBuilder();
+            for (int j = 0; j < lines.length; j++) {
+                buffer.append(lines[j]);
+                buffer.append("\n");
+            }
+            return buffer.toString();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 	/**
 	 * Parse sample atom xml files from the resources/atom folder 
@@ -75,22 +121,16 @@ public class TransformerTest extends TestCase {
 	 */
 	public void testAtomCreateEntity2() {
 		System.out.println("\ntestAtomCreateEntity2\n");
-		String aLine = null;
 		try {
-			InputStream is = TransformerTest.class
-					.getResourceAsStream("/atom/feed_custom_namespace.xml");
-			BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-			StringBuffer contentData = new StringBuffer("");
-			while ((aLine = reader.readLine()) != null) {
-				contentData.append(aLine);
-			}
+			String contentData = this
+					.getResource("/atom/feed_custom_namespace.xml");
 			XMLAlias xmlAlias = new XMLAlias();
 			SampleFeed feedObject = new AtomTransformer<SampleFeed>()
 					.createEntity(contentData.toString(), SampleFeed.class, xmlAlias);
 			System.out.println("Response Feed details "
 					+ ReflectionUtil.describe(feedObject, SampleFeed.class,
 							new StringBuffer()).toString());
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -102,14 +142,8 @@ public class TransformerTest extends TestCase {
 		System.out.println("\ntestAtomCreateEntity3\n");
 		String aLine = null;
 		try {
-			InputStream is = TransformerTest.class
-					.getResourceAsStream("/atom/feed_custom_namespace.xml");
-			BufferedReader reader = new BufferedReader(
-					new InputStreamReader(is));
-			StringBuffer contentData = new StringBuffer("");
-			while ((aLine = reader.readLine()) != null) {
-				contentData.append(aLine);
-			}
+			String contentData = this
+					.getResource("/atom/feed_custom_namespace.xml");
 			XMLAlias xmlAlias = new XMLAlias();
 			xmlAlias.add("query", OpenSearchQuery.class);
 			SampleFeedWithObjectRef feedObject = new AtomTransformer<SampleFeedWithObjectRef>()
@@ -119,7 +153,7 @@ public class TransformerTest extends TestCase {
 					+ ReflectionUtil.describe(feedObject,
 							SampleFeedWithObjectRef.class, new StringBuffer())
 							.toString());
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -131,14 +165,7 @@ public class TransformerTest extends TestCase {
 		System.out.println("\ntestAtomCreateEntity4\n");
 		String aLine = null;
 		try {
-			InputStream is = TransformerTest.class
-					.getResourceAsStream("/atom/collection.xml");
-			BufferedReader reader = new BufferedReader(
-					new InputStreamReader(is));
-			StringBuffer contentData = new StringBuffer("");
-			while ((aLine = reader.readLine()) != null) {
-				contentData.append(aLine);
-			}
+			String contentData = this.getResource("/atom/collection.xml");
 			XMLAlias xmlAlias = new XMLAlias();
 			xmlAlias.add("apiResponse", APIResponse.class);
 			xmlAlias.add("collectionConfig", OFCollection.class);
@@ -149,7 +176,7 @@ public class TransformerTest extends TestCase {
 					+ ReflectionUtil.describe(feedObject,
 							APIResponse.class, new StringBuffer())
 							.toString());
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

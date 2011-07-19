@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.apache.http.Header;
 
+import com.google.resting.atom.AtomFeed;
 import com.google.resting.component.EncodingTypes;
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.Verb;
@@ -35,7 +36,6 @@ import com.google.resting.method.get.GetHelper;
 import com.google.resting.method.post.PostHelper;
 import com.google.resting.method.put.PutHelper;
 import com.google.resting.transform.TransformationType;
-import com.google.resting.transform.impl.atom.AtomFeed;
 
 
 /**

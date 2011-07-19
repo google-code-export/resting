@@ -1,6 +1,6 @@
 package test.com.google.resting.vo;
 
-import com.google.resting.transform.impl.atom.AtomFeed;
+import com.google.resting.atom.AtomFeed;
 
 public class SampleFeed extends AtomFeed {
 	private String queryEvaluationTime;

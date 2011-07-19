@@ -18,6 +18,12 @@ package com.google.resting.transform.impl.atom;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.resting.atom.AtomAuthor;
+import com.google.resting.atom.AtomCategory;
+import com.google.resting.atom.AtomEntry;
+import com.google.resting.atom.AtomFeed;
+import com.google.resting.atom.AtomGenerator;
+import com.google.resting.atom.AtomLink;
 import com.google.resting.component.Alias;
 import com.google.resting.component.impl.ServiceResponse;
 import com.google.resting.component.impl.xml.XMLAlias;

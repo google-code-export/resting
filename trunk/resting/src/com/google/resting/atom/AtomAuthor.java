@@ -13,34 +13,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.google.resting.transform.impl.atom;
+package com.google.resting.atom;
 
 /**
  * @author lakshmipriya-p
- *
+ * 
  */
-public class AtomElement {
+public class AtomAuthor extends AtomElement {
 
-	protected String type;
-	protected String base;
-	protected String lang;
-	public String getType() {
-		return type;
+	private String name;
+	private String email;
+	private String uri;
+
+	public String getName() {
+		return name;
 	}
-	public void setType(String type) {
-		this.type = type;
+
+	public String getEmail() {
+		return email;
 	}
-	public String getBase() {
-		return base;
+
+	public String getUri() {
+		return uri;
 	}
-	public void setBase(String base) {
-		this.base = base;
+
+	public void setName(String name) {
+		this.name = name;
 	}
-	public String getLang() {
-		return lang;
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
-	public void setLang(String lang) {
-		this.lang = lang;
+
+	public void setUri(String uri) {
+		this.uri = uri;
 	}
 
 }

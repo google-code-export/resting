@@ -1,4 +1,4 @@
-package com.google.resting.transform.impl.atom;
+package com.google.resting.atom;
 
 /**
  * @author lakshmipriya-p

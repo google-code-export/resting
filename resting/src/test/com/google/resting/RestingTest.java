@@ -37,6 +37,7 @@ import test.com.google.resting.vo.StatusMessage;
 import test.com.google.resting.vo.StatusMessageConverter;
 
 import com.google.resting.Resting;
+import com.google.resting.atom.AtomFeed;
 import com.google.resting.component.EncodingTypes;
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.Verb;
@@ -45,7 +46,6 @@ import com.google.resting.component.impl.ServiceResponse;
 import com.google.resting.component.impl.json.JSONRequestParams;
 import com.google.resting.component.impl.xml.XMLAlias;
 import com.google.resting.transform.impl.XMLTransformer;
-import com.google.resting.transform.impl.atom.AtomFeed;
 import com.google.resting.util.ReflectionUtil;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.converters.basic.LongConverter;

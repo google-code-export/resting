@@ -5,34 +5,25 @@ Authors: Sujata De, Priya Packrisamy
 
 * Unmarshalling ATOM response
 
-Resting now comes with builtin deserializer for ATOM response format as well. This deserializer has been rewritten to work even if the value object skips some of the 
-
-XML elements and attributes. In other words, the deserializer checks if the value object defines a specific variable before invoking the set method. This check avoids 
-
-the construction failed exceptions and need to declare variables even if they are not useful. 
+Resting now comes with builtin deserializer for ATOM response format as well. This deserializer has been rewritten to work even if the value object skips some of the XML elements and attributes. In other words, the deserializer checks if the value object defines a specific variable before invoking the set method. This check avoids the construction failed exceptions and need to declare variables even if they are not used. 
 
 This quick tutorial will walk you through the various supported formats and explain how the XML alias should be setup in each case.
 
-Scenario 1: The ATOM response contains elements only from default namespace namely "http://www.w3.org/2005/Atom"
+<b>Scenario 1:</b> The ATOM response contains elements only from default namespace namely "http://www.w3.org/2005/Atom"
 
-This is the simplest and straightforward scenario. Resting defines Java classes that can be readily used. Refer com.google.resting.atom package for these classes. Here 
-
-is an example of how to unmarshal response into com.google.resting.atom.AtomFeed object.
+This is the simplest and straightforward scenario. Resting defines Java classes that can be readily used. Refer com.google.resting.atom package for these classes. Here is an example of how to unmarshal response into com.google.resting.atom.AtomFeed object.
 
 List<AtomFeed> l = Resting.restByATOM("http://books.google.com/books/feeds/volumes?q=php", 80, null,
 					Verb.GET, AtomFeed.class,new XMLAlias(),EncodingTypes.UTF8 , null);						
 
-
-As shown in the example above, XML alias can be passed without explicitly specifying any alias objects. Because it is internally customized to include default namespace 
-
-elements.
-
+As shown in the example above, XML alias can be passed without explicitly specifying any alias objects. Because it is internally customized to include default namespace elements.
 
 Scenario 2: The ATOM response contains elements from other namespaces as well. These could be custom defined or opensearch related namespaces
 
 First define a value object that extends AtomFeed as shown below and include only the custom attributes that need to be unmarshalled. 
 
 public class SampleFeed extends AtomFeed {
+
 	private String queryEvaluationTime;
 	private String totalResults;
 	
@@ -49,7 +40,6 @@ public class SampleFeed extends AtomFeed {
 		this.totalResults = totalResults;
 	}
 }
-
 
 Now invoke Resting as shown below.
 
@@ -92,11 +82,5 @@ List<APIResponse> l = Resting.restByATOM("http://books.google.com/books/feeds/vo
 
 Testcases: 
 
-Resting source includes 240 sample ATOM files and JUnit testcases for the above mentioned scenarios. Refer TransformerTest.java and RestingTest.java classes in 
-
-test.com.google.resting package for details. The Junit testcase reads all the XML files from test/resources/atom folder. So make sure to set this folder in classpath 
-
-before running the test case. You can also import the Eclipse .classpath file available with the source code.
-
-
+Resting source includes 240 sample ATOM files and JUnit testcases for the above mentioned scenarios. Refer TransformerTest.java and RestingTest.java classes in <i>test.com.google.resting</i> package for details. The Junit testcase reads all the XML files from test/resources/atom folder. So make sure to set this folder in classpath before running the test case. You can also import the Eclipse .classpath file available with the source code.
 

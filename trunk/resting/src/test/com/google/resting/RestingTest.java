@@ -23,11 +23,9 @@ import junit.framework.TestCase;
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
 
+import test.com.google.resting.vo.Assertion;
+import test.com.google.resting.vo.Concept;
 import test.com.google.resting.vo.Facets;
-import test.com.google.resting.vo.House;
-import test.com.google.resting.vo.MyStringConverter;
-import test.com.google.resting.vo.OFCollection;
-import test.com.google.resting.vo.OFCollections;
 import test.com.google.resting.vo.Product;
 import test.com.google.resting.vo.Result;
 import test.com.google.resting.vo.ResultSet;
@@ -48,8 +46,6 @@ import com.google.resting.component.impl.xml.XMLAlias;
 import com.google.resting.transform.impl.XMLTransformer;
 import com.google.resting.util.ReflectionUtil;
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.converters.basic.LongConverter;
-import com.thoughtworks.xstream.converters.basic.NullConverter;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 /**
  * Test case for main Resting API
@@ -248,17 +244,39 @@ public class RestingTest extends TestCase {
 		System.out.println(message.toString());
 	}
 	
-	public void testRestByYAML() {
-		System.out.println("\ntestGetByYAML\n-----------------------------");
-		List<Header> headers=new ArrayList<Header>();
-		headers.add(new BasicHeader("Accept","application/octet-stream"));
+	public void testRestByYAML1() {
+		System.out.println("\ntestGetByYAML1\n-----------------------------");
 		try {
-			List<House> l = Resting.restByYAML(
-					"http://localhost/testresting/rest/hello/yaml", 8080, null,Verb.GET,
-					House.class, EncodingTypes.UTF16,headers);
+			List<Concept> l = Resting
+					.restByYAML(
+							"http://openmind.media.mit.edu/api/en/concept/duck/query.yaml",
+							80, null, Verb.GET, Concept.class,
+							EncodingTypes.UTF8, null);
 			assertNotNull(l);
 			assertEquals(1, l.size());
-			System.out.println("The house details are: "+l.toString());
+			assertNotSame("Failed to create Concept object",
+					Concept.class, l.get(0));
+			System.out.println(ReflectionUtil.describe(l.get(0),
+					Concept.class, new StringBuffer()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void testRestByYAML2() {
+		System.out.println("\ntestGetByYAML2\n-----------------------------");
+		try {
+			List<Assertion> l = Resting
+					.restByYAML(
+							"http://openmind.media.mit.edu/api/en/assertion/25/query.yaml",
+							80, null, Verb.GET, Assertion.class,
+							EncodingTypes.UTF8, null);
+			assertNotNull(l);
+			assertEquals(1, l.size());
+			assertNotSame("Failed to create Assertion object",
+					Assertion.class, l.get(0));
+			System.out.println(ReflectionUtil.describe(l.get(0),
+					Assertion.class, new StringBuffer()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

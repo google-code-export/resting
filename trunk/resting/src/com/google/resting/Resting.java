@@ -18,6 +18,7 @@ package com.google.resting;
 
 import static com.google.resting.component.EncodingTypes.UTF8;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +28,7 @@ import com.google.resting.atom.AtomFeed;
 import com.google.resting.component.EncodingTypes;
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.Verb;
+import com.google.resting.component.content.ContentType;
 import com.google.resting.component.impl.ServiceResponse;
 import com.google.resting.component.impl.json.JSONAlias;
 import com.google.resting.component.impl.xml.XMLAlias;
@@ -150,7 +152,7 @@ public final class Resting {
 	 * @param port Port of the REST endpoint
 	 * @param requestParams {@link RequestParams} object containing collection of parameters in key/ value pair for REST request
 	 * @param encoding Message encoding in response
-	 * @param inputHeaders Additional request headers. The default headers are Accept: text/xml and Accept: application/json
+	 * @param inputHeaders Additional response headers, as required by the client. 
 	 * @return {@link ServiceResponse} object containing the entire REST response as a String, the HTTP status code and the response headers.
 	 */
 	
@@ -175,7 +177,7 @@ public final class Resting {
 	
 	/**
 	 * Executes HTTP/HTTPS POST request with HTML form data in the message body and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
-	 * as the response headers and the HTTP status code. This is the most commonly used form of POST method invocation. A typical  
+	 * as the response headers and the HTTP status code. This is the most commonly used form of POST method invocation. 
 	 * 
 	 * @param baseURI Base URI of the REST endpoint
 	 * @param port Port of the REST endpoint
@@ -202,6 +204,42 @@ public final class Resting {
 	public final static ServiceResponse post(String baseURI, int port, String messageToPost, EncodingTypes messageEncoding){
 		return PostHelper.post(messageToPost, messageEncoding, baseURI, port,null);
 	}//post	
+	/**
+	 * Executes HTTP/HTTPS POST request with message String in the message body and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
+	 * as the response headers and the HTTP status code. This is the most commonly used form of POST method invocation.  
+	 * 
+	 * @param baseURI Base URI of the REST endpoint
+	 * @param port Port of the REST endpoint
+	 * @param messageToPost String to be posted 
+	 * @param requestParams {@link RequestParams} object containing collection of parameters in key/ value pair for REST request
+	 * @param acceptHeaders Additional response headers, as required by the client. 
+	 * @param messageContentType ContentType of the message String. The default is "text/plain".
+	 * 
+	 * @return {@link ServiceResponse} object containing the entire REST response as a String, the HTTP status code and the response headers.
+	 */
+	
+	public final static ServiceResponse post(String baseURI, int port, RequestParams requestParams, String messageToPost, EncodingTypes messageEncoding,List<Header> acceptHeaders, ContentType messageContentType){
+		return PostHelper.post(messageToPost, messageEncoding, baseURI, port,requestParams,acceptHeaders,messageContentType);
+	}//post	
+    
+	/**
+	 * Executes HTTP/HTTPS POST request for file and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
+	 * as the response headers and the HTTP status code. This is the most commonly used form of POST method invocation.  
+
+	 * @param baseURI	Base URI of the REST endpoint
+	 * @param port	Port of the REST endpoint
+	 * @param requestParams	{@link RequestParams} object containing collection of parameters in key/ value pair for REST request
+	 * @param file	File to be posted
+	 * @param fileEncoding	EncodingType of the file
+	 * @param additionalHeaders	Additional response headers, as required by the client. 
+	 * @param fileContentType	Content type of the file
+	 * @return
+	 */
+	
+	public final static ServiceResponse post(String baseURI, int port, RequestParams requestParams, File file, EncodingTypes fileEncoding,List<Header> additionalHeaders, ContentType fileContentType){
+		return PostHelper.post(baseURI, port, file, requestParams,fileEncoding, additionalHeaders, fileContentType);
+	}//post	
+	
 	/**
 	 * Executes HTTP/HTTPS PUT request and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
 	 * as the response headers and the HTTP status code
@@ -286,7 +324,7 @@ public final class Resting {
 	 * @param targetType Class of the target type T
 	 * @param alias JSON alias for reading the entity from JSON response.
 	 * @param encoding Encoding type of the response message
-	 * @param additionalHeaders Additional request headers. The default headers are Accept: text/xml, Accept: text/html and Accept:application/json 
+	 * @param additionalHeaders Additional response headers, as required by the client. 
 	 * 
 	 * @return List of entities of target type T
 	 */
@@ -315,7 +353,7 @@ public final class Resting {
 	 * @param encoding 
 	 * 			Encoding type of the response message
 	 * @param additionalHeaders 
-	 * 			Additional request headers. The default headers are Accept: text/xml, Accept: text/html and Accept:application/json 
+	 * 			Additional response headers, as required by the client. 
 	 * 
 	 * @return List of entities of target type T
 	 */
@@ -358,7 +396,7 @@ public final class Resting {
 	 * @param encoding 
 	 * 			Encoding type of the response message
 	 * @param additionalHeaders 
-	 * 			Additional request headers. The default headers are Accept: text/xml, Accept: text/html and Accept:application/json 
+	 * 			Additional response headers, as required by the client. 
 	 *
 	 * @return Map containing alias (@link String) and (@ List)s of objects corresponding to that token
 	 */
@@ -404,7 +442,7 @@ public final class Resting {
 	 * @param encoding 
 	 * 			Encoding type of the response message
 	 * @param additionalHeaders 
-	 * 			Additional request headers. The default headers are Accept: text/xml, Accept: text/html and Accept:application/json 
+	 * 			Additional response headers, as required by the client. 
 	 *
 	 * @return Root entity
 	 */
@@ -455,7 +493,7 @@ public final class Resting {
 	 * @param encoding 
 	 * 				Encoding type of the response message
 	 * @param additionalHeaders 
-	 * 				Additional request headers. The default headers are Accept: text/xml, Accept: text/html and Accept:application/json 
+	 * 				Additional response headers, as required by the client. 
 	 * 
 	 * @return List of entities of target type T
 	 */
@@ -507,7 +545,7 @@ public final class Resting {
 	 * @param encoding 
 	 * 				Encoding type of the response message
 	 * @param additionalHeaders 
-	 * 				Additional request headers. The default headers are Accept: text/xml, Accept: text/html and Accept:application/json 
+	 * 				Additional response headers, as required by the client. 
 
 	 * @return List of entities of target type T
 	 */

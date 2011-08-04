@@ -56,13 +56,11 @@ public abstract class ServiceContext {
 		this.isSecureInvocation=urlContext.isSecureInvocation();
 		this.verb=verb;
 		this.charset=charset;
-		this.headers=new ArrayList<Header>();
-		this.headers.add(((new BasicHeader(ACCEPT.getName(),TEXT_XML.getName()))));
-		this.headers.add(((new BasicHeader(ACCEPT.getName(),APPLICATION_JSON.getName()))));
-		this.headers.add(((new BasicHeader(ACCEPT.getName(),TEXT_HTML.getName()))));
-		this.headers.add(((new BasicHeader(ACCEPT.getName(),TEXT_PLAIN.getName()))));
-		if(inputHeaders !=null)
+		
+		if(inputHeaders !=null){
+			this.headers=new ArrayList<Header>();
 			this.headers.addAll(inputHeaders);
+		}
 	}//ServiceContext
 	
 	public abstract String getPath();

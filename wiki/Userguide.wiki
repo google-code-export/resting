@@ -17,7 +17,16 @@ This is the simplest and straightforward scenario. Resting defines Java classes 
 
 {{{
 
-List<AtomFeed> l = Resting.restByATOM("http://books.google.com/books/feeds/volumes?q=php", 80, null,Verb.GET, AtomFeed.class,new XMLAlias(),EncodingTypes.UTF8 , null)
+List<AtomFeed> l = Resting.restByATOM(
+                                      "http://books.google.com/books/feeds/volumes?q=php", 
+                                       80, 
+                                       null,
+                                       Verb.GET, 
+                                       AtomFeed.class,
+                                       new XMLAlias(),
+                                       EncodingTypes.UTF8 , 
+                                       null
+                                      );
 
 }}}
 
@@ -51,7 +60,16 @@ public class SampleFeed extends AtomFeed {
 Now invoke Resting as shown below.
 {{{
 
-List<SampleFeed> l = Resting.restByATOM("http://books.google.com/books/feeds/volumes?q=php", 80,null,Verb.GET, SampleFeed.class,new XMLAlias(),EncodingTypes.UTF8 , null);
+List<SampleFeed> l = Resting.restByATOM(
+                                        "http://books.google.com/books/feeds/volumes?q=php", 
+                                        80,
+                                        null,
+                                        Verb.GET, 
+                                        SampleFeed.class,
+                                        new XMLAlias(),
+                                        EncodingTypes.UTF8 , 
+                                        null
+                                       );
 
 }}}
 
@@ -73,7 +91,16 @@ public class SampleFeedWithObjectRef extends SampleFeed {
 
 XMLAlias xmlAlias = new XMLAlias();
 xmlAlias.add("query", OpenSearchQuery.class);
-List<SampleFeedWithObjectRef> l = Resting.restByATOM("http://books.google.com/books/feeds/volumes?q=php", 80, null, Verb.GET, SampleFeedWithObjectRef.class,new XMLAlias(),EncodingTypes.UTF8 , null);
+List<SampleFeedWithObjectRef> l = Resting.restByATOM(
+                                                     "http://books.google.com/books/feeds/volumes?q=php", 
+                                                     80, 
+                                                     null, 
+                                                     Verb.GET, 
+                                                     SampleFeedWithObjectRef.class,
+                                                     new XMLAlias(),
+                                                     EncodingTypes.UTF8 , 
+                                                     null
+                                                    );
 
 
 }}}
@@ -87,7 +114,16 @@ Define XML alias object with proper mappings for API response and collection con
 XMLAlias xmlAlias = new XMLAlias();
 xmlAlias.add("apiResponse", APIResponse.class);
 xmlAlias.add("collectionConfig", OFCollection.class);
-List<APIResponse> l = Resting.restByATOM("http://books.google.com/books/feeds/volumes?q=php", 80, null,Verb.GET, APIResponse.class,new XMLAlias(),EncodingTypes.UTF8 , null);
+List<APIResponse> l = Resting.restByATOM(
+                                         "http://books.google.com/books/feeds/volumes?q=php", 
+                                         80, 
+                                         null,
+                                         Verb.GET, 
+                                         APIResponse.class,
+                                         new XMLAlias(),
+                                         EncodingTypes.UTF8 , 
+                                         null
+                                        );
 
 }}}
 ====Testcases:====

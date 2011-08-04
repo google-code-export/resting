@@ -1,5 +1,12 @@
-#summary This is an user guide with examples on how to handle ATOM response with resting. Please note that this capability is available in *resting 0.7 * release onwards.
+#summary This is an user guide with examples on how to handle ATOM response with resting.
 #labels Featured,Phase-Implementation
+
+= Introduction =
+
+
+This tutorial shows you how to handle ATOM response with resting. Please note that this capability is available in *resting 0.7 * release onwards.
+
+
 
 Authors: Priya Packrisamy
 

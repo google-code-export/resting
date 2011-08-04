@@ -1,7 +1,7 @@
-#summary This is an user guide with examples on how to use Resting in your code
+#summary This is an user guide with examples on how to handle ATOM response with resting. Please note that this capability is available in *resting 0.7 * release onwards.
 #labels Featured,Phase-Implementation
 
-Authors: Sujata De, Priya Packrisamy
+Authors: Priya Packrisamy
 
 = 1. Unmarshalling ATOM response =
 

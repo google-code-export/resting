@@ -15,11 +15,13 @@
  */
 package test.com.google.resting;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
 
@@ -39,10 +41,13 @@ import com.google.resting.atom.AtomFeed;
 import com.google.resting.component.EncodingTypes;
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.Verb;
+import com.google.resting.component.content.ContentType;
 import com.google.resting.component.impl.BasicRequestParams;
 import com.google.resting.component.impl.ServiceResponse;
+import com.google.resting.component.impl.json.JSONAlias;
 import com.google.resting.component.impl.json.JSONRequestParams;
 import com.google.resting.component.impl.xml.XMLAlias;
+import com.google.resting.transform.impl.JSONTransformer;
 import com.google.resting.transform.impl.XMLTransformer;
 import com.google.resting.util.ReflectionUtil;
 import com.thoughtworks.xstream.XStream;
@@ -319,4 +324,53 @@ public class RestingTest extends TestCase {
 		
 	}
 	
+
+
+public void testLocal4(){
+	System.out.println("\ntestLocal4\n-----------------------------");
+	
+	ServiceResponse serviceResponse=Resting.get("http://172.16.18.83/api/v10/search?collection=246246&query=readme&start=0&results=25&output=application/json", 8394,null, EncodingTypes.UTF8, null);
+	String resultant=StringUtils.remove(serviceResponse.getResponseString(),"es:");
+	System.out.println("Index: "+StringUtils.indexOf(resultant, "#text"));
+	//StringUtils.re
+	
+	resultant=StringUtils.remove(resultant, "ibmsc:");
+	
+	System.out.println(resultant);
+		
+	JSONTransformer<test.com.google.resting.vo.Header> transformer=new JSONTransformer<test.com.google.resting.vo.Header>();		
+	List<test.com.google.resting.vo.Header> headers=transformer.getEntityList(resultant, test.com.google.resting.vo.Header.class, new JSONAlias("apiResponse"));
+	System.out.println(" Parsing Header object: Total results: "+headers.get(0).getTotalResults());
+/*
+	JSONTransformer<test.com.google.resting.vo.Entry> etransformer=new JSONTransformer<test.com.google.resting.vo.Entry>();
+	List<test.com.google.resting.vo.Entry> entries=etransformer.getEntityList(resultant, test.com.google.resting.vo.Entry.class, new JSONAlias("result"));
+	System.out.println("Parsing entries: No. of result items"+entries.size());
+*/
+	
+	
+	
+}
+
+public void testLocal5(){
+	ServiceResponse serviceResponse=Resting.get("http://172.16.18.83/api/v10/search?collection=246246&query=site&start=0&results=25&output=application/json", 8394,null, EncodingTypes.UTF8, null);
+	JSONTransformer<test.com.google.resting.vo.Header> transformer=new JSONTransformer<test.com.google.resting.vo.Header>();		
+	List<test.com.google.resting.vo.Header> headers=transformer.getEntityList(serviceResponse, test.com.google.resting.vo.Header.class, new JSONAlias("es:apiResponse"));
+	System.out.println(" Parsing Header object: Total results: "+headers.get(0).getTotalResults());
+	List<test.com.google.resting.vo.Entry> entries=headers.get(0).getEntries();
+	//System.out.println(entries.get(0).getField().getText());
+
+}
+
+public void testTextFile(){
+	
+	ServiceResponse response=Resting.post("http://localhost/testresting/rest/hello/post/file", 8080, null, new File("C:\\ssbtfeed.txt"), EncodingTypes.UTF8, null, ContentType.TEXT_PLAIN);
+	System.out.println(response.getResponseString());
+	
+}
+public void testImageFile(){
+	
+	ServiceResponse response=Resting.post("http://localhost/testresting/rest/hello/post/imagefile", 8080, null, new File("C:\\window_lights.jpg"), EncodingTypes.BINARY, null, ContentType.IMAGE_JPEG);
+	System.out.println(response.getResponseString());
+	
+}	
 }

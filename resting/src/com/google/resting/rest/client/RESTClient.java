@@ -116,28 +116,36 @@ public class RESTClient {
 		
 		if (verb == Verb.GET) {
 			HttpGet httpGet = new HttpGet(path);
-			 for(Header header:headers)
-				 httpGet.addHeader(header);
+			 if(headers!=null){
+				 for(Header header:headers)
+					 httpGet.addHeader(header);
+			 }
 			return httpGet;
 			
 		} else if (verb == Verb.POST) {
 			HttpPost httpPost = new HttpPost(path);
-			 for(Header header:headers)
-				 httpPost.addHeader(header);
+			 if (headers != null) {
+				for (Header header : headers)
+					httpPost.addHeader(header);
+			}
 			if(httpEntity!=null)
 				httpPost.setEntity(httpEntity);
 			return httpPost;
 
 		} else if (verb == Verb.DELETE) {
 			HttpDelete httpDelete = new HttpDelete(path);
-			 for(Header header:headers)
-				 httpDelete.addHeader(header);
+			 if (headers != null) {
+				for (Header header : headers)
+					httpDelete.addHeader(header);
+			}
 			return httpDelete;
 
 		} else {
 			HttpPut httpPut = new HttpPut(path);
-			 for(Header header:headers)
-				 httpPut.addHeader(header);
+			 if (headers != null) {
+				for (Header header : headers)
+					httpPut.addHeader(header);
+			}
 			if(httpEntity!=null)
 				httpPut.setEntity(httpEntity);
 			return httpPut;

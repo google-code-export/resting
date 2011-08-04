@@ -24,12 +24,14 @@ import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.entity.FileEntity;
 import org.apache.http.entity.StringEntity;
 
 import com.google.resting.component.EncodingTypes;
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.ServiceContext;
 import com.google.resting.component.Verb;
+import com.google.resting.component.content.ContentType;
 import com.google.resting.component.impl.URLContext;
 /**
  * Implementation of ServiceContext for HTTP POST operation.
@@ -59,29 +61,46 @@ public class PostServiceContext extends ServiceContext {
 		super(urlContext, null, Verb.POST, encoding,inputHeaders, null);
 		this.contextPathElement=urlContext.getContextPath();
 		this.path=this.contextPathElement;
-		this.httpEntity=setMessageEntity(message, encoding.getName());
+		this.httpEntity=setMessageEntity(message, encoding, null);
 		
 	//	System.out.println( "The path is "+path);		
 	}//PostServiceContext	
-
-	public PostServiceContext(URLContext urlContext, File file, EncodingTypes encoding, boolean isBinary, List<Header> inputHeaders ) {
-		super(urlContext, null, Verb.POST, encoding, inputHeaders, null);
+	
+	public PostServiceContext(URLContext urlContext, RequestParams requestParams, String message, EncodingTypes encoding, List<Header> inputHeaders, ContentType messageContentType ) {
+		super(urlContext, requestParams, Verb.POST, encoding,inputHeaders, null);
 		this.contextPathElement=urlContext.getContextPath();
 		this.path=this.contextPathElement;
-		//this.httpEntity=setMessageEntity(message, encoding);
+		this.httpEntity=setMessageEntity(message, encoding, messageContentType);
+		
+	//	System.out.println( "The path is "+path);		
+	}//PostServiceContext	
+	public PostServiceContext(URLContext urlContext, RequestParams requestParams, File file, EncodingTypes encoding, List<Header> inputHeaders, ContentType contentType ) {
+		super(urlContext, requestParams, Verb.POST, encoding, inputHeaders, null);
+		this.contextPathElement=urlContext.getContextPath();
+		this.path=this.contextPathElement;
+		this.httpEntity=setFileEntity(file,contentType, encoding);
 	//	System.out.println( "The path is "+path);		
 	}//PostServiceContext		
 	
-	private HttpEntity setMessageEntity(String message, String encoding){
+	private HttpEntity setMessageEntity(String message, EncodingTypes encoding, ContentType contentType){
 		StringEntity entity =null;
 		try {
-			entity = new StringEntity(message,  "text/plain; charset=\""+encoding+"\"");
+			if(contentType==null)
+				entity = new StringEntity(message,  "text/plain; charset=\""+encoding.getName()+"\"");
+			else
+				entity = new StringEntity(message, contentType.getName()+"; charset=\""+encoding.getName()+"\"");
+				
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return entity;		
-	}
+	}//setMessageEntity
+	private HttpEntity setFileEntity(File file, ContentType contentType, EncodingTypes encoding ){
+		FileEntity entity =null;
+		entity = new FileEntity(file,  contentType.getName()+"; charset=\""+encoding.getName()+"\"");
+		return entity;		
+	}//setFileEntity
 	
 	private HttpEntity setFormEntity(List<NameValuePair> inputParams){
 		UrlEncodedFormEntity entity=null;

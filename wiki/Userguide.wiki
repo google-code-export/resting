@@ -1,7 +1,7 @@
 #summary This is an user guide with examples on how to handle ATOM response with resting.
 #labels Featured,Phase-Implementation
 
-Authors: Priya Packrisamy
+Author: Priya Packrisamy
 
 = Unmarshalling ATOM response =
 

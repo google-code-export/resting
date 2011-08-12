@@ -11,9 +11,7 @@ import com.google.resting.component.content.IContentData;
 public class StringContentData implements IContentData {
 	
 	private String content=null;
-	private int contentLength=0;
-	private List<ContentType> contentTypes=null;
-	
+	private int contentLength=0;	
 
 	public StringContentData(byte[] bytes, EncodingTypes charset) {
 		try {
@@ -26,16 +24,6 @@ public class StringContentData implements IContentData {
 
 	public String getContent() {
 		return content;
-	}
-
-	public List<ContentType> getContentTypes() {
-		if(contentTypes==null){
-			contentTypes=new ArrayList<ContentType>();
-			contentTypes.add(ContentType.TEXT_PLAIN);
-			contentTypes.add(ContentType.TEXT_HTML);
-			contentTypes.add(ContentType.TEXT_XML);
-		}
-		return contentTypes;
 	}
 
 	public int getContentLength() {

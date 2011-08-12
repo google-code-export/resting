@@ -95,7 +95,6 @@ public class ServiceResponse {
 
 	public String getResponseString() {
 		String responseInString=contentData.getContentInString();
-		assert responseInString!=null:"Response may be a binary stream. Can be retrieved using the getResponseInBytes() method.";
 		return responseInString;
 	}//getResponseInString
 	
@@ -117,6 +116,16 @@ public class ServiceResponse {
 	public int getResponseLength(){
 		return contentData.getContentLength();
 	}//getResponseLengths
+	
+	
+	/**
+	 * Returns the content of the response.
+	 * 
+	 * @return {@link IContentData} object encapsulating the content of the response.
+	 */
+	public IContentData getContentData(){
+		return contentData;
+	}
 	
 	@Override
 	public String toString(){

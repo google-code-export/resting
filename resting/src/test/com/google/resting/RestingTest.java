@@ -21,12 +21,12 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.message.BasicHeader;
 
 import test.com.google.resting.vo.Assertion;
 import test.com.google.resting.vo.Concept;
+import test.com.google.resting.vo.Entry;
 import test.com.google.resting.vo.Facets;
 import test.com.google.resting.vo.Product;
 import test.com.google.resting.vo.Result;
@@ -330,7 +330,8 @@ public void testLocal4(){
 	System.out.println("\ntestLocal4\n-----------------------------");
 	
 	ServiceResponse serviceResponse=Resting.get("http://172.16.18.83/api/v10/search?collection=246246&query=readme&start=0&results=25&output=application/json", 8394,null, EncodingTypes.UTF8, null);
-	String resultant=StringUtils.remove(serviceResponse.getResponseString(),"es:");
+    String resultant=serviceResponse.getResponseString();
+/*		String resultant=StringUtils.remove(serviceResponse.getResponseString(),"es:");
 	System.out.println("Index: "+StringUtils.indexOf(resultant, "#text"));
 	//StringUtils.re
 	
@@ -341,11 +342,15 @@ public void testLocal4(){
 	JSONTransformer<test.com.google.resting.vo.Header> transformer=new JSONTransformer<test.com.google.resting.vo.Header>();		
 	List<test.com.google.resting.vo.Header> headers=transformer.getEntityList(resultant, test.com.google.resting.vo.Header.class, new JSONAlias("apiResponse"));
 	System.out.println(" Parsing Header object: Total results: "+headers.get(0).getTotalResults());
-/*
-	JSONTransformer<test.com.google.resting.vo.Entry> etransformer=new JSONTransformer<test.com.google.resting.vo.Entry>();
-	List<test.com.google.resting.vo.Entry> entries=etransformer.getEntityList(resultant, test.com.google.resting.vo.Entry.class, new JSONAlias("result"));
-	System.out.println("Parsing entries: No. of result items"+entries.size());
 */
+	System.out.println(resultant);
+    JSONTransformer<test.com.google.resting.vo.Entry> etransformer=new JSONTransformer<test.com.google.resting.vo.Entry>();
+	List<test.com.google.resting.vo.Entry> entries=etransformer.getEntityList(resultant, test.com.google.resting.vo.Entry.class, new JSONAlias("es:apiResponse"));
+	System.out.println("Parsing entries: No. of apiresponse items"+entries.size());
+	Entry entry=entries.get(0);
+	System.out.println(entry.getResults().get(0).getLink()[0].getHref());
+	
+
 	
 	
 	
@@ -361,16 +366,16 @@ public void testLocal5(){
 
 }
 
-public void testTextFile(){
-	
+public void testPostTextFile(){
+	System.out.println("\ntestPostTextFile\n-----------------------------");
 	ServiceResponse response=Resting.post("http://localhost/testresting/rest/hello/post/file", 8080, null, new File("C:\\ssbtfeed.txt"), EncodingTypes.UTF8, null, ContentType.TEXT_PLAIN);
 	System.out.println(response.getResponseString());
 	
 }
-public void testImageFile(){
-	
+public void testPostImageFile(){
+	System.out.println("\ntestImageTextFile\n-----------------------------");
 	ServiceResponse response=Resting.post("http://localhost/testresting/rest/hello/post/imagefile", 8080, null, new File("C:\\window_lights.jpg"), EncodingTypes.BINARY, null, ContentType.IMAGE_JPEG);
-	System.out.println(response.getResponseString());
+	System.out.println(response.getResponseLength());
 	
 }	
 }

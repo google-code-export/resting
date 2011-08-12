@@ -15,7 +15,7 @@
  */
 package com.google.resting.component;
 /**
- * Types of encoding supported.
+ * Types of encoding supported. The standard charset and binary are included here.
  * 
  * @author sujata.de
  * @since resting 0.3
@@ -25,7 +25,12 @@ public enum EncodingTypes {
 	
 	UTF8("UTF-8"),
 	UTF16("UTF-16"),
+	USASCII("US-ASCII"),
+	ISO88591("ISO-8859-1"),
+	UTF16BE("UTF-16BE"),
+	UTF16LE("UTF-16LE"),
 	BINARY("BINARY"); //Binary. May or may not include printable chars
+	
 	
 	private String name;
 	

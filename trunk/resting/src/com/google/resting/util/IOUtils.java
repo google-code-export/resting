@@ -234,17 +234,12 @@ public class IOUtils {
     	try {
 				outputBytes=baos.toByteArray();
 				switch(charset){
-					case UTF8: 
-						      	output=new StringContentData(outputBytes,charset);
-						      	break;
-					case UTF16: 
-					      		output=new StringContentData(outputBytes,charset);
-					      		break;
 					case BINARY:
 					      		output=new ByteContentData(outputBytes);
 					      		break;
-						 
-				
+					default: 
+				      			output=new StringContentData(outputBytes,charset);
+				      			break;
 				}
 			
 		}  catch(Exception e){

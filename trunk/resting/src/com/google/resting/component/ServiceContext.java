@@ -16,20 +16,13 @@
 
 package com.google.resting.component;
 
-import static com.google.resting.component.RequestHeaderType.ACCEPT;
-import static com.google.resting.component.content.ContentType.APPLICATION_JSON;
-import static com.google.resting.component.content.ContentType.TEXT_XML;
-import static com.google.resting.component.content.ContentType.TEXT_HTML;
-import static com.google.resting.component.content.ContentType.TEXT_PLAIN;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicHeader;
 
-import com.google.resting.component.content.ContentType;
 import com.google.resting.component.impl.URLContext;
 /**
  * Abstract class for encapsulating the entire context of the REST endpoint service invocation. This includes base URI, 
@@ -50,7 +43,7 @@ public abstract class ServiceContext {
 	private EncodingTypes charset=null;
 	private List<Header> headers;
 	
-	protected ServiceContext(URLContext urlContext, RequestParams queryParams, Verb verb, EncodingTypes charset,List<Header> inputHeaders, List<ContentType> contentTypes ){
+	protected ServiceContext(URLContext urlContext, RequestParams queryParams, Verb verb, EncodingTypes charset,List<Header> inputHeaders ){
 		this.targetDomain=urlContext.getTargetDomain();
 		this.port=urlContext.getPort();
 		this.isSecureInvocation=urlContext.isSecureInvocation();

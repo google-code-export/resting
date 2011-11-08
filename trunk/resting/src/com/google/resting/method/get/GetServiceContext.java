@@ -43,7 +43,7 @@ public class GetServiceContext extends ServiceContext {
 	private String contextPathElement=null;
 
 	public GetServiceContext(URLContext urlContext, RequestParams requestParams, EncodingTypes encoding, List<Header> inputHeaders ){
-		super(urlContext,requestParams, Verb.GET, encoding, inputHeaders, null);
+		super(urlContext,requestParams, Verb.GET, encoding, inputHeaders);
 		this.contextPathElement=urlContext.getContextPath();
 		if(requestParams !=null)	this.inputParams=requestParams.getRequestParams();
 		this.path=this.contextPathElement+getParamPathElement();

@@ -19,6 +19,11 @@ package test.com.google.resting.vo;
 
 public class ResultSet {
 	private Result Result;
+	private String Error;
+	private String Locale;
+	private String Quality;
+	private String Found;
+	private String ErrorMessage;
 
 	public void setResult(Result Result) {
 		this.Result = Result;

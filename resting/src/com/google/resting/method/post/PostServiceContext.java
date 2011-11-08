@@ -47,7 +47,7 @@ public class PostServiceContext extends ServiceContext {
 	private HttpEntity httpEntity=null;
 	
 	public PostServiceContext(URLContext urlContext, RequestParams requestParams, EncodingTypes encoding, List<Header> inputHeaders ) {
-		super(urlContext, requestParams, Verb.POST, encoding, inputHeaders, null);
+		super(urlContext, requestParams, Verb.POST, encoding, inputHeaders);
 		this.contextPathElement=urlContext.getContextPath();
 		this.path=this.contextPathElement;
 		if(requestParams !=null){
@@ -58,7 +58,7 @@ public class PostServiceContext extends ServiceContext {
 	}//PostServiceContext
 	
 	public PostServiceContext(URLContext urlContext, String message, EncodingTypes encoding, List<Header> inputHeaders ) {
-		super(urlContext, null, Verb.POST, encoding,inputHeaders, null);
+		super(urlContext, null, Verb.POST, encoding,inputHeaders);
 		this.contextPathElement=urlContext.getContextPath();
 		this.path=this.contextPathElement;
 		this.httpEntity=setMessageEntity(message, encoding, null);
@@ -67,7 +67,7 @@ public class PostServiceContext extends ServiceContext {
 	}//PostServiceContext	
 	
 	public PostServiceContext(URLContext urlContext, RequestParams requestParams, String message, EncodingTypes encoding, List<Header> inputHeaders, ContentType messageContentType ) {
-		super(urlContext, requestParams, Verb.POST, encoding,inputHeaders, null);
+		super(urlContext, requestParams, Verb.POST, encoding,inputHeaders);
 		this.contextPathElement=urlContext.getContextPath();
 		this.path=this.contextPathElement;
 		this.httpEntity=setMessageEntity(message, encoding, messageContentType);
@@ -75,7 +75,7 @@ public class PostServiceContext extends ServiceContext {
 	//	System.out.println( "The path is "+path);		
 	}//PostServiceContext	
 	public PostServiceContext(URLContext urlContext, RequestParams requestParams, File file, EncodingTypes encoding, List<Header> inputHeaders, ContentType contentType ) {
-		super(urlContext, requestParams, Verb.POST, encoding, inputHeaders, null);
+		super(urlContext, requestParams, Verb.POST, encoding, inputHeaders);
 		this.contextPathElement=urlContext.getContextPath();
 		this.path=this.contextPathElement;
 		this.httpEntity=setFileEntity(file,contentType, encoding);

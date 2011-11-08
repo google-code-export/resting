@@ -45,7 +45,7 @@ public class PutServiceContext extends ServiceContext {
 	private HttpEntity httpEntity=null;
 	
 	public PutServiceContext(URLContext urlContext, RequestParams requestParams, EncodingTypes encoding, List<Header> inputHeaders ) {
-		super(urlContext, requestParams, Verb.PUT, encoding, inputHeaders, null );
+		super(urlContext, requestParams, Verb.PUT, encoding, inputHeaders );
 		this.contextPathElement=urlContext.getContextPath();
 		this.path=this.contextPathElement;
 		if(requestParams !=null){
@@ -56,7 +56,7 @@ public class PutServiceContext extends ServiceContext {
 	}//PutServiceContext
 	
 	public PutServiceContext(URLContext urlContext, String message, EncodingTypes encoding, List<Header> inputHeaders ) {
-		super(urlContext, null, Verb.PUT,encoding, inputHeaders, null);
+		super(urlContext, null, Verb.PUT,encoding, inputHeaders);
 		this.contextPathElement=urlContext.getContextPath();
 		this.path=this.contextPathElement;
 		this.httpEntity=setMessageEntity(message, encoding.getName());
@@ -64,7 +64,7 @@ public class PutServiceContext extends ServiceContext {
 	}//PutServiceContext	
 
 	public PutServiceContext(URLContext urlContext, File file, EncodingTypes encoding, boolean isBinary, List<Header> inputHeaders ) {
-		super(urlContext, null, Verb.PUT,encoding, inputHeaders, null);
+		super(urlContext, null, Verb.PUT,encoding, inputHeaders);
 		this.contextPathElement=urlContext.getContextPath();
 		this.path=this.contextPathElement;
 		//this.httpEntity=setMessageEntity(message, encoding);

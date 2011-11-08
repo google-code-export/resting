@@ -17,72 +17,47 @@
 package test.com.google.resting.vo;
 
 public class Result {
-	private String precision;
-	private String Latitude;
-	private String Longitude;
-	private String Address;
-	private String City;
-	private String State;
-	private String Zip;
-	private String Country;
 	
-	public Result(String precision){
-		this.precision=precision;
-	}
+	private int quality;
+	private float latitude  ;
+	private float longitude  ;
+	private float offsetlat ;
+	private float offsetlon ;
+	private float radius ;
 	
-	public String getPrecision() {
-		return precision;
-	}
-	public void setPrecision(String precision) {
-		this.precision = precision;
-	}
-	public String getLatitude() {
-		return Latitude;
-	}
-	public void setLatitude(String latitude) {
-		Latitude = latitude;
-	}
-
+	private String  name;
+	private String  line1;
+	private String line2;
+	
+	private String  line3 ;
+	private String  line4;
+	private String  house;
+	private String  street;
+	
+	private String  xstreet ;
+	
+	private String unittype  ;
+	private String  unit ;
+	private int  postal;
+	private String  neighborhood ;
+	private String city ;
+	private String county;
+	private String state;
+	private String country;
+	private String countrycode;
+	private String statecode;
+	private String countycode;
+	private String hash ;
+	private int woeid;
+	private int woetype;
+	private int uzip;
+	
+	
 	public String toString(){
-		return "precision="+precision+", latitude="+Latitude+", " +
-				"Longitude="+Longitude+", Address="+Address+", "+
-				"City= "+City+", ZIP= "+Zip+", State="+State+
-				", Country="+Country;
+		return "Latitude: "+latitude+", Longitude: "+longitude+", Postal code: "+postal;
 	}
-	public String getLongitude() {
-		return Longitude;
-	}
-	public void setLongitude(String longitude) {
-		Longitude = longitude;
-	}
-	public String getAddress() {
-		return Address;
-	}
-	public void setAddress(String address) {
-		Address = address;
-	}
-	public String getCity() {
-		return City;
-	}
-	public void setCity(String city) {
-		City = city;
-	}
-	public String getState() {
-		return State;
-	}
-	public void setState(String state) {
-		State = state;
-	}
-	public String getZip() {
-		return Zip;
-	}
-	public void setZip(String zip) {
-		Zip = zip;
-	}
-	public String getCountry() {
-		return Country;
-	}
-	public void setCountry(String country) {
-		Country = country;
-	}
+	
+	
+	
+
 }

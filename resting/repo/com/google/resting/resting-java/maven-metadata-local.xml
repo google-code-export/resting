@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>com.google.resting</groupId>
+  <artifactId>resting-java</artifactId>
+  <version>0.7</version>
+  <versioning>
+    <versions>
+      <version>0.7</version>
+    </versions>
+    <lastUpdated>20120418103953</lastUpdated>
+  </versioning>
+</metadata>

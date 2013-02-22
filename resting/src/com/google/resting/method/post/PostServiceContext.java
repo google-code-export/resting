@@ -36,6 +36,8 @@ import com.google.resting.component.impl.URLContext;
 /**
  * Implementation of ServiceContext for HTTP POST operation.
  * 
+ * Fix submitted by peter.g.horsley@gmail.com
+ * 
  * @author sujata.de
  * @since resting 0.2
  */
@@ -85,20 +87,32 @@ public class PostServiceContext extends ServiceContext {
 	private HttpEntity setMessageEntity(String message, EncodingTypes encoding, ContentType contentType){
 		StringEntity entity =null;
 		try {
-			if(contentType==null)
-				entity = new StringEntity(message,  "text/plain; charset=\""+encoding.getName()+"\"");
-			else
-				entity = new StringEntity(message, contentType.getName()+"; charset=\""+encoding.getName()+"\"");
-				
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
+			try {
+				entity = new StringEntity(message);
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			if (encoding != null) 	entity.setContentEncoding(encoding.getName());	
+			
+			if (contentType != null) 	entity.setContentType(contentType.getName());	
+					
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return entity;		
 	}//setMessageEntity
 	private HttpEntity setFileEntity(File file, ContentType contentType, EncodingTypes encoding ){
 		FileEntity entity =null;
-		entity = new FileEntity(file,  contentType.getName()+"; charset=\""+encoding.getName()+"\"");
+		
+		try {
+			
+			entity = new FileEntity(file,contentType.getName());
+			
+			if (encoding != null) entity.setContentEncoding(encoding.getName());	
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return entity;		
 	}//setFileEntity
 	

@@ -24,6 +24,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.params.HttpParams;
 
 import com.google.resting.component.EncodingTypes;
 import com.google.resting.component.RequestParams;
@@ -44,8 +45,8 @@ public class PutServiceContext extends ServiceContext {
 	private String contextPathElement=null;
 	private HttpEntity httpEntity=null;
 	
-	public PutServiceContext(URLContext urlContext, RequestParams requestParams, EncodingTypes encoding, List<Header> inputHeaders ) {
-		super(urlContext, requestParams, Verb.PUT, encoding, inputHeaders );
+	public PutServiceContext(URLContext urlContext, RequestParams requestParams, EncodingTypes encoding, List<Header> inputHeaders,HttpParams httpParams  ) {
+		super(urlContext, requestParams, Verb.PUT, encoding, inputHeaders,httpParams );
 		this.contextPathElement=urlContext.getContextPath();
 		this.path=this.contextPathElement;
 		if(requestParams !=null){
@@ -55,16 +56,16 @@ public class PutServiceContext extends ServiceContext {
 	//	System.out.println( "The path is "+path);		
 	}//PutServiceContext
 	
-	public PutServiceContext(URLContext urlContext, String message, EncodingTypes encoding, List<Header> inputHeaders ) {
-		super(urlContext, null, Verb.PUT,encoding, inputHeaders);
+	public PutServiceContext(URLContext urlContext, String message, EncodingTypes encoding, List<Header> inputHeaders,HttpParams httpParams  ) {
+		super(urlContext, null, Verb.PUT,encoding, inputHeaders,httpParams);
 		this.contextPathElement=urlContext.getContextPath();
 		this.path=this.contextPathElement;
 		this.httpEntity=setMessageEntity(message, encoding.getName());
 	//	System.out.println( "The path is "+path);		
 	}//PutServiceContext	
 
-	public PutServiceContext(URLContext urlContext, File file, EncodingTypes encoding, boolean isBinary, List<Header> inputHeaders ) {
-		super(urlContext, null, Verb.PUT,encoding, inputHeaders);
+	public PutServiceContext(URLContext urlContext, File file, EncodingTypes encoding, boolean isBinary, List<Header> inputHeaders,HttpParams httpParams  ) {
+		super(urlContext, null, Verb.PUT,encoding, inputHeaders,httpParams);
 		this.contextPathElement=urlContext.getContextPath();
 		this.path=this.contextPathElement;
 		//this.httpEntity=setMessageEntity(message, encoding);

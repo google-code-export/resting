@@ -18,6 +18,7 @@ package com.google.resting.method.delete;
 import java.util.List;
 
 import org.apache.http.Header;
+import org.apache.http.params.HttpParams;
 
 import com.google.resting.component.EncodingTypes;
 import com.google.resting.component.RequestParams;
@@ -33,13 +34,13 @@ import com.google.resting.serviceaccessor.impl.ServiceAccessor;
  *
  */
 public class DeleteHelper {
-	public final static ServiceResponse delete(String url, int port, RequestParams requestParams, EncodingTypes encoding){
-		return delete(url,port,requestParams, encoding, null);	
+	public final static ServiceResponse delete(String url, int port, RequestParams requestParams, EncodingTypes encoding, HttpParams httpParams){
+		return delete(url,port,requestParams, encoding, httpParams);	
 	}//delete
 
-	public final static ServiceResponse delete(String url, int port, RequestParams requestParams, EncodingTypes encoding,  List<Header> inputHeaders){
+	public final static ServiceResponse delete(String url, int port, RequestParams requestParams, EncodingTypes encoding,  List<Header> inputHeaders, HttpParams httpParams){
 		URLContext urlContext=new URLContext(url,port);
-		ServiceContext serviceContext= new DeleteServiceContext(urlContext,requestParams, encoding, inputHeaders);
+		ServiceContext serviceContext= new DeleteServiceContext(urlContext,requestParams, encoding, inputHeaders,httpParams);
 		return ServiceAccessor.access(serviceContext);	
 	}//delete	
 }//DeleteHelper

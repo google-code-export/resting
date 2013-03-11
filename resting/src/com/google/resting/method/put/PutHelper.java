@@ -19,6 +19,7 @@ import java.io.File;
 import java.util.List;
 
 import org.apache.http.Header;
+import org.apache.http.params.HttpParams;
 
 import com.google.resting.component.EncodingTypes;
 import com.google.resting.component.RequestParams;
@@ -35,21 +36,21 @@ import com.google.resting.serviceaccessor.impl.ServiceAccessor;
  */
 public class PutHelper {
 	
-	public final static ServiceResponse put(String url, EncodingTypes encoding , int port, RequestParams requestParams,List<Header> additionalHeaders){
+	public final static ServiceResponse put(String url, EncodingTypes encoding , int port, RequestParams requestParams,List<Header> additionalHeaders, HttpParams httpParams ){
 		URLContext urlContext=new URLContext(url,port);
-		ServiceContext serviceContext= new PutServiceContext(urlContext,requestParams, encoding, additionalHeaders);
+		ServiceContext serviceContext= new PutServiceContext(urlContext,requestParams, encoding, additionalHeaders,httpParams);
 		return ServiceAccessor.access(serviceContext);
 	}//put
 	
-	public final static ServiceResponse put(String url, int port, String messageToPost,EncodingTypes encoding, List<Header> additionalHeaders){
+	public final static ServiceResponse put(String url, int port, String messageToPost,EncodingTypes encoding, List<Header> additionalHeaders, HttpParams httpParams){
 		URLContext urlContext=new URLContext(url,port);
-		ServiceContext serviceContext= new PutServiceContext(urlContext,messageToPost,encoding, additionalHeaders);
+		ServiceContext serviceContext= new PutServiceContext(urlContext,messageToPost,encoding, additionalHeaders,httpParams);
 		return ServiceAccessor.access(serviceContext);
 	}//put
 
-	public final static ServiceResponse put(String url, int port, File file, EncodingTypes encoding, boolean isBinaryFile, List<Header> additionalHeaders){
+	public final static ServiceResponse put(String url, int port, File file, EncodingTypes encoding, boolean isBinaryFile, List<Header> additionalHeaders, HttpParams httpParams){
 		URLContext urlContext=new URLContext(url,port);
-		ServiceContext serviceContext= new PutServiceContext(urlContext,file, encoding, isBinaryFile, additionalHeaders);
+		ServiceContext serviceContext= new PutServiceContext(urlContext,file, encoding, isBinaryFile, additionalHeaders,httpParams);
 		return ServiceAccessor.access(serviceContext);
 	}//put	
 }//PutHelper

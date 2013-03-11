@@ -26,8 +26,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.http.Header;
-
-import test.com.google.resting.vo.SampleFeed;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 
 import com.google.resting.component.Alias;
 import com.google.resting.component.EncodingTypes;
@@ -49,9 +50,23 @@ import com.google.resting.transform.impl.atom.AtomTransformer;
  */
 
 public final class RestingHelper {
+	
+	public static HttpParams buildHttpParams(int timeout){
+		HttpParams httpParams=new BasicHttpParams();
+		HttpConnectionParams.setConnectionTimeout(httpParams, timeout);
+		HttpConnectionParams.setSoTimeout(httpParams, timeout);
+		return httpParams;	
+	}
+	
+	public static HttpParams buildHttpParams(int connectionTimeout, int socketTimeout){
+		HttpParams httpParams=new BasicHttpParams();
+		HttpConnectionParams.setConnectionTimeout(httpParams, connectionTimeout);
+		HttpConnectionParams.setSoTimeout(httpParams, socketTimeout);
+		return httpParams;	
+	}
 
-	public final static<T> List<T> executeAndTransform(String url, int port, RequestParams requestParams, Verb verb, TransformationType transformationType, Class<T> targetType, Alias alias, EncodingTypes encoding, List<Header> additionalHeaders){
-		ServiceResponse serviceResponse=getServiceResponse(url, port, requestParams, verb, encoding, additionalHeaders);
+	public final static<T> List<T> executeAndTransform(String url, int port, RequestParams requestParams, Verb verb, TransformationType transformationType, Class<T> targetType, Alias alias, EncodingTypes encoding, List<Header> additionalHeaders, HttpParams httpParams){
+		ServiceResponse serviceResponse=getServiceResponse(url, port, requestParams, verb, encoding, additionalHeaders,httpParams);
 		
 		List<T> results=new ArrayList<T>();
 		final long startTime=System.currentTimeMillis();
@@ -82,8 +97,8 @@ public final class RestingHelper {
 		return results;
 	}//executeAndTransform
 	
-	public final static Map<String, List> executeAndTransform(String url, int port, RequestParams requestParams, Verb verb, TransformationType transformationType, JSONAlias alias, EncodingTypes encoding, List<Header> additionalHeaders){
-		ServiceResponse serviceResponse=getServiceResponse(url, port, requestParams, verb, encoding, additionalHeaders);
+	public final static Map<String, List> executeAndTransform(String url, int port, RequestParams requestParams, Verb verb, TransformationType transformationType, JSONAlias alias, EncodingTypes encoding, List<Header> additionalHeaders, HttpParams httpParams){
+		ServiceResponse serviceResponse=getServiceResponse(url, port, requestParams, verb, encoding, additionalHeaders,httpParams);
 		
 		Map<String, List> results=null;
 		
@@ -101,16 +116,16 @@ public final class RestingHelper {
 		return results;
 	}//executeAndTransform
 	
-	private static ServiceResponse getServiceResponse(String url, int port, RequestParams requestParams, Verb verb, EncodingTypes encoding, List<Header> additionalHeaders){
+	private static ServiceResponse getServiceResponse(String url, int port, RequestParams requestParams, Verb verb, EncodingTypes encoding, List<Header> additionalHeaders, HttpParams httpParams){
 		ServiceResponse serviceResponse=null;
 		if(verb==Verb.GET)
-			serviceResponse=get(url, port,requestParams, encoding, additionalHeaders);
+			serviceResponse=get(url, port,requestParams, encoding, additionalHeaders,httpParams);
 		else if (verb == Verb.DELETE)
-			serviceResponse=delete(url, port,requestParams, encoding, additionalHeaders);
+			serviceResponse=delete(url, port,requestParams, encoding, additionalHeaders,httpParams);
 		else if (verb==Verb.POST)
-			serviceResponse=post(url, port, encoding, requestParams, additionalHeaders);
+			serviceResponse=post(url, port, encoding, requestParams, additionalHeaders,httpParams);
 		else if (verb==Verb.PUT)
-			serviceResponse=put(url, encoding, port,requestParams, additionalHeaders);
+			serviceResponse=put(url, encoding, port,requestParams, additionalHeaders,httpParams);
 		return serviceResponse;
 	}//getServiceResponse
 }

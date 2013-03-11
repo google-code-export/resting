@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.apache.http.Header;
 import org.apache.http.NameValuePair;
+import org.apache.http.params.HttpParams;
 
 import com.google.resting.component.EncodingTypes;
 import com.google.resting.component.RequestParams;
@@ -42,8 +43,8 @@ public class GetServiceContext extends ServiceContext {
 	private String path=null;
 	private String contextPathElement=null;
 
-	public GetServiceContext(URLContext urlContext, RequestParams requestParams, EncodingTypes encoding, List<Header> inputHeaders ){
-		super(urlContext,requestParams, Verb.GET, encoding, inputHeaders);
+	public GetServiceContext(URLContext urlContext, RequestParams requestParams, EncodingTypes encoding, List<Header> inputHeaders,HttpParams httpParams  ){
+		super(urlContext,requestParams, Verb.GET, encoding, inputHeaders,httpParams);
 		this.contextPathElement=urlContext.getContextPath();
 		if(requestParams !=null)	this.inputParams=requestParams.getRequestParams();
 		this.path=this.contextPathElement+getParamPathElement();

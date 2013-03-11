@@ -31,6 +31,7 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.HttpParams;
 
 import com.google.resting.component.EncodingTypes;
 import com.google.resting.component.ServiceContext;
@@ -73,7 +74,7 @@ public class RESTClient {
 		
 		HttpRequest request = buildHttpRequest(serviceContext);
 		
-		HttpClient httpClient = new DefaultHttpClient();
+		HttpClient httpClient = buildHttpClient(serviceContext);
 
 		try {
 			// execute is a blocking call, it's best to call this code in a
@@ -173,7 +174,7 @@ public class RESTClient {
 			HttpHost targetHost = new HttpHost(targetDomain, port, RequestConstants.HTTPS);
 			HttpRequest request = buildHttpRequest(serviceContext);
 					
-	        DefaultHttpClient httpclient = new DefaultHttpClient();
+	        DefaultHttpClient httpclient = buildHttpClient(serviceContext);
 	        httpclient.getConnectionManager().getSchemeRegistry().register(new Scheme(RequestConstants.HTTPS, new CustomSSLSocketFactory(), port));
 
 	        HttpResponse response = httpclient.execute(targetHost,request);
@@ -189,5 +190,17 @@ public class RESTClient {
 		return serviceResponse;
 
 	}	//secureInvoke
+	
+	private static DefaultHttpClient buildHttpClient(ServiceContext serviceContext) {
+		DefaultHttpClient httpClient =null;
+		HttpParams httpParams=serviceContext.getHttpParams();
+		if(httpParams!=null)
+			httpClient = new DefaultHttpClient(httpParams);
+		else
+			httpClient=new DefaultHttpClient();
+		
+		return httpClient;
+		
+	}
 
 }//RESTClient

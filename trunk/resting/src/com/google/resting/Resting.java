@@ -17,15 +17,14 @@
 package com.google.resting;
 
 import static com.google.resting.component.EncodingTypes.UTF8;
+import static com.google.resting.helper.RestingHelper.buildHttpParams;
+import static com.google.resting.helper.RestingHelper.executeAndTransform;
 
 import java.io.File;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.http.Header;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
 
 import com.google.resting.atom.AtomFeed;
 import com.google.resting.component.EncodingTypes;
@@ -41,11 +40,6 @@ import com.google.resting.method.get.GetHelper;
 import com.google.resting.method.post.PostHelper;
 import com.google.resting.method.put.PutHelper;
 import com.google.resting.transform.TransformationType;
-
-import static com.google.resting.helper.RestingHelper.buildHttpParams;
-import static com.google.resting.helper.RestingHelper.buildHttpParams;
-import static com.google.resting.helper.RestingHelper.executeAndTransform;
-import static com.google.resting.helper.RestingHelper.executeAndTransform;
 
 
 /**

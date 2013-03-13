@@ -19,9 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.http.Header;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
+import org.apache.http.auth.AuthScope;
 
 import com.google.resting.component.Alias;
 import com.google.resting.component.EncodingTypes;
@@ -29,6 +27,7 @@ import com.google.resting.component.RequestParams;
 import com.google.resting.component.Verb;
 import com.google.resting.component.impl.json.JSONAlias;
 import com.google.resting.helper.RestingHelper;
+import com.google.resting.rest.client.HttpContext;
 import com.google.resting.transform.TransformationType;
 
 /**
@@ -64,9 +63,8 @@ public final class RestingBuilder<T> {
 	private Class<T> targetType;
 	private List<Header> additionalHeaders;
 	private RequestParams requestParams;
-	private HttpParams httpParams;
 	private Alias alias;
-
+	private HttpContext httpContext;
 
 	 /**
 	   * Creates a RestingBuilder instance that can be used to build a Resting request with various configuration
@@ -84,8 +82,9 @@ public final class RestingBuilder<T> {
 		this.targetType=null;
 		this.additionalHeaders=null;
 		this.requestParams=null;
-		this.httpParams=new BasicHttpParams();
 		this.alias=null;
+		this.httpContext=new HttpContext();
+
 	}//RestingBuilder
 	  /**
 	   * Invokes REST service and creates a {@link List} of target entities based on the current configuration. This method is free of
@@ -94,7 +93,7 @@ public final class RestingBuilder<T> {
 	   * @return a list of target configured with the options currently set in this builder
 	   */	
 	public List<T> build(){
-		return RestingHelper.executeAndTransform(uri, port, requestParams, verb, transformationType, targetType, alias, encoding, additionalHeaders, httpParams);
+		return RestingHelper.executeAndTransform(uri, port, requestParams, verb, transformationType, targetType, alias, encoding, additionalHeaders, httpContext);
 	}//build
 	  
 	/**
@@ -107,7 +106,7 @@ public final class RestingBuilder<T> {
 		if(transformationType == TransformationType.JSON){
 			if(aliasTypeMap!=null){
 				JSONAlias aliases=new JSONAlias(aliasTypeMap);
-				return RestingHelper.executeAndTransform(uri, port, requestParams, verb, transformationType, aliases, encoding, additionalHeaders, httpParams);
+				return RestingHelper.executeAndTransform(uri, port, requestParams, verb, transformationType, aliases, encoding, additionalHeaders, httpContext);
 			}//if aliasTypeMap
 		}//if JSON 
 		return null;
@@ -119,7 +118,7 @@ public final class RestingBuilder<T> {
 	 * @return a reference to this {@code RestingBuilder} object to fulfill the "Builder" pattern
 	 */
 	public RestingBuilder setConnectionTimeout(int connectionTimeout){
-		HttpConnectionParams.setConnectionTimeout(httpParams, connectionTimeout);
+		httpContext.setConnectionTimeout(connectionTimeout);
 		return this;
 	}//setConnectionTimeout
 	
@@ -130,7 +129,7 @@ public final class RestingBuilder<T> {
 	 * @return a reference to this {@code RestingBuilder} object to fulfill the "Builder" pattern
 	 */	
 	public RestingBuilder setSocketTimeout(int socketTimeout){
-		HttpConnectionParams.setSoTimeout(httpParams, socketTimeout);
+		httpContext.setSocketTimeout(socketTimeout);
 		return this;
 	}//setSocketTimeout
 
@@ -199,4 +198,56 @@ public final class RestingBuilder<T> {
 		this.requestParams = requestParams;
 		return this;
 	}//setRequestParams
+	
+	/**
+	 * Sets preemptive authentication
+	 * 
+	 * @param preemptiveAuthentication
+	 * @return a reference to this {@code RestingBuilder} object to fulfill the "Builder" pattern
+	 */
+	public RestingBuilder setPreemptiveAuthentication(boolean preemptiveAuthentication) {
+		httpContext.setPreemptiveAuthentication(preemptiveAuthentication);
+		return this;
+	}//setPreemptiveAuthentication
+	
+	/**
+	 * Enables basic authentication with username and password
+	 * 
+	 * @param user
+	 * @param password
+	 * @return a reference to this {@code RestingBuilder} object to fulfill the "Builder" pattern
+	 */
+	public RestingBuilder enableBasicAuthentication(String user, String password){
+		httpContext.setCredentials(user, password).setAuthScope(AuthScope.ANY);
+		return this;
+	}//setCredentials
+	
+	/**
+	 * Enables basic authentication with username, password and realm
+	 * 
+	 * @param user
+	 * @param password
+	 * @param host
+	 * @param port
+	 * @param realm
+	 * @return a reference to this {@code RestingBuilder} object to fulfill the "Builder" pattern
+	 */
+	public RestingBuilder enableBasicAuthentication(String user, String password, String host, int port, String realm){
+		httpContext.setCredentials(user, password).setAuthScope(host, port, realm);
+		return this;
+	}//setAuthScope
+	
+	/**
+	 * Enables proxy based invocation
+	 * 
+	 * @param proxyHost
+	 * @param proxyPort
+	 * @return a reference to this {@code RestingBuilder} object to fulfill the "Builder" pattern
+	 */
+	public RestingBuilder setProxy(String proxyHost, int proxyPort){
+		httpContext.setProxy(proxyHost, proxyPort);
+		return this;
+	}//setProxy
+	
+	
 }//RestingBuilder

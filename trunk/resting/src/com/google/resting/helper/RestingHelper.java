@@ -36,6 +36,7 @@ import com.google.resting.component.RequestParams;
 import com.google.resting.component.Verb;
 import com.google.resting.component.impl.ServiceResponse;
 import com.google.resting.component.impl.json.JSONAlias;
+import com.google.resting.rest.client.HttpContext;
 import com.google.resting.transform.TransformationType;
 import com.google.resting.transform.impl.JSONTransformer;
 import com.google.resting.transform.impl.XMLTransformer;
@@ -51,22 +52,8 @@ import com.google.resting.transform.impl.atom.AtomTransformer;
 
 public final class RestingHelper {
 	
-	public static HttpParams buildHttpParams(int timeout){
-		HttpParams httpParams=new BasicHttpParams();
-		HttpConnectionParams.setConnectionTimeout(httpParams, timeout);
-		HttpConnectionParams.setSoTimeout(httpParams, timeout);
-		return httpParams;	
-	}
-	
-	public static HttpParams buildHttpParams(int connectionTimeout, int socketTimeout){
-		HttpParams httpParams=new BasicHttpParams();
-		HttpConnectionParams.setConnectionTimeout(httpParams, connectionTimeout);
-		HttpConnectionParams.setSoTimeout(httpParams, socketTimeout);
-		return httpParams;	
-	}
-
-	public final static<T> List<T> executeAndTransform(String url, int port, RequestParams requestParams, Verb verb, TransformationType transformationType, Class<T> targetType, Alias alias, EncodingTypes encoding, List<Header> additionalHeaders, HttpParams httpParams){
-		ServiceResponse serviceResponse=getServiceResponse(url, port, requestParams, verb, encoding, additionalHeaders,httpParams);
+	public final static<T> List<T> executeAndTransform(String url, int port, RequestParams requestParams, Verb verb, TransformationType transformationType, Class<T> targetType, Alias alias, EncodingTypes encoding, List<Header> additionalHeaders, HttpContext httpContext){
+		ServiceResponse serviceResponse=getServiceResponse(url, port, requestParams, verb, encoding, additionalHeaders,httpContext);
 		
 		List<T> results=new ArrayList<T>();
 		final long startTime=System.currentTimeMillis();
@@ -97,8 +84,8 @@ public final class RestingHelper {
 		return results;
 	}//executeAndTransform
 	
-	public final static Map<String, List> executeAndTransform(String url, int port, RequestParams requestParams, Verb verb, TransformationType transformationType, JSONAlias alias, EncodingTypes encoding, List<Header> additionalHeaders, HttpParams httpParams){
-		ServiceResponse serviceResponse=getServiceResponse(url, port, requestParams, verb, encoding, additionalHeaders,httpParams);
+	public final static Map<String, List> executeAndTransform(String url, int port, RequestParams requestParams, Verb verb, TransformationType transformationType, JSONAlias alias, EncodingTypes encoding, List<Header> additionalHeaders, HttpContext httpContext){
+		ServiceResponse serviceResponse=getServiceResponse(url, port, requestParams, verb, encoding, additionalHeaders,httpContext);
 		
 		Map<String, List> results=null;
 		
@@ -116,16 +103,16 @@ public final class RestingHelper {
 		return results;
 	}//executeAndTransform
 	
-	private static ServiceResponse getServiceResponse(String url, int port, RequestParams requestParams, Verb verb, EncodingTypes encoding, List<Header> additionalHeaders, HttpParams httpParams){
+	private static ServiceResponse getServiceResponse(String url, int port, RequestParams requestParams, Verb verb, EncodingTypes encoding, List<Header> additionalHeaders, HttpContext httpContext){
 		ServiceResponse serviceResponse=null;
 		if(verb==Verb.GET)
-			serviceResponse=get(url, port,requestParams, encoding, additionalHeaders,httpParams);
+			serviceResponse=get(url, port,requestParams, encoding, additionalHeaders,httpContext);
 		else if (verb == Verb.DELETE)
-			serviceResponse=delete(url, port,requestParams, encoding, additionalHeaders,httpParams);
+			serviceResponse=delete(url, port,requestParams, encoding, additionalHeaders,httpContext);
 		else if (verb==Verb.POST)
-			serviceResponse=post(url, port, encoding, requestParams, additionalHeaders,httpParams);
+			serviceResponse=post(url, port, encoding, requestParams, additionalHeaders,httpContext);
 		else if (verb==Verb.PUT)
-			serviceResponse=put(url, encoding, port,requestParams, additionalHeaders,httpParams);
+			serviceResponse=put(url, encoding, port,requestParams, additionalHeaders,httpContext);
 		return serviceResponse;
 	}//getServiceResponse
 }

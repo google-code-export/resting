@@ -22,9 +22,9 @@ import java.util.List;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
-import org.apache.http.params.HttpParams;
 
 import com.google.resting.component.impl.URLContext;
+import com.google.resting.rest.client.HttpContext;
 /**
  * Abstract class for encapsulating the entire context of the REST endpoint service invocation. This includes base URI, 
  * MIME type and the type of operations. 
@@ -43,15 +43,15 @@ public abstract class ServiceContext {
 	private Verb verb=null;
 	private EncodingTypes charset=null;
 	private List<Header> headers;
-	private HttpParams httpParams=null;
-	
-	protected ServiceContext(URLContext urlContext, RequestParams queryParams, Verb verb, EncodingTypes charset,List<Header> inputHeaders, HttpParams httpParams ){
+	private HttpContext httpContext=null;
+
+	protected ServiceContext(URLContext urlContext, RequestParams queryParams, Verb verb, EncodingTypes charset,List<Header> inputHeaders, HttpContext httpContext ){
 		this.targetDomain=urlContext.getTargetDomain();
 		this.port=urlContext.getPort();
 		this.isSecureInvocation=urlContext.isSecureInvocation();
 		this.verb=verb;
 		this.charset=charset;
-		this.httpParams=httpParams;
+		this.httpContext=httpContext;
 		
 		if(inputHeaders !=null){
 			this.headers=new ArrayList<Header>();
@@ -96,9 +96,9 @@ public abstract class ServiceContext {
 		return charset;
 	}//getCharset
 	
-	public HttpParams getHttpParams(){
-		return httpParams;
-	}//getHttpParams
+	public HttpContext getHttpContext(){
+		return httpContext;
+	}//getHttpContext
 
 
 }//ServiceContext

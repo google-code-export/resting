@@ -25,6 +25,7 @@ import com.google.resting.component.RequestParams;
 import com.google.resting.component.ServiceContext;
 import com.google.resting.component.impl.ServiceResponse;
 import com.google.resting.component.impl.URLContext;
+import com.google.resting.rest.client.HttpContext;
 import com.google.resting.serviceaccessor.impl.ServiceAccessor;
 /**
  * Helper class for HTTP GET operation
@@ -34,13 +35,13 @@ import com.google.resting.serviceaccessor.impl.ServiceAccessor;
  *
  */
 public class GetHelper {
-	public final static ServiceResponse get(String url, int port, RequestParams requestParams, EncodingTypes encoding,HttpParams httpParams ){
-		return get(url,port,requestParams, encoding, httpParams);
+	public final static ServiceResponse get(String url, int port, RequestParams requestParams, EncodingTypes encoding,HttpContext httpContext){
+		return get(url,port,requestParams, encoding, null, httpContext);
 	}//get
 	
-	public final static ServiceResponse get(String url, int port, RequestParams requestParams, EncodingTypes encoding,  List<Header> inputHeaders,HttpParams httpParams ){
+	public final static ServiceResponse get(String url, int port, RequestParams requestParams, EncodingTypes encoding,  List<Header> inputHeaders,HttpContext httpContext ){
 		URLContext urlContext=new URLContext(url,port);
-		ServiceContext serviceContext= new GetServiceContext(urlContext,requestParams, encoding, inputHeaders,httpParams);
+		ServiceContext serviceContext= new GetServiceContext(urlContext,requestParams, encoding, inputHeaders,httpContext);
 		return ServiceAccessor.access(serviceContext);
 	}//get
 	

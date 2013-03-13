@@ -38,7 +38,7 @@ public class Result {
 	
 	private String unittype  ;
 	private String  unit ;
-	private int  postal;
+	private String  postal;
 	private String  neighborhood ;
 	private String city ;
 	private String county;

@@ -193,14 +193,16 @@ public class RESTClient {
 	
 	private static DefaultHttpClient buildHttpClient(ServiceContext serviceContext) {
 		DefaultHttpClient httpClient =null;
-		HttpParams httpParams=serviceContext.getHttpParams();
+		HttpParams httpParams=null;
+		HttpContext httpContext=serviceContext.getHttpContext();
+		if(httpContext!=null)
+				httpParams=httpContext.getHttpParams();
 		if(httpParams!=null)
 			httpClient = new DefaultHttpClient(httpParams);
 		else
 			httpClient=new DefaultHttpClient();
 		
 		return httpClient;
-		
-	}
+	}//buildHttpClient
 
 }//RESTClient

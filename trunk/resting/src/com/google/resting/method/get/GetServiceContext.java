@@ -23,13 +23,13 @@ import java.util.List;
 
 import org.apache.http.Header;
 import org.apache.http.NameValuePair;
-import org.apache.http.params.HttpParams;
 
 import com.google.resting.component.EncodingTypes;
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.ServiceContext;
 import com.google.resting.component.Verb;
 import com.google.resting.component.impl.URLContext;
+import com.google.resting.rest.client.HttpContext;
 /**
  * Implementation of ServiceContext for HTTP GET operation
  * 
@@ -43,8 +43,8 @@ public class GetServiceContext extends ServiceContext {
 	private String path=null;
 	private String contextPathElement=null;
 
-	public GetServiceContext(URLContext urlContext, RequestParams requestParams, EncodingTypes encoding, List<Header> inputHeaders,HttpParams httpParams  ){
-		super(urlContext,requestParams, Verb.GET, encoding, inputHeaders,httpParams);
+	public GetServiceContext(URLContext urlContext, RequestParams requestParams, EncodingTypes encoding, List<Header> inputHeaders,HttpContext httpContext  ){
+		super(urlContext,requestParams, Verb.GET, encoding, inputHeaders,httpContext);
 		this.contextPathElement=urlContext.getContextPath();
 		if(requestParams !=null)	this.inputParams=requestParams.getRequestParams();
 		this.path=this.contextPathElement+getParamPathElement();

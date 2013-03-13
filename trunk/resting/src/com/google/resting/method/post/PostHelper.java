@@ -19,7 +19,6 @@ import java.io.File;
 import java.util.List;
 
 import org.apache.http.Header;
-import org.apache.http.params.HttpParams;
 
 import com.google.resting.component.EncodingTypes;
 import com.google.resting.component.RequestParams;
@@ -27,6 +26,7 @@ import com.google.resting.component.ServiceContext;
 import com.google.resting.component.content.ContentType;
 import com.google.resting.component.impl.ServiceResponse;
 import com.google.resting.component.impl.URLContext;
+import com.google.resting.rest.client.HttpContext;
 import com.google.resting.serviceaccessor.impl.ServiceAccessor;
 /**
  * Helper class for HTTP PUT operation
@@ -36,26 +36,26 @@ import com.google.resting.serviceaccessor.impl.ServiceAccessor;
  *
  */
 public class PostHelper {
-	public final static ServiceResponse post(String url, int port, EncodingTypes encoding, RequestParams requestParams, List<Header> additionalHeaders, HttpParams httpParams){
+	public final static ServiceResponse post(String url, int port, EncodingTypes encoding, RequestParams requestParams, List<Header> additionalHeaders, HttpContext httpContext){
 		URLContext urlContext=new URLContext(url,port);
-		ServiceContext serviceContext= new PostServiceContext(urlContext,requestParams, encoding, additionalHeaders,httpParams);
+		ServiceContext serviceContext= new PostServiceContext(urlContext,requestParams, encoding, additionalHeaders,httpContext);
 		return ServiceAccessor.access(serviceContext);
 	}//post
 	
-	public final static ServiceResponse post(String messageToPost, EncodingTypes encoding, String url, int port, List<Header> additionalHeaders, HttpParams httpParams){
+	public final static ServiceResponse post(String messageToPost, EncodingTypes encoding, String url, int port, List<Header> additionalHeaders, HttpContext httpContext){
 		URLContext urlContext=new URLContext(url,port);
-		ServiceContext serviceContext= new PostServiceContext(urlContext,messageToPost,encoding, additionalHeaders,httpParams);
+		ServiceContext serviceContext= new PostServiceContext(urlContext,messageToPost,encoding, additionalHeaders,httpContext);
 		return ServiceAccessor.access(serviceContext);
 	}//post
 	
-	public final static ServiceResponse post(String messageToPost, EncodingTypes encoding, String url, int port, RequestParams requestParams,List<Header> additionalHeaders, ContentType messageContentType, HttpParams httpParams){
+	public final static ServiceResponse post(String messageToPost, EncodingTypes encoding, String url, int port, RequestParams requestParams,List<Header> additionalHeaders, ContentType messageContentType, HttpContext httpContext){
 		URLContext urlContext=new URLContext(url,port);
-		ServiceContext serviceContext= new PostServiceContext(urlContext,requestParams,messageToPost,encoding, additionalHeaders,messageContentType,httpParams);
+		ServiceContext serviceContext= new PostServiceContext(urlContext,requestParams,messageToPost,encoding, additionalHeaders,messageContentType,httpContext);
 		return ServiceAccessor.access(serviceContext);
 	}//post
-	public final static ServiceResponse post(String url, int port, File file, RequestParams requestParams,EncodingTypes encoding, List<Header> additionalHeaders, ContentType contentType, HttpParams httpParams){
+	public final static ServiceResponse post(String url, int port, File file, RequestParams requestParams,EncodingTypes encoding, List<Header> additionalHeaders, ContentType contentType, HttpContext httpContext){
 		URLContext urlContext=new URLContext(url,port);
-		ServiceContext serviceContext= new PostServiceContext(urlContext,requestParams,file,encoding, additionalHeaders, contentType,httpParams);
+		ServiceContext serviceContext= new PostServiceContext(urlContext,requestParams,file,encoding, additionalHeaders, contentType,httpContext);
 		return ServiceAccessor.access(serviceContext);
 	}//post
 }//PostHelper

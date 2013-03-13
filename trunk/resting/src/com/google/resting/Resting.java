@@ -17,7 +17,6 @@
 package com.google.resting;
 
 import static com.google.resting.component.EncodingTypes.UTF8;
-import static com.google.resting.helper.RestingHelper.buildHttpParams;
 import static com.google.resting.helper.RestingHelper.executeAndTransform;
 
 import java.io.File;
@@ -39,6 +38,7 @@ import com.google.resting.method.delete.DeleteHelper;
 import com.google.resting.method.get.GetHelper;
 import com.google.resting.method.post.PostHelper;
 import com.google.resting.method.put.PutHelper;
+import com.google.resting.rest.client.HttpContext;
 import com.google.resting.transform.TransformationType;
 
 
@@ -188,7 +188,7 @@ public final class Resting {
 	 */
 	
 	public final static ServiceResponse get(String baseURI, int port,RequestParams requestParams, EncodingTypes encoding, List<Header> additionalHeaders, int connectionTimeout, int socketTimeout){
-		return GetHelper.get(baseURI, port,requestParams,encoding, additionalHeaders,buildHttpParams(connectionTimeout, socketTimeout));
+		return GetHelper.get(baseURI, port,requestParams,encoding, additionalHeaders,new HttpContext().setTimeout(connectionTimeout, socketTimeout));
 	}//get
 	/**
 	 * Executes HTTP/HTTPS GET request and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
@@ -203,7 +203,7 @@ public final class Resting {
 	 */
 	
 	public final static ServiceResponse get(String baseURI, RequestParams requestParams, EncodingTypes encoding, List<Header> additionalHeaders, int timeout){
-		return GetHelper.get(baseURI, 80,requestParams,encoding, additionalHeaders,buildHttpParams(timeout));
+		return GetHelper.get(baseURI, 80,requestParams,encoding, additionalHeaders,new HttpContext().setTimeout(timeout));
 	}//get	
 	/**
 	 * Executes HTTP/HTTPS POST request for a POST request with no content in the message body and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
@@ -396,7 +396,7 @@ public final class Resting {
 
 	public final static <T> List<T> getByJSON(String baseURI, int port, RequestParams requestParams, Class<T> targetType, String alias, EncodingTypes encoding, List<Header> additionalHeaders, int connectionTimeout, int socketTimeout){
 		JSONAlias jsonAlias=new JSONAlias(alias);
-		return RestingHelper.executeAndTransform(baseURI, port,requestParams, Verb.GET, TransformationType.JSON, targetType, jsonAlias,encoding, additionalHeaders,buildHttpParams(connectionTimeout,socketTimeout));
+		return RestingHelper.executeAndTransform(baseURI, port,requestParams, Verb.GET, TransformationType.JSON, targetType, jsonAlias,encoding, additionalHeaders,new HttpContext().setTimeout(connectionTimeout,socketTimeout));
 	}//getByJSON	
 	/**
 	 * Executes HTTP/HTTPS GET request and transforms the JSON response into list of target entity.
@@ -416,7 +416,7 @@ public final class Resting {
 
 	public final static <T> List<T> getByJSON(String baseURI,RequestParams requestParams, Class<T> targetType, String alias, EncodingTypes encoding, List<Header> additionalHeaders, int connectionTimeout, int socketTimeout){
 		JSONAlias jsonAlias=new JSONAlias(alias);
-		return RestingHelper.executeAndTransform(baseURI, 80,requestParams, Verb.GET, TransformationType.JSON, targetType, jsonAlias,encoding, additionalHeaders,buildHttpParams(connectionTimeout,socketTimeout));
+		return RestingHelper.executeAndTransform(baseURI, 80,requestParams, Verb.GET, TransformationType.JSON, targetType, jsonAlias,encoding, additionalHeaders,new HttpContext().setTimeout(connectionTimeout, socketTimeout));
 	}//getByJSON	
 	/**
 	 * Executes HTTP/HTTPS GET request and transforms the JSON response into list of target entity.
@@ -435,7 +435,7 @@ public final class Resting {
 
 	public final static <T> List<T> getByJSON(String baseURI,RequestParams requestParams, Class<T> targetType, String alias, EncodingTypes encoding, List<Header> additionalHeaders, int timeout){
 		JSONAlias jsonAlias=new JSONAlias(alias);
-		return RestingHelper.executeAndTransform(baseURI, 80,requestParams, Verb.GET, TransformationType.JSON, targetType, jsonAlias,encoding, additionalHeaders,buildHttpParams(timeout));
+		return RestingHelper.executeAndTransform(baseURI, 80,requestParams, Verb.GET, TransformationType.JSON, targetType, jsonAlias,encoding, additionalHeaders,new HttpContext().setTimeout(timeout));
 	}//getByJSON		
 	/**
 	 * Executes HTTP/HTTPS REST request and transforms the JSON response into list of target entity.
@@ -521,7 +521,7 @@ public final class Resting {
 
 	public final static <T> List<T> restByJSON(String baseURI, RequestParams requestParams, Verb verb, Class<T> targetType, String alias, EncodingTypes encoding, List<Header> additionalHeaders, int connectionTimeout, int socketTimeout){
 		JSONAlias jsonAlias=new JSONAlias(alias);
-		return RestingHelper.executeAndTransform(baseURI, 80,requestParams, verb, TransformationType.JSON, targetType, jsonAlias,encoding, additionalHeaders,buildHttpParams(connectionTimeout, socketTimeout));
+		return RestingHelper.executeAndTransform(baseURI, 80,requestParams, verb, TransformationType.JSON, targetType, jsonAlias,encoding, additionalHeaders,new HttpContext().setTimeout(connectionTimeout, socketTimeout));
 	}//getByJSON	
 	/**
 	 * Executes HTTP/HTTPS REST request and transforms the JSON response into list of target entity.
@@ -549,7 +549,7 @@ public final class Resting {
 
 	public final static <T> List<T> restByJSON(String baseURI, RequestParams requestParams, Verb verb, Class<T> targetType, String alias, EncodingTypes encoding, List<Header> additionalHeaders, int timeout){
 		JSONAlias jsonAlias=new JSONAlias(alias);
-		return RestingHelper.executeAndTransform(baseURI, 80,requestParams, verb, TransformationType.JSON, targetType, jsonAlias,encoding, additionalHeaders,buildHttpParams(timeout));
+		return RestingHelper.executeAndTransform(baseURI, 80,requestParams, verb, TransformationType.JSON, targetType, jsonAlias,encoding, additionalHeaders,new HttpContext().setTimeout(timeout));
 	}//getByJSON		
 	/**
 	 * Executes HTTP/HTTPS GET request and transforms the JSON response into lists of target entities.

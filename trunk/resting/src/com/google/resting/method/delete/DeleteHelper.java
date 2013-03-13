@@ -18,13 +18,13 @@ package com.google.resting.method.delete;
 import java.util.List;
 
 import org.apache.http.Header;
-import org.apache.http.params.HttpParams;
 
 import com.google.resting.component.EncodingTypes;
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.ServiceContext;
 import com.google.resting.component.impl.ServiceResponse;
 import com.google.resting.component.impl.URLContext;
+import com.google.resting.rest.client.HttpContext;
 import com.google.resting.serviceaccessor.impl.ServiceAccessor;
 /**
  * Helper class for HTTP DELETE operation
@@ -34,13 +34,13 @@ import com.google.resting.serviceaccessor.impl.ServiceAccessor;
  *
  */
 public class DeleteHelper {
-	public final static ServiceResponse delete(String url, int port, RequestParams requestParams, EncodingTypes encoding, HttpParams httpParams){
-		return delete(url,port,requestParams, encoding, httpParams);	
+	public final static ServiceResponse delete(String url, int port, RequestParams requestParams, EncodingTypes encoding, HttpContext httpContext){
+		return delete(url,port,requestParams, encoding, null,httpContext);	
 	}//delete
 
-	public final static ServiceResponse delete(String url, int port, RequestParams requestParams, EncodingTypes encoding,  List<Header> inputHeaders, HttpParams httpParams){
+	public final static ServiceResponse delete(String url, int port, RequestParams requestParams, EncodingTypes encoding,  List<Header> inputHeaders, HttpContext httpContext){
 		URLContext urlContext=new URLContext(url,port);
-		ServiceContext serviceContext= new DeleteServiceContext(urlContext,requestParams, encoding, inputHeaders,httpParams);
+		ServiceContext serviceContext= new DeleteServiceContext(urlContext,requestParams, encoding, inputHeaders,httpContext);
 		return ServiceAccessor.access(serviceContext);	
 	}//delete	
 }//DeleteHelper

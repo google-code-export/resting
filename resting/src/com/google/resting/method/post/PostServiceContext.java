@@ -26,7 +26,6 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.entity.FileEntity;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.params.HttpParams;
 
 import com.google.resting.component.EncodingTypes;
 import com.google.resting.component.RequestParams;
@@ -34,6 +33,7 @@ import com.google.resting.component.ServiceContext;
 import com.google.resting.component.Verb;
 import com.google.resting.component.content.ContentType;
 import com.google.resting.component.impl.URLContext;
+import com.google.resting.rest.client.HttpContext;
 /**
  * Implementation of ServiceContext for HTTP POST operation.
  * 
@@ -49,8 +49,8 @@ public class PostServiceContext extends ServiceContext {
 	private String contextPathElement=null;
 	private HttpEntity httpEntity=null;
 	
-	public PostServiceContext(URLContext urlContext, RequestParams requestParams, EncodingTypes encoding, List<Header> inputHeaders,HttpParams httpParams  ) {
-		super(urlContext, requestParams, Verb.POST, encoding, inputHeaders,httpParams);
+	public PostServiceContext(URLContext urlContext, RequestParams requestParams, EncodingTypes encoding, List<Header> inputHeaders,HttpContext httpContext  ) {
+		super(urlContext, requestParams, Verb.POST, encoding, inputHeaders,httpContext);
 		this.contextPathElement=urlContext.getContextPath();
 		this.path=this.contextPathElement;
 		if(requestParams !=null){
@@ -60,8 +60,8 @@ public class PostServiceContext extends ServiceContext {
 	//	System.out.println( "The path is "+path);		
 	}//PostServiceContext
 	
-	public PostServiceContext(URLContext urlContext, String message, EncodingTypes encoding, List<Header> inputHeaders,HttpParams httpParams  ) {
-		super(urlContext, null, Verb.POST, encoding,inputHeaders,httpParams);
+	public PostServiceContext(URLContext urlContext, String message, EncodingTypes encoding, List<Header> inputHeaders,HttpContext httpContext  ) {
+		super(urlContext, null, Verb.POST, encoding,inputHeaders,httpContext);
 		this.contextPathElement=urlContext.getContextPath();
 		this.path=this.contextPathElement;
 		this.httpEntity=setMessageEntity(message, encoding, null);
@@ -69,16 +69,16 @@ public class PostServiceContext extends ServiceContext {
 	//	System.out.println( "The path is "+path);		
 	}//PostServiceContext	
 	
-	public PostServiceContext(URLContext urlContext, RequestParams requestParams, String message, EncodingTypes encoding, List<Header> inputHeaders, ContentType messageContentType,HttpParams httpParams ) {
-		super(urlContext, requestParams, Verb.POST, encoding,inputHeaders,httpParams);
+	public PostServiceContext(URLContext urlContext, RequestParams requestParams, String message, EncodingTypes encoding, List<Header> inputHeaders, ContentType messageContentType,HttpContext httpContext ) {
+		super(urlContext, requestParams, Verb.POST, encoding,inputHeaders,httpContext);
 		this.contextPathElement=urlContext.getContextPath();
 		this.path=this.contextPathElement;
 		this.httpEntity=setMessageEntity(message, encoding, messageContentType);
 		
 	//	System.out.println( "The path is "+path);		
 	}//PostServiceContext	
-	public PostServiceContext(URLContext urlContext, RequestParams requestParams, File file, EncodingTypes encoding, List<Header> inputHeaders, ContentType contentType, HttpParams httpParams ) {
-		super(urlContext, requestParams, Verb.POST, encoding, inputHeaders,httpParams);
+	public PostServiceContext(URLContext urlContext, RequestParams requestParams, File file, EncodingTypes encoding, List<Header> inputHeaders, ContentType contentType, HttpContext httpContext ) {
+		super(urlContext, requestParams, Verb.POST, encoding, inputHeaders,httpContext);
 		this.contextPathElement=urlContext.getContextPath();
 		this.path=this.contextPathElement;
 		this.httpEntity=setFileEntity(file,contentType, encoding);

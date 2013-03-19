@@ -47,14 +47,14 @@ import com.google.resting.transform.TransformationType;
  * 
  *<p> Here is an example of how Resting can be used for a simple class: </p>
  *
- * Suppose your rest URL is http://local.yahooapis.com/MapsService/V1/geocode?appid=YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--&state=CA 
+ * Suppose your rest URL is http://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&sensor=true 
  *
  *<p>The resting code can be used in these three ways: </p>
  *
  *<p> Option 1 (Easy and fast): Pass the entire URI and read the entire HTTP response as a String
  *<pre>
  * <code>
- * ServiceResponse response=Resting.get("http://local.yahooapis.com/MapsService/V1/geocode?appid=YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--&state=CA",80);
+ * ServiceResponse response=Resting.get("http://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&sensor=true",80);
  * System.out.println(response); //Print the entire response body.
  * </code>
  *</pre>
@@ -63,9 +63,9 @@ import com.google.resting.transform.TransformationType;
  *<pre>
  *<code>
  * RequestParams params = new BasicRequestParams(); 
- * params.add("appid", "YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--");
- * params.add("state", "CA");
- * ServiceResponse response=Resting.get("http://local.yahooapis.com/MapsService/V1/geocode",80,params); 
+ * params.add("address", "1600+Amphitheatre+Parkway,+Mountain+View,+CA");
+ * params.add("sensor", "true");
+ * ServiceResponse response=Resting.get("http://maps.googleapis.com/maps/api/geocode/json",80,params); 
  * System.out.println(response); //Print the entire response body.
  * </code>
  *</pre>
@@ -104,13 +104,14 @@ import com.google.resting.transform.TransformationType;
  *
  *<pre>
  *<code>
- * XMLAlias alias=new XMLAlias().add("Result", Result.class).add("ResultSet", ResultSet.class); //Create an alias object which will help transforming each embedded object from XML to Java.
- * List<ResultSet> resultset=Resting.getByXML("http://local.yahooapis.com/MapsService/V1/geocode", 80,params,ResultSet.class, alias);
+ * XMLAlias alias=new XMLAlias().add("result", Result.class).add("address_component", AddressComponent.class); //Create an alias object which will help transforming each embedded object from XML to Java.
+ * List<Result> result=Resting.getByXML("http://maps.googleapis.com/maps/api/geocode/xml", 80,params,Result.class, alias);
  *</code>
  *</pre>
  *</p>
  *
  *For more examples, please refer the upcoming Examples section.
+ *For more advanced operations, use RestingBuilder.java
  * 
  * @author sujata.de
  * @since resting 0.1

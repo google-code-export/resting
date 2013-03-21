@@ -34,6 +34,7 @@ import com.thoughtworks.xstream.converters.SingleValueConverter;
  * 3. referenceMode - Modes to signify reference in XML. Support for object graph.
  * 4. converters - A map of custom {@link Converter} instances, along with their priorities.
  * 5. singleValueConverters - A map of custom {@link SingleValueConverter} instances
+ * 6. attributeMap - A map of attributes used for classes
  * 
  * @author sujata.de
  * @since resting 0.2
@@ -48,6 +49,7 @@ public class XMLAlias<T> implements Alias{
 	private Map<SingleValueConverter,Priority> singleValueConverters=null;
 	private List<Class> annotatedTypeList=null;
 	private Map<QName, Class> qualifiedNameMap = null;
+	private Map<String, Class> attributeMap=null;
 	
 	/**
 	 * Constructor
@@ -300,5 +302,22 @@ public class XMLAlias<T> implements Alias{
 	public Class getClassForAlias(String aliasKey) {
 		return aliasTypeMap.get(aliasKey);
 	}
+	/**
+	 * Add an attribute used for a class
+	 * 
+	 * @param attribute
+	 * @param clazz
+	 * @return
+	 */
+	public XMLAlias addAttribute(String attribute, Class clazz){
+		if(attributeMap==null)
+			attributeMap=new HashMap<String,Class>();
+		attributeMap.put(attribute, clazz);
+		return this;
+	}//addAttribute
+	
+	public Map<String,Class> getAttributeMap(){
+		return attributeMap;
+	}//getAttributeMap
 
 }//XMLAlias

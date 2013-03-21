@@ -28,11 +28,13 @@ import test.com.google.resting.vo.Assertion;
 import test.com.google.resting.vo.Concept;
 import test.com.google.resting.vo.Entry;
 import test.com.google.resting.vo.Facets;
+import test.com.google.resting.vo.GeoNames;
 import test.com.google.resting.vo.Product;
 import test.com.google.resting.vo.Result;
 import test.com.google.resting.vo.ResultSet;
 import test.com.google.resting.vo.Standard;
 import test.com.google.resting.vo.Standards;
+import test.com.google.resting.vo.Status;
 import test.com.google.resting.vo.StatusMessage;
 import test.com.google.resting.vo.StatusMessageConverter;
 
@@ -224,6 +226,35 @@ public class RestingTest extends TestCase {
 		xstream.alias("message", StatusMessage.class);
 		StatusMessage message=(StatusMessage)xstream.fromXML(xml);
 		System.out.println(message.toString());
+	}
+	
+	public void testLongAndShortenedXML(){
+		try {
+			System.out.println("\ntestShortenedXML\n-----------------------------");
+			String longxml="<geonames><status><message>the deaily limit of 30000 credits for demo has been exceeded.</message><value> 18 </value></status></geonames>";
+			XStream xstream=new XStream(new DomDriver());
+			xstream.alias("geonames", GeoNames.class);
+			xstream.alias("status",Status.class);
+			GeoNames geonames=(GeoNames)xstream.fromXML(longxml);
+			System.out.println("Long XML representation: "+geonames);
+			String shortXML="<geonames><status message=\"the deaily limit of 30000 credits for demo has been exceeded.\" value=\"18\"/></geonames>"; 
+			XStream xstream2=new XStream(new DomDriver());
+			xstream2.alias("geonames", GeoNames.class);
+			xstream2.alias("status",Status.class);
+			xstream2.useAttributeFor(Status.class, "message");
+			xstream2.useAttributeFor(Status.class, "value");
+			GeoNames geonames2=(GeoNames)xstream2.fromXML(shortXML);
+			System.out.println("Short XML representation: "+geonames2);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public void testShortenedXML(){
+		XMLAlias alias=new XMLAlias().add("geonames", GeoNames.class).add("status", Status.class).addAttribute("message", Status.class).addAttribute("value", Status.class);
+		GeoNames geonames=Resting.getByXML("http://localhost/testresting/rest/hello/get/shortxml", 8080, null, GeoNames.class, alias);
+		System.out.println(geonames);
 	}
 	
 	public void testRestByYAML1() {

@@ -1,4 +1,4 @@
- /*
+/*
  * Copyright (C) 2010 Google Code.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -39,7 +39,9 @@ import test.com.google.resting.vo.StatusMessage;
 import test.com.google.resting.vo.StatusMessageConverter;
 
 import com.google.resting.Resting;
+import com.google.resting.RestingBuilder;
 import com.google.resting.atom.AtomFeed;
+import com.google.resting.component.Alias;
 import com.google.resting.component.EncodingTypes;
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.Verb;
@@ -100,7 +102,7 @@ public class RestingTest extends TestCase {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void testGetByJSONLongResponse(){
 		System.out.println("\ntestGetByJSONLongResponse\n-----------------------------");
 		RequestParams jsonParams = new JSONRequestParams();   
@@ -122,14 +124,14 @@ public class RestingTest extends TestCase {
 		params.add("appid", "YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--");  
 		params.add("q", "1600+Pennsylvania+Avenue,+Washington,+DC");  
 		XMLAlias alias=new XMLAlias().add("Result", Result.class).add("ResultSet", ResultSet.class);   
-	    try {
+		try {
 			ResultSet results=Resting.getByXML("http://where.yahooapis.com/geocode", 80,params,ResultSet.class, alias);	
 			System.out.println("[RestingTest::getByXML] The response detail is "+results.getResult().toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void testMime(){
 		System.out.println("\ntestMime\n-----------------------------");		
 		ServiceResponse response=null;
@@ -140,8 +142,8 @@ public class RestingTest extends TestCase {
 		} 
 		System.out.println("[RestingTest::testMime] Response is" +response);
 		assertEquals(200, response.getStatusCode());
-		
-		
+
+
 	}
 	public void testAcceptApplicationJSON(){
 		System.out.println("\ntestAcceptApplicationJSON\n-----------------------------");		
@@ -153,7 +155,7 @@ public class RestingTest extends TestCase {
 		} 
 		System.out.println("[RestingTest::testAcceptApplicationJSON] Response is" +response);
 		assertEquals(200, response.getStatusCode());
-		
+
 	}
 	public void testAcceptTextHtml(){
 		System.out.println("\ntestAcceptTextHtml\n-----------------------------");		
@@ -165,7 +167,7 @@ public class RestingTest extends TestCase {
 		} 
 		System.out.println("[RestingTest::testAcceptTextHtml] Response is" +response);
 		assertEquals(200, response.getStatusCode());
-		
+
 	}
 	public void testAcceptOctectNeg(){
 		System.out.println("\ntestAcceptOctectNeg\n-----------------------------");		
@@ -190,7 +192,7 @@ public class RestingTest extends TestCase {
 		} 
 		System.out.println("[RestingTest::testConvertOctetStream] Response is" +response);
 		assertEquals(200, response.getStatusCode());
-		
+
 	}
 	public void testAcceptOctetStream(){
 		System.out.println("\ntestAcceptOctetStream\n-----------------------------");		
@@ -204,20 +206,20 @@ public class RestingTest extends TestCase {
 		} 
 		System.out.println("[RestingTest::testAcceptOctetStream] Length of response byte array is " +response.getResponseLength());
 		assertEquals(200, response.getStatusCode());
-		
+
 	}	
-	
+
 	public void testAddCustomConverter(){
 		System.out.println("\ntestAddCustomConverter\n-----------------------------");				
 		XMLAlias alias=new XMLAlias().add("message", StatusMessage.class);
 		alias.addConverter(new StatusMessageConverter());
-        String entireResponseString= Resting.get("http://172.16.21.134/Mediator18042011/ssbt/api/collections?method=create&name=013Collection&output=xml&api_username=esadmin&api_password=Ssbt123", 8088).getResponseString();
-        System.out.println("entireResponseString : "+entireResponseString);
-        StatusMessage message=Resting.getByXML("http://172.16.21.134/Mediator18042011/ssbt/api/collections?method=create&name=014Collection&output=xml&api_username=esadmin&api_password=Ssbt123", 8088,null,StatusMessage.class, alias);	
-        System.out.println(message.toString());
+		String entireResponseString= Resting.get("http://172.16.21.134/Mediator18042011/ssbt/api/collections?method=create&name=013Collection&output=xml&api_username=esadmin&api_password=Ssbt123", 8088).getResponseString();
+		System.out.println("entireResponseString : "+entireResponseString);
+		StatusMessage message=Resting.getByXML("http://172.16.21.134/Mediator18042011/ssbt/api/collections?method=create&name=014Collection&output=xml&api_username=esadmin&api_password=Ssbt123", 8088,null,StatusMessage.class, alias);	
+		System.out.println(message.toString());
 
 	}	
-	
+
 	public void testLocal3(){
 		System.out.println("\ntestLocal3\n-----------------------------");				
 		String xml="<?xml version=\"1.0\" encoding=\"utf-8\"?><message>FFQW0141I Collection 005Collection was created successfully.</message>";
@@ -227,7 +229,7 @@ public class RestingTest extends TestCase {
 		StatusMessage message=(StatusMessage)xstream.fromXML(xml);
 		System.out.println(message.toString());
 	}
-	
+
 	public void testLongAndShortenedXML(){
 		try {
 			System.out.println("\ntestShortenedXML\n-----------------------------");
@@ -248,15 +250,15 @@ public class RestingTest extends TestCase {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
-	
-	public void testShortenedXML(){
+
+	public void testUseAttributeInXML(){
 		XMLAlias alias=new XMLAlias().add("geonames", GeoNames.class).add("status", Status.class).addAttribute("message", Status.class).addAttribute("value", Status.class);
 		GeoNames geonames=Resting.getByXML("http://localhost/testresting/rest/hello/get/shortxml", 8080, null, GeoNames.class, alias);
 		System.out.println(geonames);
 	}
-	
+
 	public void testRestByYAML1() {
 		System.out.println("\ntestGetByYAML1\n-----------------------------");
 		try {
@@ -275,7 +277,7 @@ public class RestingTest extends TestCase {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void testRestByYAML2() {
 		System.out.println("\ntestGetByYAML2\n-----------------------------");
 		try {
@@ -307,7 +309,7 @@ public class RestingTest extends TestCase {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void testGetByATOM() {
 		System.out.println("\ntestGetByATOM\n-----------------------------");
 		try {
@@ -320,7 +322,7 @@ public class RestingTest extends TestCase {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void testTrans(){
 		System.out.println("\ntestTrans\n-----------------------------");				
 		String text="<?xml version=\"1.0\" encoding=\"UTF-8\"?><standards> <standard>  <id>1</id>  <title>Safety</title> <parentId></parentId>  <parentTitle></parentTitle>  <level>0</level> </standard></standards>";
@@ -329,61 +331,75 @@ public class RestingTest extends TestCase {
 		XMLTransformer trans=new XMLTransformer();
 		List<Standards> list=trans.getEntityList(text, Standards.class, alias);
 		System.out.println(list.toString());
-		
+
 	}
-	
 
 
-public void testLocal4(){
-	System.out.println("\ntestLocal4\n-----------------------------");
-	
-	ServiceResponse serviceResponse=Resting.get("http://172.16.18.83/api/v10/search?collection=246246&query=readme&start=0&results=25&output=application/json", 8394,null, EncodingTypes.UTF8, null);
-    String resultant=serviceResponse.getResponseString();
-/*		String resultant=StringUtils.remove(serviceResponse.getResponseString(),"es:");
+
+	public void testLocal4(){
+		System.out.println("\ntestLocal4\n-----------------------------");
+
+		ServiceResponse serviceResponse=Resting.get("http://172.16.18.83/api/v10/search?collection=246246&query=readme&start=0&results=25&output=application/json", 8394,null, EncodingTypes.UTF8, null);
+		String resultant=serviceResponse.getResponseString();
+		/*		String resultant=StringUtils.remove(serviceResponse.getResponseString(),"es:");
 	System.out.println("Index: "+StringUtils.indexOf(resultant, "#text"));
 	//StringUtils.re
-	
+
 	resultant=StringUtils.remove(resultant, "ibmsc:");
-	
+
 	System.out.println(resultant);
-		
+
 	JSONTransformer<test.com.google.resting.vo.Header> transformer=new JSONTransformer<test.com.google.resting.vo.Header>();		
 	List<test.com.google.resting.vo.Header> headers=transformer.getEntityList(resultant, test.com.google.resting.vo.Header.class, new JSONAlias("apiResponse"));
 	System.out.println(" Parsing Header object: Total results: "+headers.get(0).getTotalResults());
-*/
-	System.out.println(resultant);
-    JSONTransformer<test.com.google.resting.vo.Entry> etransformer=new JSONTransformer<test.com.google.resting.vo.Entry>();
-	List<test.com.google.resting.vo.Entry> entries=etransformer.getEntityList(resultant, test.com.google.resting.vo.Entry.class, new JSONAlias("es:apiResponse"));
-	System.out.println("Parsing entries: No. of apiresponse items"+entries.size());
-	Entry entry=entries.get(0);
-	System.out.println(entry.getResults().get(0).getLink()[0].getHref());
-	
+		 */
+		System.out.println(resultant);
+		JSONTransformer<test.com.google.resting.vo.Entry> etransformer=new JSONTransformer<test.com.google.resting.vo.Entry>();
+		List<test.com.google.resting.vo.Entry> entries=etransformer.getEntityList(resultant, test.com.google.resting.vo.Entry.class, new JSONAlias("es:apiResponse"));
+		System.out.println("Parsing entries: No. of apiresponse items"+entries.size());
+		Entry entry=entries.get(0);
+		System.out.println(entry.getResults().get(0).getLink()[0].getHref());
+	}
 
-	
-	
-	
-}
+	public void testLocal5(){
+		ServiceResponse serviceResponse=Resting.get("http://172.16.18.83/api/v10/search?collection=246246&query=site&start=0&results=25&output=application/json", 8394,null, EncodingTypes.UTF8, null);
+		JSONTransformer<test.com.google.resting.vo.Header> transformer=new JSONTransformer<test.com.google.resting.vo.Header>();		
+		List<test.com.google.resting.vo.Header> headers=transformer.getEntityList(serviceResponse, test.com.google.resting.vo.Header.class, new JSONAlias("es:apiResponse"));
+		System.out.println(" Parsing Header object: Total results: "+headers.get(0).getTotalResults());
+		List<test.com.google.resting.vo.Entry> entries=headers.get(0).getEntries();
+		//System.out.println(entries.get(0).getField().getText());
 
-public void testLocal5(){
-	ServiceResponse serviceResponse=Resting.get("http://172.16.18.83/api/v10/search?collection=246246&query=site&start=0&results=25&output=application/json", 8394,null, EncodingTypes.UTF8, null);
-	JSONTransformer<test.com.google.resting.vo.Header> transformer=new JSONTransformer<test.com.google.resting.vo.Header>();		
-	List<test.com.google.resting.vo.Header> headers=transformer.getEntityList(serviceResponse, test.com.google.resting.vo.Header.class, new JSONAlias("es:apiResponse"));
-	System.out.println(" Parsing Header object: Total results: "+headers.get(0).getTotalResults());
-	List<test.com.google.resting.vo.Entry> entries=headers.get(0).getEntries();
-	//System.out.println(entries.get(0).getField().getText());
+	}
 
-}
+	public void testPostTextFile(){
+		System.out.println("\ntestPostTextFile\n-----------------------------");
+		ServiceResponse response=Resting.post("http://localhost/testresting/rest/hello/post/file", 8080, null, new File("C:\\misc\\cityList.txt"), EncodingTypes.UTF8, null, ContentType.TEXT_PLAIN);
+		System.out.println(response.getResponseString());
 
-public void testPostTextFile(){
-	System.out.println("\ntestPostTextFile\n-----------------------------");
-	ServiceResponse response=Resting.post("http://localhost/testresting/rest/hello/post/file", 8080, null, new File("C:\\ssbtfeed.txt"), EncodingTypes.UTF8, null, ContentType.TEXT_PLAIN);
-	System.out.println(response.getResponseString());
+	}
+	public void testPostImageFile(){
+		System.out.println("\ntestImageTextFile\n-----------------------------");
+		ServiceResponse response=Resting.post("http://localhost/testresting/rest/hello/post/imagefile", 8080, null, new File("C:\\misc\\Grills and Faces.PNG"), EncodingTypes.BINARY, null, ContentType.IMAGE_JPEG);
+		System.out.println(response.getResponseLength());
+
+	}	
 	
-}
-public void testPostImageFile(){
-	System.out.println("\ntestImageTextFile\n-----------------------------");
-	ServiceResponse response=Resting.post("http://localhost/testresting/rest/hello/post/imagefile", 8080, null, new File("C:\\window_lights.jpg"), EncodingTypes.BINARY, null, ContentType.IMAGE_JPEG);
-	System.out.println(response.getResponseLength());
-	
-}	
+	public void testBuilder(){
+		System.out.println("\ntestBuilder\n-----------------------------");
+		RequestParams jsonParams = new JSONRequestParams();   
+		jsonParams.add("key", "fdb3c385a8d22d174cafeadc6d4c1405b08d5609"); 
+		jsonParams.add("facets", "[\"brandNameFacet\"]");
+		Alias alias=new JSONAlias("facets");
+		try {
+			RestingBuilder<Facets> builder=new RestingBuilder<Facets>("http://api.zappos.com/Search",Facets.class)
+																	.setAlias(alias)
+																	.setRequestParams(jsonParams);
+			List<Facets> facets=builder.build();
+			System.out.println("[RestingTest::testBuilderDefaults] The length of values in facets is "+facets.get(0).getValues().size());
+			assertNotNull(facets);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
 }

@@ -79,7 +79,6 @@ public final class RestingBuilder<T> {
 		this.verb=Verb.GET;
 		this.encoding=EncodingTypes.UTF8;
 		this.transformationType=TransformationType.JSON;
-		this.targetType=null;
 		this.additionalHeaders=null;
 		this.requestParams=null;
 		this.alias=null;
@@ -248,6 +247,18 @@ public final class RestingBuilder<T> {
 		httpContext.setProxy(proxyHost, proxyPort);
 		return this;
 	}//setProxy
+	
+	
+	/**
+	 * Sets the alias
+	 * 
+	 * @param alias
+	 * @return a reference to this {@code RestingBuilder} object to fulfill the "Builder" pattern
+	 */
+	public RestingBuilder setAlias(Alias alias){
+		this.alias=alias;
+		return this;
+	}//setAlias
 	
 	
 }//RestingBuilder

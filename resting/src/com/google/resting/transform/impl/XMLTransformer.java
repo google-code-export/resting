@@ -109,6 +109,15 @@ public class XMLTransformer<T> implements Transformer<T, ServiceResponse> {
 				xstream.alias(aliasEntry.getKey(), aliasEntry.getValue());
 			}
 		}
+		//Set attribute
+		Map<String, Class> attributeMap = xmlAlias.getAttributeMap();
+		Set<Entry<String, Class>> attributeSet=null;
+		if (attributeMap != null) {
+			attributeSet = attributeMap.entrySet();
+			for (Map.Entry<String, Class> attributeEntry : attributeSet) {
+				xstream.useAttributeFor(attributeEntry.getValue(),attributeEntry.getKey());
+			}
+		}
 		
 		//Set implicit collection
 		Map<String, Class> implicitAliasMap = xmlAlias.getImplicitCollectionMap();

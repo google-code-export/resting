@@ -11,11 +11,7 @@
 	<classpathentry kind="lib" path="resources"/>
 	<classpathentry kind="lib" path="lib/jdom.jar"/>
 	<classpathentry kind="lib" path="lib/commons-codec-1.6.jar"/>
-	<classpathentry kind="lib" path="lib/httpasyncclient-4.0-beta3.jar"/>
-	<classpathentry kind="lib" path="lib/httpasyncclient-cache-4.0-beta3.jar"/>
 	<classpathentry kind="lib" path="lib/httpclient-4.2.1.jar"/>
-	<classpathentry kind="lib" path="lib/httpclient-cache-4.2.1.jar"/>
 	<classpathentry kind="lib" path="lib/httpcore-4.2.2.jar"/>
-	<classpathentry kind="lib" path="lib/httpcore-nio-4.2.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

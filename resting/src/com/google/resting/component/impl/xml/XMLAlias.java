@@ -40,7 +40,7 @@ import com.thoughtworks.xstream.converters.SingleValueConverter;
  * @since resting 0.2
  *
  */
-public class XMLAlias<T> implements Alias{
+public class XMLAlias implements Alias{
 	
 	private Map<String,Class> aliasTypeMap=null;
 	private Map<String, Class> implicitCollectionMap=null;

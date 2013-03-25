@@ -91,8 +91,13 @@ public class JSONTransformer<T> implements Transformer<T, ServiceResponse> {
 				}
 				else {
 					dests=new ArrayList<T>(1);
-					entity=createEntity(((JSONObject)aliasedObject).toString(),targetType);
-					dests.add(entity);
+					try {
+						entity=createEntity(((JSONObject)aliasedObject).toString(),targetType);
+						dests.add(entity);
+					} catch (Exception e) {
+						entity=createEntity(responseString,targetType);
+						dests.add(entity);
+					}
 					return dests;
 				}
 			}

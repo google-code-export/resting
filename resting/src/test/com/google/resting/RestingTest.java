@@ -27,6 +27,7 @@ import org.apache.http.message.BasicHeader;
 import test.com.google.resting.vo.Assertion;
 import test.com.google.resting.vo.Concept;
 import test.com.google.resting.vo.Entry;
+import test.com.google.resting.vo.Err;
 import test.com.google.resting.vo.Facets;
 import test.com.google.resting.vo.GeoNames;
 import test.com.google.resting.vo.Product;
@@ -38,6 +39,7 @@ import test.com.google.resting.vo.Status;
 import test.com.google.resting.vo.StatusMessage;
 import test.com.google.resting.vo.StatusMessageConverter;
 
+import com.google.gson.Gson;
 import com.google.resting.Resting;
 import com.google.resting.RestingBuilder;
 import com.google.resting.atom.AtomFeed;
@@ -51,6 +53,8 @@ import com.google.resting.component.impl.ServiceResponse;
 import com.google.resting.component.impl.json.JSONAlias;
 import com.google.resting.component.impl.json.JSONRequestParams;
 import com.google.resting.component.impl.xml.XMLAlias;
+import com.google.resting.json.JSONException;
+import com.google.resting.json.JSONObject;
 import com.google.resting.transform.impl.JSONTransformer;
 import com.google.resting.transform.impl.XMLTransformer;
 import com.google.resting.util.ReflectionUtil;
@@ -400,6 +404,19 @@ public class RestingTest extends TestCase {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+	}
+	
+	public void testNullAlias(){
+		String json="{\"err\":{\"err\":\"824\"}}";
+		JSONTransformer<Err> t=new JSONTransformer<Err>();
+		List<Err>err=t.getEntityList(json, Err.class, new JSONAlias("err"));
+		
+		System.out.println(err);
+
+		String json2="{\"err\":\"824\"}";
+		List<Err>err2=t.getEntityList(json, Err.class, new JSONAlias("err"));
+		System.out.println(err2);
 		
 	}
 }

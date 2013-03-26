@@ -419,4 +419,11 @@ public class RestingTest extends TestCase {
 		List<Err>errs=Resting.getByJSON("http://localhost/testresting/rest/hello/get/noalias", 8080, null, Err.class,"err");
 		System.out.println(errs.get(0));
 	}
+	
+	public void testNullAlias(){
+		System.out.println("\ntestNullAlias\n-----------------------------");
+		//System.out.println(Resting.get("http://localhost/testresting/rest/hello/get/noalias", 8080));
+		List<Err>errs=Resting.getByJSON("http://localhost/testresting/rest/hello/get/noalias", 8080, null, Err.class,null);
+		System.out.println(errs.get(0));
+	}
 }

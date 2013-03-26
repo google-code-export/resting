@@ -59,15 +59,32 @@ public class JSONTransformer<T> implements Transformer<T, ServiceResponse> {
 	public List<T> getEntityList(String responseString, Class<T> targetType, Alias alias){
 		List<T> dests=null;
 		String singleAlias=null;
+		T entity=null;
+
+		//The alias here should be a JSONAlias 
 		if (alias instanceof JSONAlias)
 			//Eliminating the possibility of ClassCastException by checking the type beforehand
 			singleAlias=((JSONAlias)alias).getSingleAlias();
 		else
-			return null;
+			return null; //Does not handle other types of alias within the context of JSONTransformer
+		
+		if(singleAlias==null){
+			//There is a possibility that the raw string is alias-less and needs to be parsed as it is
+			try{
+				dests=new ArrayList<T>(1);
+				entity=createEntity(responseString,targetType);
+				dests.add(entity);
+				return dests;
+				
+			}catch(Exception e){
+				e.printStackTrace();
+				return null;
+			}
+		}
+		
 		JSONObject responseObject=null;
 		JSONArray responseArray=null;
-		JSONObject jsonObject=null;
-		T entity=null;
+		JSONObject jsonObject=null;	
 		Object aliasedObject=null;
 		int arrayLength=0;
 		try {
@@ -90,15 +107,22 @@ public class JSONTransformer<T> implements Transformer<T, ServiceResponse> {
 					return dests;
 				}
 				else {
-					//Single entity
+					//Single entity 
 					dests=new ArrayList<T>(1);
 					try {
+						//Entity is a JSONObject
 						entity=createEntity(((JSONObject)aliasedObject).toString(),targetType);
 						dests.add(entity);
 					} catch (Exception e) {
+						//Entity is not a JSONObject.
 						//For any issue in converting single entity, take the raw string
-						entity=createEntity(responseString,targetType);
-						dests.add(entity);
+						try {
+							entity=createEntity(responseString,targetType);
+							dests.add(entity);
+						} catch (Exception e1) {
+							e1.printStackTrace();
+							return null;
+						}
 					}
 					return dests;
 				}
@@ -107,9 +131,14 @@ public class JSONTransformer<T> implements Transformer<T, ServiceResponse> {
 				return null;
 		} catch (JSONException e) {
 			//If the response can not be converted into a JSONObject, take the raw string
-			dests=new ArrayList<T>(1);
-			entity=createEntity(responseString,targetType);
-			dests.add(entity);
+			try {
+				dests=new ArrayList<T>(1);
+				entity=createEntity(responseString,targetType);
+				dests.add(entity);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+				return null;
+			}
 		}
 		
 		return dests;

@@ -212,20 +212,10 @@ public class RestingTest extends TestCase {
 		assertEquals(200, response.getStatusCode());
 
 	}	
+	
 
 	public void testAddCustomConverter(){
 		System.out.println("\ntestAddCustomConverter\n-----------------------------");				
-		XMLAlias alias=new XMLAlias().add("message", StatusMessage.class);
-		alias.addConverter(new StatusMessageConverter());
-		String entireResponseString= Resting.get("http://172.16.21.134/Mediator18042011/ssbt/api/collections?method=create&name=013Collection&output=xml&api_username=esadmin&api_password=Ssbt123", 8088).getResponseString();
-		System.out.println("entireResponseString : "+entireResponseString);
-		StatusMessage message=Resting.getByXML("http://172.16.21.134/Mediator18042011/ssbt/api/collections?method=create&name=014Collection&output=xml&api_username=esadmin&api_password=Ssbt123", 8088,null,StatusMessage.class, alias);	
-		System.out.println(message.toString());
-
-	}	
-
-	public void testLocal3(){
-		System.out.println("\ntestLocal3\n-----------------------------");				
 		String xml="<?xml version=\"1.0\" encoding=\"utf-8\"?><message>FFQW0141I Collection 005Collection was created successfully.</message>";
 		XStream xstream=new XStream(new DomDriver());
 		xstream.registerConverter(new StatusMessageConverter());
@@ -236,7 +226,7 @@ public class RestingTest extends TestCase {
 
 	public void testLongAndShortenedXML(){
 		try {
-			System.out.println("\ntestShortenedXML\n-----------------------------");
+			System.out.println("\ntestLongAndShortenedXML\n-----------------------------");
 			String longxml="<geonames><status><message>the deaily limit of 30000 credits for demo has been exceeded.</message><value> 18 </value></status></geonames>";
 			XStream xstream=new XStream(new DomDriver());
 			xstream.alias("geonames", GeoNames.class);
@@ -258,6 +248,7 @@ public class RestingTest extends TestCase {
 	}
 
 	public void testUseAttributeInXML(){
+		System.out.println("\ntestUseAttributeInXML\n-----------------------------");
 		XMLAlias alias=new XMLAlias().add("geonames", GeoNames.class).add("status", Status.class).addAttribute("message", Status.class).addAttribute("value", Status.class);
 		GeoNames geonames=Resting.getByXML("http://localhost/testresting/rest/hello/get/shortxml", 8080, null, GeoNames.class, alias);
 		System.out.println(geonames);
@@ -302,7 +293,7 @@ public class RestingTest extends TestCase {
 	}
 
 	public void testRestByATOM() {
-		System.out.println("\ntestGetByATOM\n-----------------------------");
+		System.out.println("\ntestRestByATOM\n-----------------------------");
 		try {
 			List<AtomFeed> l = Resting.restByATOM(
 					"http://books.google.com/books/feeds/volumes?q=php", 80, null,
@@ -366,6 +357,7 @@ public class RestingTest extends TestCase {
 	}
 
 	public void testLocal5(){
+		System.out.println("\ntestLocal5\n-----------------------------");
 		ServiceResponse serviceResponse=Resting.get("http://172.16.18.83/api/v10/search?collection=246246&query=site&start=0&results=25&output=application/json", 8394,null, EncodingTypes.UTF8, null);
 		JSONTransformer<test.com.google.resting.vo.Header> transformer=new JSONTransformer<test.com.google.resting.vo.Header>();		
 		List<test.com.google.resting.vo.Header> headers=transformer.getEntityList(serviceResponse, test.com.google.resting.vo.Header.class, new JSONAlias("es:apiResponse"));
@@ -407,7 +399,8 @@ public class RestingTest extends TestCase {
 		
 	}
 	
-	public void testNullAlias(){
+	public void testNoAliasWithJSONTransformer(){
+		System.out.println("\ntestNoAliasWithJSONTransformer\n-----------------------------");
 		String json="{\"err\":{\"err\":\"824\"}}";
 		JSONTransformer<Err> t=new JSONTransformer<Err>();
 		List<Err>err=t.getEntityList(json, Err.class, new JSONAlias("err"));
@@ -418,5 +411,12 @@ public class RestingTest extends TestCase {
 		List<Err>err2=t.getEntityList(json, Err.class, new JSONAlias("err"));
 		System.out.println(err2);
 		
+	}
+	
+	public void testNoAlias(){
+		System.out.println("\ntestNoAlias\n-----------------------------");
+		//System.out.println(Resting.get("http://localhost/testresting/rest/hello/get/noalias", 8080));
+		List<Err>errs=Resting.getByJSON("http://localhost/testresting/rest/hello/get/noalias", 8080, null, Err.class,"err");
+		System.out.println(errs.get(0));
 	}
 }

@@ -90,11 +90,13 @@ public class JSONTransformer<T> implements Transformer<T, ServiceResponse> {
 					return dests;
 				}
 				else {
+					//Single entity
 					dests=new ArrayList<T>(1);
 					try {
 						entity=createEntity(((JSONObject)aliasedObject).toString(),targetType);
 						dests.add(entity);
 					} catch (Exception e) {
+						//For any issue in converting single entity, take the raw string
 						entity=createEntity(responseString,targetType);
 						dests.add(entity);
 					}
@@ -104,7 +106,10 @@ public class JSONTransformer<T> implements Transformer<T, ServiceResponse> {
 			else 
 				return null;
 		} catch (JSONException e) {
-			e.printStackTrace();
+			//If the response can not be converted into a JSONObject, take the raw string
+			dests=new ArrayList<T>(1);
+			entity=createEntity(responseString,targetType);
+			dests.add(entity);
 		}
 		
 		return dests;

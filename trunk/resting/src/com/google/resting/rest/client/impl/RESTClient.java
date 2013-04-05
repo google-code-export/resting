@@ -14,30 +14,21 @@
  * limitations under the License.
  */
 
-package com.google.resting.rest.client;
+package com.google.resting.rest.client.impl;
 
-import java.util.List;
-
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
 import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.HttpParams;
 
 import com.google.resting.component.EncodingTypes;
 import com.google.resting.component.ServiceContext;
-import com.google.resting.component.Verb;
 import com.google.resting.component.impl.ServiceResponse;
 import com.google.resting.rest.CustomSSLSocketFactory;
+import com.google.resting.rest.client.BaseRESTClient;
 import com.google.resting.rest.util.oauth.RequestConstants;
 
 
@@ -48,7 +39,7 @@ import com.google.resting.rest.util.oauth.RequestConstants;
  * @since resting 0.1
  */
 
-public class RESTClient {
+public class RESTClient extends BaseRESTClient{
 	
 	/**
 	 * Executes REST request for HTTP
@@ -108,51 +99,6 @@ public class RESTClient {
 		return serviceResponse;
 	}// invoke
 	
-	private static HttpRequest buildHttpRequest(ServiceContext serviceContext) {
-		
-		String path=serviceContext.getPath();
-		Verb verb=serviceContext.getVerb();
-		HttpEntity httpEntity=serviceContext.getHttpEntity();
-		List<Header> headers=serviceContext.getHeaders();
-		
-		if (verb == Verb.GET) {
-			HttpGet httpGet = new HttpGet(path);
-			 if(headers!=null){
-				 for(Header header:headers)
-					 httpGet.addHeader(header);
-			 }
-			return httpGet;
-			
-		} else if (verb == Verb.POST) {
-			HttpPost httpPost = new HttpPost(path);
-			 if (headers != null) {
-				for (Header header : headers)
-					httpPost.addHeader(header);
-			}
-			if(httpEntity!=null)
-				httpPost.setEntity(httpEntity);
-			return httpPost;
-
-		} else if (verb == Verb.DELETE) {
-			HttpDelete httpDelete = new HttpDelete(path);
-			 if (headers != null) {
-				for (Header header : headers)
-					httpDelete.addHeader(header);
-			}
-			return httpDelete;
-
-		} else {
-			HttpPut httpPut = new HttpPut(path);
-			 if (headers != null) {
-				for (Header header : headers)
-					httpPut.addHeader(header);
-			}
-			if(httpEntity!=null)
-				httpPut.setEntity(httpEntity);
-			return httpPut;
-		}//if
-	}//buildHttpRequest
-
 
 	/**
 	 * Executes secure SSL request using HTTPS
@@ -191,18 +137,4 @@ public class RESTClient {
 
 	}	//secureInvoke
 	
-	private static DefaultHttpClient buildHttpClient(ServiceContext serviceContext) {
-		DefaultHttpClient httpClient =null;
-		HttpParams httpParams=null;
-		HttpContext httpContext=serviceContext.getHttpContext();
-		if(httpContext!=null)
-				httpParams=httpContext.getHttpParams();
-		if(httpParams!=null)
-			httpClient = new DefaultHttpClient(httpParams);
-		else
-			httpClient=new DefaultHttpClient();
-		
-		return httpClient;
-	}//buildHttpClient
-
 }//RESTClient

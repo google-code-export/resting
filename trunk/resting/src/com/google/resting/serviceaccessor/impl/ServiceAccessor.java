@@ -30,7 +30,7 @@ import org.apache.http.NameValuePair;
 import com.google.resting.component.ServiceContext;
 import com.google.resting.component.Verb;
 import com.google.resting.component.impl.ServiceResponse;
-import com.google.resting.rest.client.RESTClient;
+import com.google.resting.rest.client.impl.RESTClient;
 import com.google.resting.serviceaccessor.Accessor;
 
 /**

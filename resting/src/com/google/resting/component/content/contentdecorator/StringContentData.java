@@ -34,8 +34,11 @@ public class StringContentData implements IContentData {
 
 	public StringContentData(byte[] bytes, EncodingTypes charset) {
 		try {
-			this.contentLength=bytes.length;
-			this.content=new String(bytes,charset.getName());
+			this.contentLength=bytes.length; 
+			if(charset!=null)
+				this.content=new String(bytes,charset.getName());
+			else 
+				this.content=new String(bytes);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}

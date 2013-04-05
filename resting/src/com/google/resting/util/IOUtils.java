@@ -233,14 +233,18 @@ public class IOUtils {
     	fastChannelCopy(inputChannel, outputChannel);
     	try {
 				outputBytes=baos.toByteArray();
-				switch(charset){
+				if(charset!=null){
+					switch(charset){
 					case BINARY:
-					      		output=new ByteContentData(outputBytes);
-					      		break;
+						output=new ByteContentData(outputBytes);
+						break;
 					default: 
-				      			output=new StringContentData(outputBytes,charset);
-				      			break;
-				}
+						output=new StringContentData(outputBytes,charset);
+						break;
+					}
+				}else{
+					output=new StringContentData(outputBytes,charset);
+				}//if null
 			
 		}  catch(Exception e){
 			e.printStackTrace();

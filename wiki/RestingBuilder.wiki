@@ -1,4 +1,4 @@
-#summary An one minute tutorial on {{{RestingBuilder}}}
+#summary An one minute tutorial on RestingBuilder
 
 = Introduction =
 
@@ -23,4 +23,3 @@ encodingType=EncodingTypes.UTF8
 transformationType=TransformationType.JSON
 }}}
 Only when non-default parameters are used, they will have to be explicitly set in the builder.
-

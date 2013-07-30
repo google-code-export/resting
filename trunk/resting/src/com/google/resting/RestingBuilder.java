@@ -67,12 +67,12 @@ import com.google.resting.transform.TransformationType;
  * </p>
  * <p>NOTE: The default parameters for {@code RestingBuilder} are: 
  * 
- * <li>
+ * <pre>
  *      {@code Verb}= Verb.GET
  *      Port= 80
  *      {@code TransformationType}= TransformationType.JSON
  *      {@code EncodingTypes}= EncodingTypes.UTF8
- * </li>
+ * </pre>
  * 
  * Non-default parameters will have to be set explicitly.
  * 

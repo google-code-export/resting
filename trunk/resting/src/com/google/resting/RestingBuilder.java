@@ -38,15 +38,45 @@ import com.google.resting.transform.TransformationType;
  * 
  * <p>The following is an example shows how to use the {@code RestingBuilder}:
  * <pre>
+ * <code>
  * List<Product> entities = new RestingBuilder("http://http://local.myapis.com/HellosService/V1/productInput",Product.class)
  *     .setPort(8080)
  *     .setVerb(Verb.POST)
  *     .setTransformationType(TransformationType.XML)
  *     .setConnectionTimeout(3000)
  *     .build();
- * </pre></p>
- *
- * <p>NOTE: the order of invocation of configuration methods does not matter.</p>
+ * </code>
+ * </pre> 
+ * </p>
+ * 
+ * <p>{@code RestingBuilder} can be used to enable proxy and basic authentication:
+ * <pre>
+ * <code>
+ * List<Product> entities = new RestingBuilder("http://http://local.myapis.com/HellosService/V1/productInput",Product.class)
+ *     .setProxy("proxyhost", proxyport, "proxyuser","proxypassword")
+ *     .build();
+ * </code>
+ * </pre> 
+ * <pre>
+ * <code>
+ * List<Product> entities = new RestingBuilder("http://http://local.myapis.com/HellosService/V1/productInput",Product.class)
+ *     .enableBasicAuthentication("user","password")
+ *     .build();
+ * </code>
+ * </pre> 
+ * </p>
+ * <p>NOTE: The default parameters for {@code RestingBuilder} are: 
+ * 
+ * <li>
+ *      {@code Verb}= Verb.GET
+ *      Port= 80
+ *      {@code TransformationType}= TransformationType.JSON
+ *      {@code EncodingTypes}= EncodingTypes.UTF8
+ * </li>
+ * 
+ * Non-default parameters will have to be set explicitly.
+ * 
+ * <p>NOTE: The order of invocation of configuration methods does not matter.</p>
  * 
  * @author sujata.de
  * @since resting 0.7

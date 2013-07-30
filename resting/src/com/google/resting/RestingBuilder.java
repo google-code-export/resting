@@ -248,6 +248,20 @@ public final class RestingBuilder<T> {
 		return this;
 	}//setProxy
 	
+	/**
+	 * Enables proxy based invocation
+	 * 
+	 * @param proxyHost
+	 * @param proxyPort
+	 * @param proxyUser Proxy user
+	 * @params proxyPassword Proxy password
+	 * @return a reference to this {@code RestingBuilder} object to fulfill the "Builder" pattern
+	 */
+	public RestingBuilder setProxy(String proxyHost, int proxyPort, String proxyUser, String proxyPassword){
+		httpContext.setProxy(proxyHost, proxyPort, proxyUser, proxyPassword);
+		return this;
+	}//setProxy
+	
 	
 	/**
 	 * Sets the alias

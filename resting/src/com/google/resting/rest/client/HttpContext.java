@@ -68,11 +68,11 @@ public class HttpContext {
 		httpParams.setParameter("http.authentication.preemptive", preemptiveAuthentication);
 		return this;
 	}//setPreemptiveAuthentication
-
-	public HttpContext setCredentials(String user, String password) {
-		this.credentials = new UsernamePasswordCredentials(user,password);
+	
+	public HttpContext setAuthScope(String host, int port) {
+		authScope = new AuthScope(host,port);
 		return this;
-	}//setCredentials
+	}//setAuthScope
 
 	public HttpContext setAuthScope(String host, int port, String realm) {
 		authScope = new AuthScope(host,port,realm);
@@ -83,9 +83,19 @@ public class HttpContext {
 		this.authScope=authScope;
 		return this;
 	}//setAuthScope
+
+	public HttpContext setCredentials(String user, String password) {
+		this.credentials = new UsernamePasswordCredentials(user,password);
+		return this;
+	}//setCredentials	
 	
 	public HttpContext setProxy(String proxyHost, int proxyPort){
 		httpParams.setParameter(ConnRoutePNames.DEFAULT_PROXY, new HttpHost(proxyHost,proxyPort));
+		return this;
+	}//setProxy
+	
+	public HttpContext setProxy(String proxyHost, int proxyPort, String user, String password){
+		this.setCredentials(user, password).setProxy(proxyHost, proxyPort);
 		return this;
 	}//setProxy
 

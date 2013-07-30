@@ -399,6 +399,26 @@ public class RestingTest extends TestCase {
 		
 	}
 	
+	public void testBuilderWithProxy(){
+		System.out.println("\ntestBuilder\n-----------------------------");
+		RequestParams jsonParams = new JSONRequestParams();   
+		jsonParams.add("key", "fdb3c385a8d22d174cafeadc6d4c1405b08d5609"); 
+		jsonParams.add("facets", "[\"brandNameFacet\"]");
+		Alias alias=new JSONAlias("facets");
+		try {
+			RestingBuilder<Facets> builder=new RestingBuilder<Facets>("http://api.zappos.com/Search",Facets.class)
+																	.setAlias(alias)
+																	.setRequestParams(jsonParams)
+																	.setProxy("proxy.abcd.ac.in", 3128,"user","password");
+			List<Facets> facets=builder.build();
+			System.out.println("[RestingTest::testBuilderDefaults] The length of values in facets is "+facets.get(0).getValues().size());
+			assertNotNull(facets);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 	public void testNoAliasWithJSONTransformer(){
 		System.out.println("\ntestNoAliasWithJSONTransformer\n-----------------------------");
 		String json="{\"err\":{\"err\":\"824\"}}";

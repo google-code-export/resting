@@ -21,6 +21,8 @@ import java.util.List;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpRequest;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.Credentials;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -91,12 +93,18 @@ public abstract class BaseRESTClient {
 		DefaultHttpClient httpClient =null;
 		HttpParams httpParams=null;
 		HttpContext httpContext=serviceContext.getHttpContext();
-		if(httpContext!=null)
+		Credentials credentials=null;
+		if(httpContext!=null){
 				httpParams=httpContext.getHttpParams();
+				credentials=httpContext.getCredentials();
+		}
 		if(httpParams!=null)
 			httpClient = new DefaultHttpClient(httpParams);
 		else
 			httpClient=new DefaultHttpClient();
+		
+		if(credentials!=null)
+			httpClient.getCredentialsProvider().setCredentials(AuthScope.ANY, credentials);
 		
 		return httpClient;
 	}//buildHttpClient

@@ -109,3 +109,28 @@ public class Result {
  private String Country;
 }
 }}}
+
+== Recommended Approach: Use {{{RestingBuilder}}} for All Transformations:==
+
+{{{RestingBuilder}}} gives you a lot of flexibility and yields minimalistic clean code. 
+
+{{{
+RestingBuilder<Product> builder=new RestingBuilder<Product>("http://api.zappos.com/Product/7564933",Product.class)
+									.setRequestParams(jsonParams)
+									.setProxy("proxy.abcd.ac.in", 3128,"user","password");
+
+List<Product> products=builder.build();
+}}}
+Using {{{RestingBuilder}}}, coding is minimal. {{{RestingBuilder}}} assumes a lot of default parameters, such as,
+{{{
+Request type = GET
+Port=80
+Encoding type=UTF 8
+Response format = JSON
+}}}
+Only when non-default parameters are used, they will have to be explicitly set in the builder.
+
+
+
+
+

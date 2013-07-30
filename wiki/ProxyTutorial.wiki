@@ -1,8 +1,8 @@
 #summary One minute tutorial on handling proxy
 
-= Introduction =
+=== Using proxy in resting ===
 
-From release 0.8 onwards, you can handle proxy authentication in using {{{RestingBuilder}}}. 
+From release 0.8 onwards, you can handle proxy by using {{{RestingBuilder}}}. 
 
 
 ==== Sample code for handling proxy ====

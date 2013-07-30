@@ -109,20 +109,4 @@ public abstract class BaseRESTClient {
 		return httpClient;
 	}//buildHttpClient
 	
-/*	protected static HttpAsyncClient buildHttpAsyncClient(ServiceContext serviceContext) {
-		DefaultHttpAsyncClient httpClient =null;
-		HttpParams httpParams=null;
-		HttpContext httpContext=serviceContext.getHttpContext();
-		if(httpContext!=null)
-				httpParams=httpContext.getHttpParams();
-		try {
-			httpClient =new DefaultHttpAsyncClient();
-			if(httpParams!=null)
-				httpClient.setDefaultHttpParams(httpParams);
-		} catch (IOReactorException e) {
-			e.printStackTrace();
-		}
-		return httpClient;
-	}//buildHttpAsyncClient
-*/
 }//BaseRESTClient

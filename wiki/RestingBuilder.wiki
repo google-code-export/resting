@@ -8,7 +8,7 @@
 = Sample Code=
 
 {{{
-  List<Product> entities = new RestingBuilder("http://local.myapis.com/HellosService/V1/productInput",Product.class)
+  List<Product> products = new RestingBuilder("http://local.myapis.com/HellosService/V1/productInput",Product.class)
       .setPort(8080)
       .setVerb(Verb.POST)
       .setTransformationType(TransformationType.XML)

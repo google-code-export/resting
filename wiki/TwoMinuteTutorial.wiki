@@ -7,15 +7,14 @@ This is a very quick tutorial to demonstrate how easy it is to use resting.
 
 Suppose  your REST URI is a weather service by Yahoo: http://local.yahooapis.com/MapsService/V1/geocode?appid=YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--&state=CA. You wish to execute a GET request to get the weather details of your location.
 
-The resting code can be used in these three ways: 
  
-====Option 1 (Simplest): Pass the entire URI and read the HTTP response as a String====
+====Option 1 (Simplest) : Pass the entire URI and read the HTTP response as a String====
 {{{
 ServiceResponse response=Resting.get("http://local.yahooapis.com/MapsService/V1/geocode?appid=YD-9G7bey8_JXxQP6rxl.fBFGgCdNjoDMACQA--&state=CA",80);
 
 System.out.println(response); //Print the response.
 }}}
-====Option 2 (Recommended for JSON/complex encoding issue): Pass a {{{RequestParams}}} object along withe base URI====
+====Option 2 : Pass a {{{RequestParams}}} object along withe base URI (Recommended for JSON/complex encoding issue)====
 
 {{{RequestParams}}} is the collection of data in(key=value) format. 
 Pass it along with the base URI (http://.././ path).
@@ -31,8 +30,8 @@ ServiceResponse response=Resting.get("http://local.yahooapis.com/MapsService/V1/
 
 System.out.println(response); //Print the response.
 }}}
-====Option 3: Create your custom JAVA objects from HTTP response.====
-This can be done in two ways. 
+=== Create your custom JAVA objects from HTTP response.===
+
 =====A. Transform JSON response:===== 
 Suppose your JSON response is of the format given below. 
 {{{ 
@@ -129,8 +128,6 @@ Encoding type=UTF 8
 Response format = JSON
 }}}
 Only when non-default parameters are used, they will have to be explicitly set in the builder.
-
-
 
 
 

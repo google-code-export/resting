@@ -43,7 +43,8 @@ import com.google.resting.transform.TransformationType;
 
 
 /**
- * This is the main class for using resting. 
+ * This is the main class for using resting. {@code Resting} exposes APIs for invoking REST services and transforming the response into value objects in one step.
+ * {@code Resting} assumes many default configurations. For non-default configuration options and advanced operations, use {@code RestingBuilder}.
  * 
  *<p> Here is an example of how Resting can be used for a simple class: </p>
  *
@@ -70,7 +71,7 @@ import com.google.resting.transform.TransformationType;
  * </code>
  *</pre>
  *</p>
- *<p> Option 3: Create your custom JAVA objects from REST response. This can be done in two ways. 
+ *<p> Option 3: Create your custom JAVA objects from REST response. This can be done in multiple ways depending on your response type. 
  *
  *<p> A. For JSON response: 
  *
@@ -109,7 +110,22 @@ import com.google.resting.transform.TransformationType;
  *</code>
  *</pre>
  *</p>
+ *<p> C. For YAML response:
  *
+ *<pre>
+ *<code>
+ * List<Concept> entities = Resting.restByYAML("http://openmind.media.mit.edu/api/en/concept/duck/query.yaml",80, null, Verb.GET, Concept.class, EncodingTypes.UTF8, null);
+ *</code>
+ *</pre>
+ *</p>
+ *<p> D. For ATOM response:
+ *
+ *<pre>
+ *<code>
+ * List<AtomFeed> l = Resting.restByATOM("http://books.google.com/books/feeds/volumes?q=php", 80, null,Verb.GET, AtomFeed.class,new XMLAlias(),EncodingTypes.UTF8 , null);
+ *</code>
+ *</pre>
+ *</p>
  *For more examples, please refer the upcoming Examples section.
  *For more advanced operations, use RestingBuilder.java
  * 
@@ -205,7 +221,41 @@ public final class Resting {
 	
 	public final static ServiceResponse get(String baseURI, RequestParams requestParams, EncodingTypes encoding, List<Header> additionalHeaders, int timeout){
 		return GetHelper.get(baseURI, 80,requestParams,encoding, additionalHeaders,new HttpContext().setTimeout(timeout));
-	}//get	
+	}//get
+	/**
+	 * Executes HTTP/HTTPS GET request and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
+	 * as the response headers and the HTTP status code
+	 * 
+	 * @param uri URI of the REST endpoint. 
+	 * @param port Port of the REST endpoint.
+	 * @param requestParams {@link RequestParams} object containing collection of parameters in key/ value pair for REST request
+	 * @param encoding Message encoding in response
+	 * @param inputHeaders Additional response headers, as required by the client. 
+	 * @param proxyHost Host of the proxy server
+	 * @param proxyPort Port of the proxy server
+	 * @param proxyUser Proxy username. Default is null.
+	 * @param proxyPassword. Proxy password. Default is null.
+	 * @return {@link ServiceResponse} object containing the entire REST response as a String, the HTTP status code and the response headers.
+	 */
+	
+	public final static ServiceResponse get(String uri, int port, RequestParams requestParams, EncodingTypes encoding, List<Header> additionalHeaders,  String proxyHost, int proxyPort, String proxyUser, String proxyPassword){
+		return GetHelper.get(uri, port,requestParams,encoding, additionalHeaders,new HttpContext().setProxy(proxyHost, proxyPort, proxyUser, proxyPassword));
+	}//get
+	/**
+	 * Executes HTTP/HTTPS GET request and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
+	 * as the response headers and the HTTP status code
+	 * 
+	 * @param baseURI Base URI of the REST endpoint. Port is 80.
+	 * @param requestParams {@link RequestParams} object containing collection of parameters in key/ value pair for REST request
+	 * @param encoding Message encoding in response
+	 * @param inputHeaders Additional response headers, as required by the client. 
+	 * @param httpContext {@code HttpContext} object containing HTTP parameters. To be used to set connection timeout, proxy,  authentication etc.
+	 * @return {@link ServiceResponse} object containing the entire REST response as a String, the HTTP status code and the response headers.
+	 */
+	
+	public final static ServiceResponse get(String uri, int port, RequestParams requestParams, EncodingTypes encoding, List<Header> additionalHeaders, HttpContext httpContext){
+		return GetHelper.get(uri, port,requestParams,encoding, additionalHeaders,httpContext);
+	}//get
 	/**
 	 * Executes HTTP/HTTPS POST request for a POST request with no content in the message body and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
 	 * as the response headers and the HTTP status code
@@ -266,7 +316,45 @@ public final class Resting {
 	public final static ServiceResponse post(String baseURI, int port, RequestParams requestParams, String messageToPost, EncodingTypes messageEncoding,List<Header> acceptHeaders, ContentType messageContentType){
 		return PostHelper.post(messageToPost, messageEncoding, baseURI, port,requestParams,acceptHeaders,messageContentType,null);
 	}//post	
-    
+	/**
+	 * Executes HTTP/HTTPS POST request with message String in the message body and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
+	 * as the response headers and the HTTP status code. This is the most commonly used form of POST method invocation.  
+	 * 
+	 * @param baseURI Base URI of the REST endpoint
+	 * @param port Port of the REST endpoint
+	 * @param messageToPost String to be posted 
+	 * @param requestParams {@link RequestParams} object containing collection of parameters in key/ value pair for REST request
+	 * @param acceptHeaders Additional response headers, as required by the client. 
+	 * @param messageContentType ContentType of the message String. The default is "text/plain".
+	 * @param proxyHost Host of the proxy server
+	 * @param proxyPort Port of the proxy server
+	 * @param proxyUser Proxy username. Default is null.
+	 * @param proxyPassword. Proxy password. Default is null.
+	 * 
+	 * @return {@link ServiceResponse} object containing the entire REST response as a String, the HTTP status code and the response headers.
+	 */
+	
+	public final static ServiceResponse post(String baseURI, int port, RequestParams requestParams, String messageToPost, EncodingTypes messageEncoding,List<Header> acceptHeaders, ContentType messageContentType,String proxyHost, int proxyPort, String proxyUser, String proxyPassword){
+		return PostHelper.post(messageToPost, messageEncoding, baseURI, port,requestParams,acceptHeaders,messageContentType,new HttpContext().setProxy(proxyHost, proxyPort, proxyUser, proxyPassword));
+	}//post	  
+	/**
+	 * Executes HTTP/HTTPS POST request with message String in the message body and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
+	 * as the response headers and the HTTP status code. This is the most commonly used form of POST method invocation.  
+	 * 
+	 * @param baseURI Base URI of the REST endpoint
+	 * @param port Port of the REST endpoint
+	 * @param messageToPost String to be posted 
+	 * @param requestParams {@link RequestParams} object containing collection of parameters in key/ value pair for REST request
+	 * @param acceptHeaders Additional response headers, as required by the client. 
+	 * @param messageContentType ContentType of the message String. The default is "text/plain".
+	 * @param httpContext {@code HttpContext} object containing HTTP parameters. To be used to set connection timeout, proxy,  authentication etc.
+	 * 
+	 * @return {@link ServiceResponse} object containing the entire REST response as a String, the HTTP status code and the response headers.
+	 */
+	
+	public final static ServiceResponse post(String baseURI, int port, RequestParams requestParams, String messageToPost, EncodingTypes messageEncoding,List<Header> acceptHeaders, ContentType messageContentType,HttpContext httpContext){
+		return PostHelper.post(messageToPost, messageEncoding, baseURI, port,requestParams,acceptHeaders,messageContentType,httpContext);
+	}//post	 
 	/**
 	 * Executes HTTP/HTTPS POST request for file and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
 	 * as the response headers and the HTTP status code. This is the most commonly used form of POST method invocation.  
@@ -284,7 +372,61 @@ public final class Resting {
 	public final static ServiceResponse post(String baseURI, int port, RequestParams requestParams, File file, EncodingTypes fileEncoding,List<Header> additionalHeaders, ContentType fileContentType){
 		return PostHelper.post(baseURI, port, file, requestParams,fileEncoding, additionalHeaders, fileContentType,null);
 	}//post	
-	
+	/**
+	 * Executes HTTP/HTTPS POST request for file and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
+	 * as the response headers and the HTTP status code. This is the most commonly used form of POST method invocation.  
+
+	 * @param baseURI	Base URI of the REST endpoint
+	 * @param port	Port of the REST endpoint
+	 * @param requestParams	{@link RequestParams} object containing collection of parameters in key/ value pair for REST request
+	 * @param file	File to be posted
+	 * @param fileEncoding	EncodingType of the file
+	 * @param additionalHeaders	Additional response headers, as required by the client. 
+	 * @param fileContentType	Content type of the file
+ 	 * @param proxyHost Host of the proxy server
+	 * @param proxyPort Port of the proxy server
+	 * @param proxyUser Proxy username. Default is null.
+	 * @param proxyPassword. Proxy password. Default is null.
+	 * @return 
+	 */
+	/**
+	 * Executes HTTP/HTTPS POST request for file and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
+	 * as the response headers and the HTTP status code. This is the most commonly used form of POST method invocation.  
+
+	 * @param baseURI	Base URI of the REST endpoint
+	 * @param port	Port of the REST endpoint
+	 * @param requestParams	{@link RequestParams} object containing collection of parameters in key/ value pair for REST request
+	 * @param file	File to be posted
+	 * @param fileEncoding	EncodingType of the file
+	 * @param additionalHeaders	Additional response headers, as required by the client. 
+	 * @param fileContentType	Content type of the file
+	 * @param proxyHost Host of the proxy server
+	 * @param proxyPort Port of the proxy server
+	 * @param proxyUser Proxy username. Default is null.
+	 * @param proxyPassword. Proxy password. Default is null.
+	 * @return
+	 */
+		
+	public final static ServiceResponse post(String baseURI, int port, RequestParams requestParams, File file, EncodingTypes fileEncoding,List<Header> additionalHeaders, ContentType fileContentType,String proxyHost, int proxyPort, String proxyUser, String proxyPassword){
+		return PostHelper.post(baseURI, port, file, requestParams,fileEncoding, additionalHeaders, fileContentType,new HttpContext().setProxy(proxyHost, proxyPort, proxyUser, proxyPassword));
+	}//post	
+	/**
+	 * Executes HTTP/HTTPS POST request for file and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
+	 * as the response headers and the HTTP status code. This is the most commonly used form of POST method invocation.  
+
+	 * @param baseURI	Base URI of the REST endpoint
+	 * @param port	Port of the REST endpoint
+	 * @param requestParams	{@link RequestParams} object containing collection of parameters in key/ value pair for REST request
+	 * @param file	File to be posted
+	 * @param fileEncoding	EncodingType of the file
+	 * @param additionalHeaders	Additional response headers, as required by the client. 
+	 * @param fileContentType	Content type of the file
+	 * @param httpContext {@code HttpContext} object containing HTTP parameters. To be used to set connection timeout, proxy,  authentication etc.
+	 * @return
+	 */	
+	public final static ServiceResponse post(String baseURI, int port, RequestParams requestParams, File file, EncodingTypes fileEncoding,List<Header> additionalHeaders, ContentType fileContentType,HttpContext httpContext){
+		return PostHelper.post(baseURI, port, file, requestParams,fileEncoding, additionalHeaders, fileContentType,httpContext);
+	}//post
 	/**
 	 * Executes HTTP/HTTPS PUT request and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
 	 * as the response headers and the HTTP status code
@@ -311,7 +453,39 @@ public final class Resting {
 	public final static ServiceResponse put(String baseURI, int port, RequestParams requestParams){
 		return PutHelper.put(baseURI,UTF8,port, requestParams,null,null);
 	}//put
-	
+	/**
+	 * Executes HTTP/HTTPS PUT request and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
+	 * as the response headers and the HTTP status code
+	 * 
+	 * @param baseURI Base URI of the REST endpoint
+	 * @param port Port of the REST endpoint
+	 * @param requestParams {@link RequestParams} object containing collection of parameters in key/ value pair for REST request
+	 * @param proxyHost Host of the proxy server
+	 * @param proxyPort Port of the proxy server
+	 * @param proxyUser Proxy username. Default is null.
+	 * @param proxyPassword. Proxy password. Default is null.
+	 * 
+	 * @return {@link ServiceResponse} object containing the entire REST response as a String, the HTTP status code and the response headers.
+	 */
+	public final static ServiceResponse put(String baseURI, int port, RequestParams requestParams,String proxyHost, int proxyPort, String proxyUser, String proxyPassword){
+		return PutHelper.put(baseURI,UTF8,port, requestParams,null,new HttpContext().setProxy(proxyHost, proxyPort, proxyUser, proxyPassword));
+	}//put	
+	/**
+	 * Executes HTTP/HTTPS PUT request and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
+	 * as the response headers and the HTTP status code
+	 * 
+	 * @param baseURI Base URI of the REST endpoint
+	 * @param port Port of the REST endpoint
+	 * @param requestParams {@link RequestParams} object containing collection of parameters in key/ value pair for REST request
+	 * @param encoding Encoding type of response
+	 * @param additionalHeaders List of headers
+	 * @param httpContext HttpContext object containing http parameters
+	 * 
+	 * @return {@link ServiceResponse} object containing the entire REST response as a String, the HTTP status code and the response headers.
+	 */
+	public final static ServiceResponse put(String baseURI, int port, RequestParams requestParams,EncodingTypes encoding,List<Header> additionalHeaders, HttpContext httpContext){
+		return PutHelper.put(baseURI,encoding,port, requestParams,additionalHeaders,httpContext);
+	}//put	
 	/**
 	 * Executes HTTP/HTTPS DELETE request and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
 	 * as the response headers and the HTTP status code.
@@ -342,7 +516,43 @@ public final class Resting {
 	}//delete
 	
 	/**
+	 * Executes HTTP/HTTPS DELETE request and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
+	 * as the response headers and the HTTP status code.
+	 * 
+	 * @param baseURI Base URI of the REST endpoint
+	 * @param port Port of the REST endpoint
+	 * @param requestParams {@link RequestParams} object containing collection of parameters in key/ value pair for REST request
+	 * @param proxyHost Host of the proxy server
+	 * @param proxyPort Port of the proxy server
+	 * @param proxyUser Proxy username. Default is null.
+	 * @param proxyPassword. Proxy password. Default is null.
+	 * 
+	 * @return {@link ServiceResponse} object containing the entire REST response as a String, the HTTP status code and the response headers.
+	 */
+	
+	public final static ServiceResponse delete(String baseURI, int port, RequestParams requestParams,String proxyHost, int proxyPort, String proxyUser, String proxyPassword){
+		return DeleteHelper.delete(baseURI, port, requestParams,UTF8,new HttpContext().setProxy(proxyHost, proxyPort, proxyUser, proxyPassword));
+	}//delete	
+	/**
+	 * Executes HTTP/HTTPS DELETE request and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
+	 * as the response headers and the HTTP status code.
+	 * 
+	 * @param baseURI Base URI of the REST endpoint
+	 * @param port Port of the REST endpoint
+	 * @param requestParams {@link RequestParams} object containing collection of parameters in key/ value pair for REST request
+	 * @param encoding Encoding type of response
+	 * @headers Additional headers
+	 * 
+	 * @return {@link ServiceResponse} object containing the entire REST response as a String, the HTTP status code and the response headers.
+	 */
+	
+	public final static ServiceResponse delete(String baseURI, int port, RequestParams requestParams,EncodingTypes encoding, List<Header> headers,HttpContext httpContext){
+		return DeleteHelper.delete(baseURI, port, requestParams,encoding,headers,httpContext);
+	}//delete
+	/**
 	 * Executes HTTP/HTTPS GET request and transforms the JSON response into list of target entity.
+	 * 
+	 * Note: To use advanced features like proxies and authentication, please use {@code RestingBuilder}
 	 * 
 	 * @param <T> Target entity type
 	 * @param url Base URI of the REST endpoint
@@ -361,6 +571,8 @@ public final class Resting {
 	
 	/**
 	 * Executes HTTP/HTTPS GET request and transforms the JSON response into list of target entity.
+	 * 
+	 * Note: To use advanced features like proxies and authentication, please use {@code RestingBuilder}
 	 * 
 	 * @param <T> Target entity type
 	 * @param url Base URI of the REST endpoint
@@ -381,6 +593,8 @@ public final class Resting {
 	/**
 	 * Executes HTTP/HTTPS GET request and transforms the JSON response into list of target entity.
 	 * 
+	 * Note: To use advanced features like proxies and authentication, please use {@code RestingBuilder}
+	 * 
 	 * @param <T> Target entity type
 	 * @param url Base URI of the REST endpoint
 	 * @param port Port of the REST endpoint
@@ -398,9 +612,12 @@ public final class Resting {
 	public final static <T> List<T> getByJSON(String baseURI, int port, RequestParams requestParams, Class<T> targetType, String alias, EncodingTypes encoding, List<Header> additionalHeaders, int connectionTimeout, int socketTimeout){
 		JSONAlias jsonAlias=new JSONAlias(alias);
 		return RestingHelper.executeAndTransform(baseURI, port,requestParams, Verb.GET, TransformationType.JSON, targetType, jsonAlias,encoding, additionalHeaders,new HttpContext().setTimeout(connectionTimeout,socketTimeout));
-	}//getByJSON	
+	}//getByJSON
+		
 	/**
 	 * Executes HTTP/HTTPS GET request and transforms the JSON response into list of target entity.
+	 * 
+	 * Note: To use advanced features like proxies and authentication, please use {@code RestingBuilder}
 	 * 
 	 * @param <T> Target entity type
 	 * @param url Base URI of the REST endpoint
@@ -422,6 +639,8 @@ public final class Resting {
 	/**
 	 * Executes HTTP/HTTPS GET request and transforms the JSON response into list of target entity.
 	 * 
+	 * Note: To use advanced features like proxies and authentication, please use {@code RestingBuilder}
+	 * 
 	 * @param <T> Target entity type
 	 * @param url Base URI of the REST endpoint
 	 * @param requestParams {@link RequestParams} object containing collection of parameters in key/ value pair for REST request
@@ -440,6 +659,8 @@ public final class Resting {
 	}//getByJSON		
 	/**
 	 * Executes HTTP/HTTPS REST request and transforms the JSON response into list of target entity.
+	 * 
+	 * Note: To use advanced features like proxies and authentication, please use {@code RestingBuilder}
 	 * 
 	 * @param <T> 
 	 * 			Target entity type
@@ -599,6 +820,8 @@ public final class Resting {
 	/**
 	 * Executes HTTP/HTTPS GET request and transforms the XML response into target entity.
 	 * 
+	 * Note: To use advanced features like proxies and authentication, please use {@code RestingBuilder}
+	 * 
 	 * @param <T> Root entity type of the XML
 	 * @param baseURI Base URI of the REST endpoint
 	 * @param port Port of the REST endpoint
@@ -614,7 +837,7 @@ public final class Resting {
 	}//getByXML
 	/**
 	 * Executes HTTP/HTTPS REST request and transforms the XML response into target entity.
-	 * 
+	 * Note: To use advanced features like proxies and authentication, please use {@code RestingBuilder}
 	 * @param <T> 
 	 * 			Root entity type of the XML
 	 * @param baseURI 
@@ -643,7 +866,7 @@ public final class Resting {
 		/**
 	 * Executes HTTP/HTTPS GET request and transforms the YAML response into
 	 * target entity.
-	 * 
+	 * Note: To use advanced features like proxies and authentication, please use {@code RestingBuilder}
 	 * @param <T>
 	 *            Target type of the YAML
 	 * @param baseURI
@@ -666,7 +889,7 @@ public final class Resting {
 	/**
 	 * Executes HTTP/HTTPS REST request and transforms the YAML response into
 	 * target entity.
-	 * 
+	 * Note: To use advanced features like proxies and authentication, please use {@code RestingBuilder}
 	 * @param <T>
 	 *            Target type of the YAML
 	 * @param baseURI
@@ -694,7 +917,7 @@ public final class Resting {
 	/**
 	 * Executes HTTP/HTTPS GET request and transforms the ATOM response into
 	 * target entity.
-	 * 
+	 * Note: To use advanced features like proxies and authentication, please use {@code RestingBuilder}
 	 * @param <T>
 	 *            Target type of the ATOM response 
 	 * @param baseURI
@@ -718,7 +941,7 @@ public final class Resting {
 	 * 
 	 * Executes HTTP/HTTPS REST request and transforms the ATOM response into
 	 * target entity.
-	 * 
+	 * Note: To use advanced features like proxies and authentication, please use {@code RestingBuilder}
 	 * @param <T>
 	 *            Target type of the ATOM response 
 	 * @param baseURI

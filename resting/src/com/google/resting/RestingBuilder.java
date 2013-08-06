@@ -25,16 +25,17 @@ import com.google.resting.component.Alias;
 import com.google.resting.component.EncodingTypes;
 import com.google.resting.component.RequestParams;
 import com.google.resting.component.Verb;
+import com.google.resting.component.impl.ServiceResponse;
 import com.google.resting.component.impl.json.JSONAlias;
 import com.google.resting.helper.RestingHelper;
 import com.google.resting.rest.client.HttpContext;
 import com.google.resting.transform.TransformationType;
 
 /**
-  * <p>Use this builder to make a REST invocation and create a list of entities when you need to set configuration
+  * <p>Use this builder to make a REST invocation, get the response and create entities when you need to set configuration
  * options other than the default. For {@link Resting} with default configuration, it is simpler to
  * use {@code Resting.<method>}. {@code RestingBuilder} is best used by creating it, and then invoking its
- * various configuration methods, and finally calling build.</p>
+ * various configuration methods, and finally calling build/invoke.</p>
  * 
  * <p>The following is an example shows how to use the {@code RestingBuilder}:
  * <pre>
@@ -49,6 +50,17 @@ import com.google.resting.transform.TransformationType;
  * </pre> 
  * </p>
  * 
+ * <p>{@code RestingBuilder} can also be used to simply invoke the service and get {@code ServiceResponse} (without transforming the response into entities):
+ * <pre>
+ * <code>
+ * ServiceResponse response=new RestingBuilder("http://api.zappos.com/Search")
+ *		.setAlias(alias)
+ *		.setRequestParams(jsonParams)
+ *		.setProxy("proxy.abcd.ac.in", 3128,"user","@password")
+ *		.invoke();
+ * </code>
+ * </pre> 
+ * </p>
  * <p>{@code RestingBuilder} can be used to enable proxy and basic authentication:
  * <pre>
  * <code>
@@ -105,16 +117,30 @@ public final class RestingBuilder<T> {
 	public RestingBuilder(String uri, Class<T> targetType){
 		this.targetType=targetType;
 		this.uri=uri;
-		this.port=80;
-		this.verb=Verb.GET;
-		this.encoding=EncodingTypes.UTF8;
-		this.transformationType=TransformationType.JSON;
-		this.additionalHeaders=null;
-		this.requestParams=null;
-		this.alias=null;
-		this.httpContext=new HttpContext();
-
+		setDefaultData();
 	}//RestingBuilder
+
+	 /**
+	   * Creates a RestingBuilder instance that can be used to invoke service and get {@code ServiceResponse} containing raw response (in String or Binary), response headers status code etc. with various configuration
+	   * settings. This constructor should not be used if the response is being transformed into objects. RestingBuilder follows the builder pattern, and it is typically used by first
+	   * invoking various configuration methods to set desired options, and finally calling
+	   * {@link #invoke()}.
+	   */	
+	public RestingBuilder(String uri){
+		this.targetType=null;
+		this.uri=uri;
+		setDefaultData();
+	}//RestingBuilder	
+
+	  /**
+	   * Invokes REST service and returns the response encapsulated in <code>ServiceResponse</code>. This method is free of
+	   * side-effects to this {@code RestingBuilder} instance and hence can be called multiple times.
+	   *
+	   * @return {@code ServiceResponse} object encapsulating the response from the REST service.
+	   */	
+	public ServiceResponse invoke(){
+		return RestingHelper.execute(uri, port, requestParams, verb, encoding, additionalHeaders, httpContext);
+	}//build
 	  /**
 	   * Invokes REST service and creates a {@link List} of target entities based on the current configuration. This method is free of
 	   * side-effects to this {@code RestingBuilder} instance and hence can be called multiple times.
@@ -304,5 +330,15 @@ public final class RestingBuilder<T> {
 		return this;
 	}//setAlias
 	
+	private void setDefaultData(){
+		this.port=80;
+		this.verb=Verb.GET;
+		this.encoding=EncodingTypes.UTF8;
+		this.transformationType=TransformationType.JSON;
+		this.additionalHeaders=null;
+		this.requestParams=null;
+		this.alias=null;
+		this.httpContext=new HttpContext();		
+	}	
 	
 }//RestingBuilder

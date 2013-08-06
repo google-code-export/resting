@@ -26,9 +26,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.http.Header;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
 
 import com.google.resting.component.Alias;
 import com.google.resting.component.EncodingTypes;
@@ -51,6 +48,10 @@ import com.google.resting.transform.impl.atom.AtomTransformer;
  */
 
 public final class RestingHelper {
+	
+	public final static ServiceResponse execute(String url, int port, RequestParams requestParams, Verb verb, EncodingTypes encoding, List<Header> additionalHeaders, HttpContext httpContext){
+		return getServiceResponse(url, port, requestParams, verb, encoding, additionalHeaders,httpContext);
+	}//execute
 	
 	public final static<T> List<T> executeAndTransform(String url, int port, RequestParams requestParams, Verb verb, TransformationType transformationType, Class<T> targetType, Alias alias, EncodingTypes encoding, List<Header> additionalHeaders, HttpContext httpContext){
 		ServiceResponse serviceResponse=getServiceResponse(url, port, requestParams, verb, encoding, additionalHeaders,httpContext);

@@ -430,9 +430,11 @@ public final class Resting {
 	}//post
 	
 	/**
-	 * Executes HTTP/HTTPS POST request for file and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
-	 * as the response headers and the HTTP status code. This is the most commonly used form of POST method invocation.  
-
+	 * Executes HTTP/HTTPS POST request for a Java object (which is converted into JSON) and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
+	 * as the response headers and the HTTP status code. 
+	 * 
+	 * Note: This API can be used to post objects directly. 
+     *
 	 * @param baseURI	Base URI of the REST endpoint
 	 * @param port	Port of the REST endpoint
 	 * @param requestParams	{@link RequestParams} object containing collection of parameters in key/ value pair for REST request

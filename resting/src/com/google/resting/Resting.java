@@ -25,6 +25,7 @@ import java.util.Map;
 
 import org.apache.http.Header;
 
+import com.google.gson.Gson;
 import com.google.resting.atom.AtomFeed;
 import com.google.resting.component.EncodingTypes;
 import com.google.resting.component.RequestParams;
@@ -427,6 +428,22 @@ public final class Resting {
 	public final static ServiceResponse post(String baseURI, int port, RequestParams requestParams, File file, EncodingTypes fileEncoding,List<Header> additionalHeaders, ContentType fileContentType,HttpContext httpContext){
 		return PostHelper.post(baseURI, port, file, requestParams,fileEncoding, additionalHeaders, fileContentType,httpContext);
 	}//post
+	
+	/**
+	 * Executes HTTP/HTTPS POST request for file and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
+	 * as the response headers and the HTTP status code. This is the most commonly used form of POST method invocation.  
+
+	 * @param baseURI	Base URI of the REST endpoint
+	 * @param port	Port of the REST endpoint
+	 * @param requestParams	{@link RequestParams} object containing collection of parameters in key/ value pair for REST request
+	 * @param objectToBePosted	Java object to be posted as JSON
+	 * @param additionalHeaders	Additional response headers, as required by the client. 
+	 * @param httpContext {@code HttpContext} object containing HTTP parameters. To be used to set connection timeout, proxy,  authentication etc.
+	 * @return
+	 */	
+	public final static ServiceResponse postAsJSON(String baseURI, int port, RequestParams requestParams, Object objectToBePosted, List<Header> additionalHeaders, HttpContext httpContext){
+		return PostHelper.post(new Gson().toJson(objectToBePosted), null, baseURI, port,requestParams,additionalHeaders,null,httpContext);
+	}
 	/**
 	 * Executes HTTP/HTTPS PUT request and returns ServiceResponse object which encapsulates the entire HTTP response as a String as well 
 	 * as the response headers and the HTTP status code

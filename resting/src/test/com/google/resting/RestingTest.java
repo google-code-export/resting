@@ -17,6 +17,7 @@ package test.com.google.resting;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -29,7 +30,9 @@ import test.com.google.resting.vo.Concept;
 import test.com.google.resting.vo.Entry;
 import test.com.google.resting.vo.Err;
 import test.com.google.resting.vo.Facets;
+import test.com.google.resting.vo.FrontDoor;
 import test.com.google.resting.vo.GeoNames;
+import test.com.google.resting.vo.House;
 import test.com.google.resting.vo.Product;
 import test.com.google.resting.vo.Result;
 import test.com.google.resting.vo.ResultSet;
@@ -39,7 +42,6 @@ import test.com.google.resting.vo.Status;
 import test.com.google.resting.vo.StatusMessage;
 import test.com.google.resting.vo.StatusMessageConverter;
 
-import com.google.gson.Gson;
 import com.google.resting.Resting;
 import com.google.resting.RestingBuilder;
 import com.google.resting.atom.AtomFeed;
@@ -53,8 +55,6 @@ import com.google.resting.component.impl.ServiceResponse;
 import com.google.resting.component.impl.json.JSONAlias;
 import com.google.resting.component.impl.json.JSONRequestParams;
 import com.google.resting.component.impl.xml.XMLAlias;
-import com.google.resting.json.JSONException;
-import com.google.resting.json.JSONObject;
 import com.google.resting.transform.impl.JSONTransformer;
 import com.google.resting.transform.impl.XMLTransformer;
 import com.google.resting.util.ReflectionUtil;
@@ -426,4 +426,17 @@ public class RestingTest extends TestCase {
 		List<Err>errs=Resting.getByJSON("http://localhost/testresting/rest/hello/get/noalias", 8080, null, Err.class,null);
 		System.out.println(errs.get(0));
 	}
+	
+	public void testPostObject(){
+		System.out.println("\ntestPostObject\n-----------------------------");
+		House house=new House();
+		house.setStreet("My Avenue");
+		house.setNumber(33);
+		house.setReminders(new HashMap<String,String>());
+		house.setFrontDoor(new FrontDoor());
+		ServiceResponse response=Resting.postAsJSON("http://localhost/testresting/rest/hello/post/jsonobject", 8080, null, house, null, null);
+		System.out.println(response);
+
+	}	
+	
 }

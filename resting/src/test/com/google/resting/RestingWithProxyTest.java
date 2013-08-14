@@ -28,6 +28,7 @@ import com.google.resting.component.RequestParams;
 import com.google.resting.component.impl.ServiceResponse;
 import com.google.resting.component.impl.json.JSONAlias;
 import com.google.resting.component.impl.json.JSONRequestParams;
+import com.google.resting.rest.client.HttpContext;
 /**
  * Test case for Resting API with proxy
  * 
@@ -94,6 +95,17 @@ public class RestingWithProxyTest extends TestCase {
 			e.printStackTrace();
 		}
 		
-	}	
+	}
+	
+	public void testRestingWithHttpContext(){
+		System.out.println("\ntestRestingWithHttpContext\n-----------------------------");
+		RequestParams jsonParams = new JSONRequestParams();   
+		jsonParams.add("key", "fdb3c385a8d22d174cafeadc6d4c1405b08d5609"); 
+		jsonParams.add("facets", "[\"brandNameFacet\"]");
+		HttpContext httpContext=new HttpContext();
+		httpContext.setProxy(proxyHost, proxyPort, proxyUser, proxyPassword);
+		List<Facets> facets=Resting.getByJSON("http://api.zappos.com/Search", 80, jsonParams, Facets.class, "facets", httpContext);
+		System.out.println("[RestingTest::testBuilderWithProxy] The length of values in facets is "+facets.get(0).getValues().size());
+	}
 
 }

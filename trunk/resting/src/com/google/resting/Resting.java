@@ -587,6 +587,25 @@ public final class Resting {
 		JSONAlias jsonAlias=new JSONAlias(alias);
 		return RestingHelper.executeAndTransform(baseURI, port,requestParams, Verb.GET, TransformationType.JSON, targetType, jsonAlias,UTF8, null,null);
 	}//getByJSON
+	/**
+	 * Executes HTTP/HTTPS GET request and transforms the JSON response into list of target entity.
+	 * 
+	 * Note: To use advanced features like proxies and authentication, please use {@code RestingBuilder}
+	 * 
+	 * @param <T> Target entity type
+	 * @param url Base URI of the REST endpoint
+	 * @param port Port of the REST endpoint
+	 * @param requestParams {@link RequestParams} object containing collection of parameters in key/ value pair for REST request
+	 * @param targetType Class of the target type T
+	 * @param alias JSON alias for reading the entity from JSON response.
+	 * @param httpContext {@link HttpContext} instance containing advanced configurations like proxy, authenticatin, connection timeout and other HTTP params.
+	 * 
+	 * @return List of entities of target type T
+	 */	
+	public final static <T> List<T> getByJSON(String baseURI, int port, RequestParams requestParams, Class<T> targetType, String alias, HttpContext httpContext){
+		JSONAlias jsonAlias=new JSONAlias(alias);
+		return RestingHelper.executeAndTransform(baseURI, port,requestParams, Verb.GET, TransformationType.JSON, targetType, jsonAlias,UTF8, null,httpContext);
+	}//getByJSON
 	
 	/**
 	 * Executes HTTP/HTTPS GET request and transforms the JSON response into list of target entity.
